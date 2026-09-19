@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>داشبورد GIS</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f3f6f9;color:#1f2937}
+button,input{font:inherit}.login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f3557,#1677a8)}
+.card{width:min(420px,92%);background:white;border-radius:20px;padding:34px;box-shadow:0 20px 60px #0004}.brand{text-align:center;margin-bottom:25px}.logo{font-size:48px}.brand h1{margin:8px 0 5px}.muted{color:#718096;font-size:13px}
+label{display:block;margin:15px 0 7px;font-weight:bold}input{width:100%;padding:13px;border:1px solid #d5dce3;border-radius:10px;outline:none}input:focus{border-color:#1677a8}
+.btn{width:100%;border:0;padding:13px;border-radius:10px;background:#1677a8;color:white;cursor:pointer;margin-top:20px;font-weight:bold}.error{color:#c53030;text-align:center;margin-top:12px;font-size:13px;display:none}
+.app{display:none;min-height:100vh}.top{height:70px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;padding:0 28px}.top h2{margin:0;color:#0f3557}.logout{border:1px solid #ddd;background:white;border-radius:9px;padding:9px 15px;cursor:pointer}
+.layout{display:flex;min-height:calc(100vh - 70px)}aside{width:245px;background:#0f3557;color:white;padding:20px 14px}.nav{padding:12px 14px;margin:5px 0;border-radius:9px;cursor:pointer}.nav:hover,.nav.active{background:#1677a8}
+main{flex:1;padding:28px}.welcome{margin-bottom:25px}.welcome h1{margin:0 0 7px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.stat{background:white;border-radius:15px;padding:20px;border:1px solid #e8edf2}.stat b{font-size:27px;display:block;margin-top:10px;color:#0f3557}
+.content{margin-top:22px;display:grid;grid-template-columns:2fr 1fr;gap:18px}.panel{background:white;border-radius:15px;padding:20px;border:1px solid #e8edf2}.panel h3{margin-top:0}.items{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.item{padding:16px;border:1px solid #e5e7eb;border-radius:11px;background:#fafcfd}.item strong{display:block;margin-bottom:6px}.item button{margin-top:10px;border:0;background:#eaf4f8;color:#0f5f83;padding:7px 10px;border-radius:7px;cursor:pointer}
+@media(max-width:850px){aside{width:75px}.nav span{display:none}.grid{grid-template-columns:repeat(2,1fr)}.content{grid-template-columns:1fr}.items{grid-template-columns:1fr}}@media(max-width:520px){aside{display:none}.grid{grid-template-columns:1fr}.top{padding:0 15px}main{padding:16px}}
+</style>
+</head>
+<body>
+<section class="login" id="login">
+<div class="card">
+<div class="brand"><div class="logo">🗺️</div><h1>داشبورد GIS</h1><div class="muted">سامانه مدیریت اطلاعات مکانی</div></div>
+<label>نام کاربری</label><input id="username" placeholder="نام کاربری">
+<label>رمز عبور</label><input id="password" type="password" placeholder="رمز عبور">
+<button class="btn" onclick="login()">ورود به سامانه</button>
+<div class="error" id="error">نام کاربری یا رمز عبور اشتباه است.</div>
+<div class="muted" style="text-align:center;margin-top:16px">نسخه آزمایشی — کاربر: admin | رمز: 1234</div>
+</div>
+</section>
+
+<section class="app" id="app">
+<header class="top"><h2>🗺️ سامانه GIS</h2><div>مدیر سامانه &nbsp; | &nbsp; <button class="logout" onclick="logout()">خروج</button></div></header>
+<div class="layout">
+<aside>
+<div class="nav active" onclick="showPage('داشبورد')">🏠 <span>داشبورد</span></div>
+<div class="nav" onclick="showPage('نقشه‌ها و لایه‌ها')">🗺️ <span>نقشه‌ها و لایه‌ها</span></div>
+<div class="nav" onclick="showPage('پروژه‌ها')">📁 <span>پروژه‌ها</span></div>
+<div class="nav" onclick="showPage('پاسخ نامه‌ها')">✉️ <span>پاسخ نامه‌ها</span></div>
+<div class="nav" onclick="showPage('قراردادها')">📄 <span>قراردادها</span></div>
+<div class="nav" onclick="showPage('گزارش‌ها')">📊 <span>گزارش‌ها</span></div>
+<div class="nav" onclick="showPage('تنظیمات')">⚙️ <span>تنظیمات</span></div>
+</aside>
+<main id="main">
+<div class="welcome"><h1>خوش آمدید 👋</h1><div class="muted">مدیریت یکپارچه اطلاعات و فعالیت‌های GIS</div></div>
+<div class="grid">
+<div class="stat">🗺️ لایه‌های مکانی<b>128</b></div>
+<div class="stat">📁 پروژه‌های فعال<b>17</b></div>
+<div class="stat">✉️ نامه‌های در انتظار<b>9</b></div>
+<div class="stat">📄 قراردادهای فعال<b>6</b></div>
+</div>
+<div class="content">
+<div class="panel"><h3>دسترسی سریع</h3><div class="items">
+<div class="item"><strong>🗺️ WebGIS</strong><div class="muted">مشاهده نقشه و لایه‌های شبکه</div><button onclick="alert('در نسخه بعدی نقشه آنلاین به این بخش متصل می‌شود.')">ورود</button></div>
+<div class="item"><strong>📁 پروژه‌ها</strong><div class="muted">مدیریت فایل‌ها و پروژه‌های GIS</div><button onclick="showPage('پروژه‌ها')">مشاهده</button></div>
+<div class="item"><strong>✉️ پاسخ نامه‌ها</strong><div class="muted">پیگیری و ثبت مکاتبات</div><button onclick="showPage('پاسخ نامه‌ها')">مشاهده</button></div>
+<div class="item"><strong>📊 گزارش مدیریتی</strong><div class="muted">خلاصه وضعیت فعالیت‌ها</div><button onclick="showPage('گزارش‌ها')">مشاهده</button></div>
+</div></div>
+<div class="panel"><h3>آخرین فعالیت‌ها</h3><p>🔄 بروزرسانی لایه خطوط انتقال</p><p>📄 ثبت قرارداد جدید</p><p>✉️ پاسخ به نامه استعلام مکانی</p><p>🗺️ بروزرسانی اطلاعات پست‌ها</p></div>
+</div>
+</main>
+</div>
+</section>
+<script>
+function login(){let u=document.getElementById('username').value,p=document.getElementById('password').value;if(u==='admin'&&p==='1234'){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block'}else document.getElementById('error').style.display='block'}
+function logout(){document.getElementById('app').style.display='none';document.getElementById('login').style.display='flex'}
+function showPage(title){document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));event?.currentTarget?.classList.add('active');let text='<div class="welcome"><h1>'+title+'</h1><div class="muted">این بخش آماده توسعه و اتصال به اطلاعات واقعی شماست.</div></div><div class="panel"><h3>'+title+'</h3><p>در نسخه بعدی می‌توانیم فرم ثبت اطلاعات، جستجو، ویرایش، حذف، لینک فولدرها و گزارش‌گیری را به این بخش اضافه کنیم.</p></div>';document.getElementById('main').innerHTML=text}
+</script>
+</body>
+</html>
