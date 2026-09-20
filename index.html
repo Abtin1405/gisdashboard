@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>سامانه جامع GIS | برق منطقه‌ای فارس</title>
+    <title>سامانه جامع GIS | شرکت برق منطقه‌ای فارس</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,356 +15,300 @@
         }
 
         body {
-            background: #f4f7fb;
-            color: #1f2937;
+            background: #f3f6fa;
+            color: #1e293b;
         }
 
-        header {
+        /* Header */
+        .header {
             height: 70px;
-            background: #12395b;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
             color: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.15);
+            padding: 0 28px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.15);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: #1e88e5;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
+        .header-title {
+            font-size: 21px;
             font-weight: bold;
         }
 
-        .logo h1 {
-            font-size: 18px;
+        .header-subtitle {
+            font-size: 12px;
+            margin-top: 5px;
+            opacity: .75;
         }
 
-        .logo span {
-            font-size: 11px;
-            opacity: .8;
+        .header-date {
+            font-size: 13px;
+            opacity: .9;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .search {
-            background: rgba(255,255,255,.12);
-            border: 1px solid rgba(255,255,255,.2);
-            border-radius: 8px;
-            padding: 9px 15px;
-            color: white;
-            outline: none;
-            width: 220px;
-        }
-
-        .search::placeholder {
-            color: #d8e5ef;
-        }
-
+        /* Layout */
         .layout {
             display: flex;
             min-height: calc(100vh - 70px);
         }
 
-        aside {
-            width: 245px;
-            background: #ffffff;
-            border-left: 1px solid #e5e7eb;
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            color: white;
             padding: 20px 12px;
         }
 
-        .menu-title {
-            font-size: 11px;
-            color: #9ca3af;
-            margin: 10px 12px;
+        .sidebar-title {
+            padding: 10px 14px 20px;
+            font-size: 14px;
+            color: #94a3b8;
         }
 
-        .menu-item {
+        .menu {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            margin-bottom: 5px;
-            border-radius: 8px;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #dbeafe;
+            padding: 13px 15px;
+            border-radius: 9px;
+            display: block;
             cursor: pointer;
-            color: #4b5563;
             transition: .2s;
+            font-size: 14px;
         }
 
-        .menu-item:hover,
-        .menu-item.active {
-            background: #eaf3fb;
-            color: #1265a3;
+        .menu a:hover {
+            background: #1e40af;
+            color: white;
+            transform: translateX(-3px);
         }
 
-        .menu-icon {
-            width: 25px;
-            text-align: center;
-            font-size: 18px;
+        .menu .active {
+            background: #2563eb;
+            color: white;
         }
 
-        main {
+        /* Main */
+        .main {
             flex: 1;
             padding: 25px;
             overflow: hidden;
         }
 
-        .page-title {
-            margin-bottom: 25px;
+        .welcome {
+            margin-bottom: 22px;
         }
 
-        .page-title h2 {
-            font-size: 24px;
-            margin-bottom: 6px;
+        .welcome h1 {
+            font-size: 25px;
+            margin-bottom: 7px;
         }
 
-        .page-title p {
-            color: #6b7280;
-            font-size: 13px;
+        .welcome p {
+            color: #64748b;
+            font-size: 14px;
         }
 
-        .cards {
+        /* Cards */
+        .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 18px;
             margin-bottom: 22px;
         }
 
-        .card {
+        .stat-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 20px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 2px 7px rgba(0,0,0,.04);
+            box-shadow: 0 4px 14px rgba(15,23,42,.07);
+            border-right: 5px solid #2563eb;
         }
 
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .stat-title {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 10px;
         }
 
-        .card-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            background: #eaf3fb;
+        .stat-value {
+            font-size: 27px;
+            font-weight: bold;
+            color: #0f172a;
         }
 
-        .card h3 {
-            font-size: 25px;
-            margin: 12px 0 4px;
-        }
-
-        .card p {
-            color: #6b7280;
+        .stat-unit {
             font-size: 12px;
+            color: #64748b;
+            margin-right: 5px;
         }
 
-        .content-grid {
+        /* Grid */
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 2fr 1fr;
             gap: 20px;
         }
 
         .panel {
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            border-radius: 15px;
+            box-shadow: 0 4px 14px rgba(15,23,42,.07);
             overflow: hidden;
         }
 
         .panel-header {
-            padding: 17px 20px;
-            border-bottom: 1px solid #eee;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .panel-header h3 {
-            font-size: 15px;
+        .panel-header h2 {
+            font-size: 16px;
         }
 
-        .panel-header button {
-            border: none;
-            background: #eaf3fb;
-            color: #1265a3;
-            padding: 7px 12px;
-            border-radius: 6px;
-            cursor: pointer;
+        .panel-header span {
+            color: #64748b;
+            font-size: 12px;
         }
 
+        /* Map */
         .map {
             height: 330px;
-            background:
-                linear-gradient(
-                    rgba(255,255,255,.7),
-                    rgba(255,255,255,.7)
-                ),
-                repeating-linear-gradient(
-                    45deg,
-                    #dce8d5,
-                    #dce8d5 20px,
-                    #cbdcc3 20px,
-                    #cbdcc3 22px
-                );
-
             position: relative;
-            overflow: hidden;
+            background:
+                linear-gradient(30deg, #dbeafe 12%, transparent 12.5%, transparent 87%, #dbeafe 87.5%),
+                linear-gradient(150deg, #dbeafe 12%, transparent 12.5%, transparent 87%, #dbeafe 87.5%),
+                #eff6ff;
+            background-size: 55px 55px;
         }
 
-        .road {
+        .map-title {
             position: absolute;
-            height: 5px;
-            background: #f5f5f5;
-            transform: rotate(-18deg);
-            width: 120%;
-            top: 45%;
-            right: -10%;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,.92);
+            padding: 12px 15px;
+            border-radius: 9px;
+            box-shadow: 0 3px 10px rgba(0,0,0,.1);
+            font-weight: bold;
+            z-index: 3;
         }
 
-        .road2 {
+        .map-line {
             position: absolute;
-            width: 5px;
-            height: 130%;
-            background: #f1f1f1;
+            height: 4px;
+            background: #2563eb;
+            transform-origin: left center;
+            border-radius: 10px;
+        }
+
+        .line1 {
+            width: 330px;
+            left: 17%;
+            top: 52%;
+            transform: rotate(-13deg);
+        }
+
+        .line2 {
+            width: 270px;
+            left: 42%;
+            top: 58%;
             transform: rotate(20deg);
-            left: 45%;
-            top: -10%;
+        }
+
+        .line3 {
+            width: 220px;
+            left: 26%;
+            top: 70%;
+            transform: rotate(25deg);
         }
 
         .station {
             position: absolute;
-            width: 18px;
-            height: 18px;
-            background: #d62828;
+            width: 15px;
+            height: 15px;
+            background: #dc2626;
             border: 3px solid white;
             border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0,0,0,.3);
+            box-shadow: 0 2px 7px rgba(0,0,0,.3);
         }
 
-        .station1 {
-            top: 28%;
-            right: 25%;
+        .s1 {
+            left: 25%;
+            top: 48%;
         }
 
-        .station2 {
-            top: 60%;
-            right: 52%;
+        .s2 {
+            left: 49%;
+            top: 56%;
         }
 
-        .station3 {
-            top: 38%;
-            right: 72%;
+        .s3 {
+            left: 68%;
+            top: 39%;
         }
 
-        .station4 {
-            top: 72%;
-            right: 30%;
+        .s4 {
+            left: 38%;
+            top: 73%;
         }
 
-        .line {
-            position: absolute;
-            height: 3px;
-            background: #1265a3;
-            transform-origin: right center;
+        /* Data status */
+        .data-list {
+            padding: 8px 20px 15px;
         }
 
-        .line1 {
-            width: 280px;
-            top: 31%;
-            right: 26%;
-            transform: rotate(30deg);
-        }
-
-        .line2 {
-            width: 250px;
-            top: 59%;
-            right: 31%;
-            transform: rotate(-25deg);
-        }
-
-        .map-label {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background: rgba(255,255,255,.9);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-        }
-
-        .list {
-            padding: 5px 20px 15px;
-        }
-
-        .list-item {
+        .data-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 14px 0;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 13px;
         }
 
-        .list-item:last-child {
+        .data-row:last-child {
             border-bottom: none;
         }
 
-        .list-name {
-            font-size: 13px;
+        .status {
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        .status-green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-orange {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        /* Quick access */
+        .quick {
+            margin-top: 20px;
+        }
+
+        .quick-title {
+            margin-bottom: 13px;
+            font-size: 17px;
             font-weight: bold;
         }
 
-        .list-date {
-            font-size: 10px;
-            color: #9ca3af;
-            margin-top: 4px;
-        }
-
-        .status {
-            font-size: 10px;
-            padding: 5px 9px;
-            border-radius: 20px;
-        }
-
-        .status.green {
-            background: #e7f6ec;
-            color: #16803c;
-        }
-
-        .status.orange {
-            background: #fff3df;
-            color: #b76a00;
-        }
-
-        .status.red {
-            background: #fde8e8;
-            color: #c62828;
-        }
-
-        .quick {
-            margin-top: 20px;
+        .quick-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
@@ -377,415 +316,435 @@
 
         .quick-card {
             background: white;
-            border: 1px solid #e5e7eb;
-            padding: 18px;
-            border-radius: 10px;
+            padding: 20px;
+            border-radius: 13px;
+            box-shadow: 0 4px 14px rgba(15,23,42,.06);
             cursor: pointer;
             transition: .2s;
+            border: 1px solid transparent;
         }
 
         .quick-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+            border-color: #2563eb;
         }
 
-        .quick-card div {
-            font-size: 24px;
+        .quick-icon {
+            font-size: 28px;
             margin-bottom: 10px;
         }
 
-        .quick-card h4 {
-            font-size: 13px;
-            margin-bottom: 5px;
+        .quick-card h3 {
+            font-size: 14px;
+            margin-bottom: 7px;
         }
 
         .quick-card p {
-            font-size: 10px;
-            color: #9ca3af;
+            font-size: 11px;
+            color: #64748b;
+            line-height: 1.8;
         }
 
-        @media(max-width: 1000px) {
+        /* WebGIS special */
+        .webgis-card {
+            border: 2px solid #2563eb;
+            background: linear-gradient(135deg, #eff6ff, #ffffff);
+        }
 
-            .cards {
+        .webgis-button {
+            margin-top: 13px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .webgis-button:hover {
+            background: #1d4ed8;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .content-grid {
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
                 grid-template-columns: 1fr;
             }
-
-            .quick {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
         }
 
-        @media(max-width: 700px) {
-
-            aside {
+        @media (max-width: 750px) {
+            .sidebar {
                 display: none;
             }
 
-            .header-left .search {
-                display: none;
-            }
-
-            main {
+            .main {
                 padding: 15px;
             }
 
-            .cards {
+            .stats {
                 grid-template-columns: 1fr;
             }
 
-            .quick {
+            .quick-grid {
                 grid-template-columns: 1fr;
             }
 
+            .header-date {
+                display: none;
+            }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+<!-- Header -->
+<header class="header">
 
-<header>
-
-    <div class="logo">
-
-        <div class="logo-icon">
-            GIS
+    <div>
+        <div class="header-title">
+            سامانه جامع GIS
         </div>
 
-        <div>
-
-            <h1>
-                سامانه جامع GIS
-            </h1>
-
-            <span>
-                شرکت برق منطقه‌ای فارس
-            </span>
-
+        <div class="header-subtitle">
+            شرکت برق منطقه‌ای فارس
         </div>
-
     </div>
 
-
-    <div class="header-left">
-
-        <input
-            class="search"
-            type="text"
-            placeholder="جستجو در سامانه..."
-        >
-
-        <div>
-            👤
-        </div>
-
+    <div class="header-date">
+        داشبورد مدیریت اطلاعات مکانی
     </div>
 
 </header>
 
 
-
 <div class="layout">
 
+    <!-- Sidebar -->
+    <aside class="sidebar">
 
-    <!-- SIDEBAR -->
-
-    <aside>
-
-        <div class="menu-title">
-            منوی اصلی
+        <div class="sidebar-title">
+            منوی سامانه
         </div>
 
+        <nav class="menu">
 
-        <div
-            class="menu-item active"
-            onclick="window.location.href='index.html'"
-        >
+            <a href="index.html" class="active">
+                🏠 داشبورد اصلی
+            </a>
 
-            <div class="menu-icon">
-                🏠
-            </div>
+            <a href="https://abtin1405.github.io/gisdashboard/webgis.html">
+                🗺️ WebGIS
+            </a>
 
-            <span>
-                داشبورد
-            </span>
+            <a href="#">
+                ⚡ شبکه انتقال و فوق‌توزیع
+            </a>
 
-        </div>
+            <a href="#">
+                🏭 پست‌ها و نیروگاه‌ها
+            </a>
 
+            <a href="#">
+                📡 مخابرات و فیبر نوری
+            </a>
 
-        <!-- WEBGIS -->
+            <a href="#">
+                🚨 حوادث شبکه
+            </a>
 
-        <div
-            class="menu-item"
-            onclick="window.location.href='webgis.html'"
-        >
+            <a href="#">
+                📊 گزارش‌ها
+            </a>
 
-            <div class="menu-icon">
-                🗺️
-            </div>
+            <a href="#">
+                📁 پروژه‌ها
+            </a>
 
-            <span>
-                WebGIS
-            </span>
+            <a href="#">
+                🔄 مدیریت به‌روزرسانی لایه‌ها
+            </a>
 
-        </div>
-
-
-        <div class="menu-item">
-
-            <div class="menu-icon">
-                ⚡
-            </div>
-
-            <span>
-                شبکه برق
-            </span>
-
-        </div>
-
-
-        <div class="menu-item">
-
-            <div class="menu-icon">
-                🏭
-            </div>
-
-            <span>
-                پست‌ها و نیروگاه‌ها
-            </span>
-
-        </div>
-
-
-        <div class="menu-item">
-
-            <div class="menu-icon">
-                📡
-            </div>
-
-            <span>
-                مخابرات و فیبر
-            </span>
-
-        </div>
-
-
-        <div class="menu-title">
-            مدیریت اطلاعات
-        </div>
-
-
-        <div class="menu-item">
-
-            <div class="menu-icon">
-                🚨
-            </div>
-
-            <span>
-                حوادث شبکه
-            </span>
-
-        </div>
-
-
-        <div class="menu-item">
-
-            <div class="menu-icon">
-                📊
-            </div>
-
-            <span>
-                گزارش‌ها
-            </span>
-
-        </div>
-
-
-        <div class="menu-item">
-
-            <div class="menu-icon">
-                📁
-            </div>
-
-            <span>
-                پروژه‌ها
-            </span>
-
-        </div>
-
-
-        <div class="menu-item">
-
-            <div class="menu-icon">
-                🔄
-            </div>
-
-            <span>
-                به‌روزرسانی لایه‌ها
-            </span>
-
-        </div>
+        </nav>
 
     </aside>
 
 
+    <!-- Main -->
+    <main class="main">
 
-    <!-- MAIN -->
+        <section class="welcome">
 
-    <main>
-
-
-        <div class="page-title">
-
-            <h2>
-                داشبورد مدیریتی GIS
-            </h2>
+            <h1>
+                داشبورد مدیریت GIS
+            </h1>
 
             <p>
-                نمای کلی اطلاعات مکانی، شبکه برق و وضعیت داده‌های GIS
+                مشاهده، مدیریت و بهره‌برداری از اطلاعات مکانی شبکه برق
             </p>
 
-        </div>
+        </section>
 
 
+        <!-- Statistics -->
 
-        <!-- CARDS -->
+        <section class="stats">
 
-        <div class="cards">
+            <div class="stat-card">
 
-
-            <div class="card">
-
-                <div class="card-top">
-
-                    <span>
-                        پست‌های برق
-                    </span>
-
-                    <div class="card-icon">
-                        🏭
-                    </div>
-
+                <div class="stat-title">
+                    تعداد پست‌های برق
                 </div>
 
-                <h3>
+                <div class="stat-value">
                     128
-                </h3>
-
-                <p>
-                    پست ثبت شده در سامانه
-                </p>
+                    <span class="stat-unit">پست</span>
+                </div>
 
             </div>
 
 
+            <div class="stat-card">
 
-            <div class="card">
-
-                <div class="card-top">
-
-                    <span>
-                        خطوط انتقال
-                    </span>
-
-                    <div class="card-icon">
-                        ⚡
-                    </div>
-
+                <div class="stat-title">
+                    طول شبکه انتقال
                 </div>
 
-                <h3>
+                <div class="stat-value">
                     2,450
-                </h3>
-
-                <p>
-                    کیلومتر شبکه ثبت شده
-                </p>
+                    <span class="stat-unit">کیلومتر</span>
+                </div>
 
             </div>
 
 
+            <div class="stat-card">
 
-            <div class="card">
-
-                <div class="card-top">
-
-                    <span>
-                        نیروگاه‌ها
-                    </span>
-
-                    <div class="card-icon">
-                        🔋
-                    </div>
-
+                <div class="stat-title">
+                    نیروگاه‌ها
                 </div>
 
-                <h3>
+                <div class="stat-value">
                     120
-                </h3>
-
-                <p>
-                    واحدهای تولید برق
-                </p>
-
-            </div>
-
-
-
-            <div class="card">
-
-                <div class="card-top">
-
-                    <span>
-                        حوادث شبکه
-                    </span>
-
-                    <div class="card-icon">
-                        🚨
-                    </div>
-
+                    <span class="stat-unit">واحد</span>
                 </div>
 
-                <h3>
-                    17
-                </h3>
+            </div>
 
-                <p>
-                    حوادث ثبت شده اخیر
-                </p>
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    حوادث ثبت‌شده
+                </div>
+
+                <div class="stat-value">
+                    17
+                    <span class="stat-unit">مورد</span>
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
 
+        <!-- Main dashboard -->
 
-        <!-- CONTENT -->
+        <section class="dashboard-grid">
 
-        <div class="content-grid">
 
+            <!-- Map -->
 
             <div class="panel">
 
                 <div class="panel-header">
 
+                    <h2>
+                        نمای کلی شبکه
+                    </h2>
+
+                    <span>
+                        اطلاعات مکانی
+                    </span>
+
+                </div>
+
+
+                <div class="map">
+
+                    <div class="map-title">
+                        نقشه شماتیک شبکه برق
+                    </div>
+
+                    <div class="map-line line1"></div>
+                    <div class="map-line line2"></div>
+                    <div class="map-line line3"></div>
+
+                    <div class="station s1"></div>
+                    <div class="station s2"></div>
+                    <div class="station s3"></div>
+                    <div class="station s4"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Data status -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        وضعیت داده‌ها
+                    </h2>
+
+                    <span>
+                        آخرین وضعیت
+                    </span>
+
+                </div>
+
+
+                <div class="data-list">
+
+                    <div class="data-row">
+
+                        <span>
+                            لایه پست‌ها
+                        </span>
+
+                        <span class="status status-green">
+                            به‌روز
+                        </span>
+
+                    </div>
+
+
+                    <div class="data-row">
+
+                        <span>
+                            خطوط انتقال
+                        </span>
+
+                        <span class="status status-green">
+                            به‌روز
+                        </span>
+
+                    </div>
+
+
+                    <div class="data-row">
+
+                        <span>
+                            نیروگاه‌ها
+                        </span>
+
+                        <span class="status status-green">
+                            به‌روز
+                        </span>
+
+                    </div>
+
+
+                    <div class="data-row">
+
+                        <span>
+                            فیبر نوری
+                        </span>
+
+                        <span class="status status-orange">
+                            نیازمند بررسی
+                        </span>
+
+                    </div>
+
+
+                    <div class="data-row">
+
+                        <span>
+                            حوادث شبکه
+                        </span>
+
+                        <span class="status status-green">
+                            به‌روز
+                        </span>
+
+                    </div>
+
+
+                    <div class="data-row">
+
+                        <span>
+                            راه‌های ارتباطی
+                        </span>
+
+                        <span class="status status-green">
+                            به‌روز
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Quick access -->
+
+        <section class="quick">
+
+            <div class="quick-title">
+                دسترسی سریع
+            </div>
+
+
+            <div class="quick-grid">
+
+
+                <!-- WebGIS -->
+
+                <div
+                    class="quick-card webgis-card"
+                    onclick="window.location.href='https://abtin1405.github.io/gisdashboard/webgis.html'"
+                >
+
+                    <div class="quick-icon">
+                        🗺️
+                    </div>
+
                     <h3>
-                        نمای کلی شبکه برق
+                        WebGIS
                     </h3>
 
-
-                    <!-- WEBGIS BUTTON -->
+                    <p>
+                        مشاهده و تحلیل لایه‌های مکانی شبکه برق
+                    </p>
 
                     <button
-                        onclick="window.location.href='webgis.html'"
+                        class="webgis-button"
+                        onclick="event.stopPropagation(); window.location.href='https://abtin1405.github.io/gisdashboard/webgis.html'"
                     >
                         ورود به WebGIS
                     </button>
@@ -793,228 +752,74 @@
                 </div>
 
 
-                <div class="map">
+                <!-- Network -->
 
-                    <div class="road"></div>
+                <div class="quick-card">
 
-                    <div class="road2"></div>
-
-                    <div class="line line1"></div>
-
-                    <div class="line line2"></div>
-
-                    <div class="station station1"></div>
-
-                    <div class="station station2"></div>
-
-                    <div class="station station3"></div>
-
-                    <div class="station station4"></div>
-
-                    <div class="map-label">
-                        نمای شماتیک شبکه برق
+                    <div class="quick-icon">
+                        ⚡
                     </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- STATUS -->
-
-            <div class="panel">
-
-                <div class="panel-header">
 
                     <h3>
-                        وضعیت اطلاعات GIS
+                        شبکه برق
                     </h3>
 
-                    <button>
-                        مشاهده همه
-                    </button>
+                    <p>
+                        خطوط انتقال، فوق‌توزیع و تجهیزات شبکه
+                    </p>
 
                 </div>
 
 
-                <div class="list">
+                <!-- Stations -->
 
+                <div class="quick-card">
 
-                    <div class="list-item">
-
-                        <div>
-
-                            <div class="list-name">
-                                لایه پست‌های برق
-                            </div>
-
-                            <div class="list-date">
-                                آخرین بروزرسانی: امروز
-                            </div>
-
-                        </div>
-
-                        <span class="status green">
-                            به‌روز
-                        </span>
-
+                    <div class="quick-icon">
+                        🏭
                     </div>
 
+                    <h3>
+                        پست‌ها و نیروگاه‌ها
+                    </h3>
+
+                    <p>
+                        اطلاعات مکانی و مشخصات پست‌ها و نیروگاه‌ها
+                    </p>
+
+                </div>
 
 
-                    <div class="list-item">
+                <!-- Reports -->
 
-                        <div>
+                <div class="quick-card">
 
-                            <div class="list-name">
-                                لایه خطوط انتقال
-                            </div>
-
-                            <div class="list-date">
-                                آخرین بروزرسانی: ۳ روز قبل
-                            </div>
-
-                        </div>
-
-                        <span class="status green">
-                            به‌روز
-                        </span>
-
+                    <div class="quick-icon">
+                        📊
                     </div>
 
+                    <h3>
+                        گزارش‌ها
+                    </h3>
 
-
-                    <div class="list-item">
-
-                        <div>
-
-                            <div class="list-name">
-                                لایه حوادث شبکه
-                            </div>
-
-                            <div class="list-date">
-                                آخرین بروزرسانی: ۱۲ روز قبل
-                            </div>
-
-                        </div>
-
-                        <span class="status orange">
-                            نیاز به بروزرسانی
-                        </span>
-
-                    </div>
-
-
-
-                    <div class="list-item">
-
-                        <div>
-
-                            <div class="list-name">
-                                لایه فیبر نوری
-                            </div>
-
-                            <div class="list-date">
-                                آخرین بروزرسانی: ۲۵ روز قبل
-                            </div>
-
-                        </div>
-
-                        <span class="status red">
-                            قدیمی
-                        </span>
-
-                    </div>
+                    <p>
+                        گزارش‌های مدیریتی و تحلیلی GIS
+                    </p>
 
                 </div>
 
             </div>
+
+        </section>
+
+
+        <div class="footer">
+
+            سامانه اطلاعات مکانی شرکت برق منطقه‌ای فارس
+            |
+            GIS Dashboard
 
         </div>
-
-
-
-        <!-- QUICK ACCESS -->
-
-        <div class="quick">
-
-
-            <div
-                class="quick-card"
-                onclick="window.location.href='webgis.html'"
-            >
-
-                <div>
-                    🗺️
-                </div>
-
-                <h4>
-                    WebGIS
-                </h4>
-
-                <p>
-                    مشاهده و تحلیل اطلاعات مکانی
-                </p>
-
-            </div>
-
-
-
-            <div class="quick-card">
-
-                <div>
-                    🚨
-                </div>
-
-                <h4>
-                    حوادث شبکه
-                </h4>
-
-                <p>
-                    مشاهده و تحلیل مکانی حوادث
-                </p>
-
-            </div>
-
-
-
-            <div class="quick-card">
-
-                <div>
-                    📁
-                </div>
-
-                <h4>
-                    پروژه‌ها
-                </h4>
-
-                <p>
-                    کنترل و پایش پروژه‌های GIS
-                </p>
-
-            </div>
-
-
-
-            <div class="quick-card">
-
-                <div>
-                    📊
-                </div>
-
-                <h4>
-                    گزارش‌های مدیریتی
-                </h4>
-
-                <p>
-                    آمار و گزارش‌های مکانی
-                </p>
-
-            </div>
-
-        </div>
-
 
     </main>
 
@@ -1022,5 +827,4 @@
 
 
 </body>
-
 </html>
