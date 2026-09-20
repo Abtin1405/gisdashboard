@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>سامانه جامع GIS | برق منطقه‌ای فارس</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -19,7 +24,6 @@
             color: #1f2937;
         }
 
-        /* HEADER */
         header {
             height: 70px;
             background: #12395b;
@@ -46,6 +50,7 @@
             align-items: center;
             justify-content: center;
             font-size: 22px;
+            font-weight: bold;
         }
 
         .logo h1 {
@@ -77,13 +82,11 @@
             color: #d8e5ef;
         }
 
-        /* LAYOUT */
         .layout {
             display: flex;
             min-height: calc(100vh - 70px);
         }
 
-        /* SIDEBAR */
         aside {
             width: 245px;
             background: #ffffff;
@@ -121,7 +124,6 @@
             font-size: 18px;
         }
 
-        /* MAIN */
         main {
             flex: 1;
             padding: 25px;
@@ -142,7 +144,6 @@
             font-size: 13px;
         }
 
-        /* CARDS */
         .cards {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -185,7 +186,6 @@
             font-size: 12px;
         }
 
-        /* CONTENT GRID */
         .content-grid {
             display: grid;
             grid-template-columns: 1.5fr 1fr;
@@ -220,11 +220,13 @@
             cursor: pointer;
         }
 
-        /* MAP */
         .map {
             height: 330px;
             background:
-                linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)),
+                linear-gradient(
+                    rgba(255,255,255,.7),
+                    rgba(255,255,255,.7)
+                ),
                 repeating-linear-gradient(
                     45deg,
                     #dce8d5,
@@ -232,6 +234,7 @@
                     #cbdcc3 20px,
                     #cbdcc3 22px
                 );
+
             position: relative;
             overflow: hidden;
         }
@@ -266,10 +269,25 @@
             box-shadow: 0 2px 5px rgba(0,0,0,.3);
         }
 
-        .station1 { top: 28%; right: 25%; }
-        .station2 { top: 60%; right: 52%; }
-        .station3 { top: 38%; right: 72%; }
-        .station4 { top: 72%; right: 30%; }
+        .station1 {
+            top: 28%;
+            right: 25%;
+        }
+
+        .station2 {
+            top: 60%;
+            right: 52%;
+        }
+
+        .station3 {
+            top: 38%;
+            right: 72%;
+        }
+
+        .station4 {
+            top: 72%;
+            right: 30%;
+        }
 
         .line {
             position: absolute;
@@ -302,7 +320,6 @@
             font-size: 11px;
         }
 
-        /* LIST */
         .list {
             padding: 5px 20px 15px;
         }
@@ -351,7 +368,6 @@
             color: #c62828;
         }
 
-        /* QUICK ACCESS */
         .quick {
             margin-top: 20px;
             display: grid;
@@ -388,8 +404,8 @@
             color: #9ca3af;
         }
 
-        /* RESPONSIVE */
         @media(max-width: 1000px) {
+
             .cards {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -401,9 +417,11 @@
             .quick {
                 grid-template-columns: repeat(2, 1fr);
             }
+
         }
 
         @media(max-width: 700px) {
+
             aside {
                 display: none;
             }
@@ -423,22 +441,39 @@
             .quick {
                 grid-template-columns: 1fr;
             }
+
         }
+
     </style>
+
 </head>
 
+
 <body>
+
 
 <header>
 
     <div class="logo">
-        <div class="logo-icon">GIS</div>
+
+        <div class="logo-icon">
+            GIS
+        </div>
 
         <div>
-            <h1>سامانه جامع GIS</h1>
-            <span>شرکت برق منطقه‌ای فارس</span>
+
+            <h1>
+                سامانه جامع GIS
+            </h1>
+
+            <span>
+                شرکت برق منطقه‌ای فارس
+            </span>
+
         </div>
+
     </div>
+
 
     <div class="header-left">
 
@@ -448,78 +483,171 @@
             placeholder="جستجو در سامانه..."
         >
 
-        <div>👤</div>
+        <div>
+            👤
+        </div>
 
     </div>
 
 </header>
 
 
+
 <div class="layout">
+
 
     <!-- SIDEBAR -->
 
     <aside>
 
-        <div class="menu-title">منوی اصلی</div>
-
-        <div class="menu-item active">
-            <div class="menu-icon">🏠</div>
-            <span>داشبورد</span>
+        <div class="menu-title">
+            منوی اصلی
         </div>
 
-        <div class="menu-item">
-            <div class="menu-icon">🗺️</div>
-            <span>WebGIS</span>
+
+        <div
+            class="menu-item active"
+            onclick="window.location.href='index.html'"
+        >
+
+            <div class="menu-icon">
+                🏠
+            </div>
+
+            <span>
+                داشبورد
+            </span>
+
         </div>
 
-        <div class="menu-item">
-            <div class="menu-icon">⚡</div>
-            <span>شبکه برق</span>
+
+        <!-- WEBGIS -->
+
+        <div
+            class="menu-item"
+            onclick="window.location.href='webgis.html'"
+        >
+
+            <div class="menu-icon">
+                🗺️
+            </div>
+
+            <span>
+                WebGIS
+            </span>
+
         </div>
 
+
         <div class="menu-item">
-            <div class="menu-icon">🏭</div>
-            <span>پست‌ها و نیروگاه‌ها</span>
+
+            <div class="menu-icon">
+                ⚡
+            </div>
+
+            <span>
+                شبکه برق
+            </span>
+
         </div>
 
+
         <div class="menu-item">
-            <div class="menu-icon">📡</div>
-            <span>مخابرات و فیبر</span>
+
+            <div class="menu-icon">
+                🏭
+            </div>
+
+            <span>
+                پست‌ها و نیروگاه‌ها
+            </span>
+
         </div>
 
-        <div class="menu-title">مدیریت اطلاعات</div>
 
         <div class="menu-item">
-            <div class="menu-icon">🚨</div>
-            <span>حوادث شبکه</span>
+
+            <div class="menu-icon">
+                📡
+            </div>
+
+            <span>
+                مخابرات و فیبر
+            </span>
+
         </div>
 
-        <div class="menu-item">
-            <div class="menu-icon">📊</div>
-            <span>گزارش‌ها</span>
+
+        <div class="menu-title">
+            مدیریت اطلاعات
         </div>
 
-        <div class="menu-item">
-            <div class="menu-icon">📁</div>
-            <span>پروژه‌ها</span>
-        </div>
 
         <div class="menu-item">
-            <div class="menu-icon">🔄</div>
-            <span>به‌روزرسانی لایه‌ها</span>
+
+            <div class="menu-icon">
+                🚨
+            </div>
+
+            <span>
+                حوادث شبکه
+            </span>
+
+        </div>
+
+
+        <div class="menu-item">
+
+            <div class="menu-icon">
+                📊
+            </div>
+
+            <span>
+                گزارش‌ها
+            </span>
+
+        </div>
+
+
+        <div class="menu-item">
+
+            <div class="menu-icon">
+                📁
+            </div>
+
+            <span>
+                پروژه‌ها
+            </span>
+
+        </div>
+
+
+        <div class="menu-item">
+
+            <div class="menu-icon">
+                🔄
+            </div>
+
+            <span>
+                به‌روزرسانی لایه‌ها
+            </span>
+
         </div>
 
     </aside>
+
 
 
     <!-- MAIN -->
 
     <main>
 
+
         <div class="page-title">
 
-            <h2>داشبورد مدیریتی GIS</h2>
+            <h2>
+                داشبورد مدیریتی GIS
+            </h2>
 
             <p>
                 نمای کلی اطلاعات مکانی، شبکه برق و وضعیت داده‌های GIS
@@ -528,97 +656,159 @@
         </div>
 
 
-        <!-- STATISTICS -->
+
+        <!-- CARDS -->
 
         <div class="cards">
 
+
             <div class="card">
 
                 <div class="card-top">
-                    <span>پست‌های برق</span>
-                    <div class="card-icon">🏭</div>
+
+                    <span>
+                        پست‌های برق
+                    </span>
+
+                    <div class="card-icon">
+                        🏭
+                    </div>
+
                 </div>
 
-                <h3>128</h3>
+                <h3>
+                    128
+                </h3>
 
-                <p>پست ثبت شده در سامانه</p>
+                <p>
+                    پست ثبت شده در سامانه
+                </p>
 
             </div>
 
 
+
             <div class="card">
 
                 <div class="card-top">
-                    <span>خطوط انتقال</span>
-                    <div class="card-icon">⚡</div>
+
+                    <span>
+                        خطوط انتقال
+                    </span>
+
+                    <div class="card-icon">
+                        ⚡
+                    </div>
+
                 </div>
 
-                <h3>2,450</h3>
+                <h3>
+                    2,450
+                </h3>
 
-                <p>کیلومتر شبکه ثبت شده</p>
+                <p>
+                    کیلومتر شبکه ثبت شده
+                </p>
 
             </div>
 
 
+
             <div class="card">
 
                 <div class="card-top">
-                    <span>نیروگاه‌ها</span>
-                    <div class="card-icon">🔋</div>
+
+                    <span>
+                        نیروگاه‌ها
+                    </span>
+
+                    <div class="card-icon">
+                        🔋
+                    </div>
+
                 </div>
 
-                <h3>120</h3>
+                <h3>
+                    120
+                </h3>
 
-                <p>واحدهای تولید برق</p>
+                <p>
+                    واحدهای تولید برق
+                </p>
 
             </div>
 
 
+
             <div class="card">
 
                 <div class="card-top">
-                    <span>حوادث شبکه</span>
-                    <div class="card-icon">🚨</div>
+
+                    <span>
+                        حوادث شبکه
+                    </span>
+
+                    <div class="card-icon">
+                        🚨
+                    </div>
+
                 </div>
 
-                <h3>17</h3>
+                <h3>
+                    17
+                </h3>
 
-                <p>حوادث ثبت شده اخیر</p>
+                <p>
+                    حوادث ثبت شده اخیر
+                </p>
 
             </div>
 
         </div>
 
 
-        <!-- MAIN CONTENT -->
+
+        <!-- CONTENT -->
 
         <div class="content-grid">
 
-            <!-- MAP -->
 
             <div class="panel">
 
                 <div class="panel-header">
 
-                    <h3>نمای کلی شبکه برق</h3>
+                    <h3>
+                        نمای کلی شبکه برق
+                    </h3>
 
-                    <button onclick="alert('در نسخه بعدی این قسمت به WebGIS واقعی متصل می‌شود.')">
+
+                    <!-- WEBGIS BUTTON -->
+
+                    <button
+                        onclick="window.location.href='webgis.html'"
+                    >
                         ورود به WebGIS
                     </button>
 
                 </div>
 
+
                 <div class="map">
 
                     <div class="road"></div>
+
                     <div class="road2"></div>
 
                     <div class="line line1"></div>
+
                     <div class="line line2"></div>
 
                     <div class="station station1"></div>
+
                     <div class="station station2"></div>
+
                     <div class="station station3"></div>
+
                     <div class="station station4"></div>
 
                     <div class="map-label">
@@ -630,23 +820,31 @@
             </div>
 
 
+
             <!-- STATUS -->
 
             <div class="panel">
 
                 <div class="panel-header">
 
-                    <h3>وضعیت اطلاعات GIS</h3>
+                    <h3>
+                        وضعیت اطلاعات GIS
+                    </h3>
 
-                    <button>مشاهده همه</button>
+                    <button>
+                        مشاهده همه
+                    </button>
 
                 </div>
 
+
                 <div class="list">
+
 
                     <div class="list-item">
 
                         <div>
+
                             <div class="list-name">
                                 لایه پست‌های برق
                             </div>
@@ -654,6 +852,7 @@
                             <div class="list-date">
                                 آخرین بروزرسانی: امروز
                             </div>
+
                         </div>
 
                         <span class="status green">
@@ -663,9 +862,11 @@
                     </div>
 
 
+
                     <div class="list-item">
 
                         <div>
+
                             <div class="list-name">
                                 لایه خطوط انتقال
                             </div>
@@ -673,6 +874,7 @@
                             <div class="list-date">
                                 آخرین بروزرسانی: ۳ روز قبل
                             </div>
+
                         </div>
 
                         <span class="status green">
@@ -682,9 +884,11 @@
                     </div>
 
 
+
                     <div class="list-item">
 
                         <div>
+
                             <div class="list-name">
                                 لایه حوادث شبکه
                             </div>
@@ -692,6 +896,7 @@
                             <div class="list-date">
                                 آخرین بروزرسانی: ۱۲ روز قبل
                             </div>
+
                         </div>
 
                         <span class="status orange">
@@ -701,9 +906,11 @@
                     </div>
 
 
+
                     <div class="list-item">
 
                         <div>
+
                             <div class="list-name">
                                 لایه فیبر نوری
                             </div>
@@ -711,6 +918,7 @@
                             <div class="list-date">
                                 آخرین بروزرسانی: ۲۵ روز قبل
                             </div>
+
                         </div>
 
                         <span class="status red">
@@ -726,16 +934,24 @@
         </div>
 
 
+
         <!-- QUICK ACCESS -->
 
         <div class="quick">
 
-            <div class="quick-card"
-                 onclick="alert('بخش WebGIS')">
 
-                <div>🗺️</div>
+            <div
+                class="quick-card"
+                onclick="window.location.href='webgis.html'"
+            >
 
-                <h4>WebGIS</h4>
+                <div>
+                    🗺️
+                </div>
+
+                <h4>
+                    WebGIS
+                </h4>
 
                 <p>
                     مشاهده و تحلیل اطلاعات مکانی
@@ -744,12 +960,16 @@
             </div>
 
 
-            <div class="quick-card"
-                 onclick="alert('بخش حوادث شبکه')">
 
-                <div>🚨</div>
+            <div class="quick-card">
 
-                <h4>حوادث شبکه</h4>
+                <div>
+                    🚨
+                </div>
+
+                <h4>
+                    حوادث شبکه
+                </h4>
 
                 <p>
                     مشاهده و تحلیل مکانی حوادث
@@ -758,12 +978,16 @@
             </div>
 
 
-            <div class="quick-card"
-                 onclick="alert('بخش پروژه‌ها')">
 
-                <div>📁</div>
+            <div class="quick-card">
 
-                <h4>پروژه‌ها</h4>
+                <div>
+                    📁
+                </div>
+
+                <h4>
+                    پروژه‌ها
+                </h4>
 
                 <p>
                     کنترل و پایش پروژه‌های GIS
@@ -772,12 +996,16 @@
             </div>
 
 
-            <div class="quick-card"
-                 onclick="alert('بخش گزارش‌ها')">
 
-                <div>📊</div>
+            <div class="quick-card">
 
-                <h4>گزارش‌های مدیریتی</h4>
+                <div>
+                    📊
+                </div>
+
+                <h4>
+                    گزارش‌های مدیریتی
+                </h4>
 
                 <p>
                     آمار و گزارش‌های مکانی
@@ -787,9 +1015,12 @@
 
         </div>
 
+
     </main>
 
 </div>
 
+
 </body>
+
 </html>
