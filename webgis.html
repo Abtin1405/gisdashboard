@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WebGIS | سامانه جامع GIS</title>
+
+    <!-- Leaflet -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f6f9;
+            color: #1f2937;
+            overflow: hidden;
+        }
+
+        /* HEADER */
+
+        header {
+            height: 65px;
+            background: #12395b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.2);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: #1e88e5;
+            width: 40px;
+            height: 40px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            font-size: 17px;
+        }
+
+        .logo small {
+            font-size: 10px;
+            opacity: .75;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,.2);
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,.2);
+        }
+
+        /* MAIN */
+
+        .gis-container {
+            height: calc(100vh - 65px);
+            position: relative;
+        }
+
+        /* MAP */
+
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* RIGHT PANEL */
+
+        .right-panel {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 285px;
+            background: rgba(255,255,255,.97);
+            border-radius: 10px;
+            box-shadow: 0 3px 18px rgba(0,0,0,.18);
+            z-index: 500;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            background: #12395b;
+            color: white;
+            padding: 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .panel-section {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #374151;
+        }
+
+        /* SEARCH */
+
+        .search-box {
+            display: flex;
+            gap: 5px;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 9px;
+            outline: none;
+            font-size: 11px;
+        }
+
+        .search-box button {
+            border: none;
+            background: #1e88e5;
+            color: white;
+            border-radius: 6px;
+            padding: 0 12px;
+            cursor: pointer;
+        }
+
+        /* LAYERS */
+
+        .layer {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 0;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .layer input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .symbol {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .station-symbol {
+            background: #d62828;
+        }
+
+        .power-symbol {
+            background: #f59e0b;
+        }
+
+        .fiber-symbol {
+            background: #7c3aed;
+        }
+
+        .incident-symbol {
+            background: #111827;
+        }
+
+        .road-symbol {
+            background: #999;
+        }
+
+        /* INFO PANEL */
+
+        .info-panel {
+            position: absolute;
+            bottom: 20px;
+            right: 15px;
+            width: 285px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 18px rgba(0,0,0,.18);
+            z-index: 500;
+            display: none;
+        }
+
+        .info-header {
+            background: #12395b;
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .close-info {
+            cursor: pointer;
+        }
+
+        .info-content {
+            padding: 15px;
+            font-size: 12px;
+            line-height: 2;
+        }
+
+        /* MAP TOOLS */
+
+        .map-tools {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .tool {
+            width: 42px;
+            height: 42px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.18);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .tool:hover {
+            background: #eef6ff;
+        }
+
+        /* STATUS */
+
+        .status-bar {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(255,255,255,.95);
+            padding: 9px 14px;
+            border-radius: 7px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.15);
+            z-index: 500;
+            font-size: 10px;
+            color: #555;
+        }
+
+        /* LEGEND */
+
+        .legend {
+            position: absolute;
+            bottom: 55px;
+            left: 15px;
+            background: rgba(255,255,255,.95);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.15);
+            z-index: 500;
+            font-size: 10px;
+        }
+
+        .legend-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .legend-row {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin: 6px 0;
+        }
+
+        .legend-line {
+            width: 25px;
+            height: 3px;
+        }
+
+        .transmission {
+            background: #d62828;
+        }
+
+        .distribution {
+            background: #2563eb;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 700px) {
+
+            .right-panel {
+                width: 240px;
+                right: 8px;
+            }
+
+            .info-panel {
+                width: 240px;
+                right: 8px;
+            }
+
+            .logo h1 {
+                font-size: 13px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            GIS
+        </div>
+
+        <div>
+            <h1>سامانه WebGIS</h1>
+            <small>شرکت برق منطقه‌ای فارس</small>
+        </div>
+
+    </div>
+
+    <button class="back-btn" onclick="goHome()">
+        ← داشبورد اصلی
+    </button>
+
+</header>
+
+
+<div class="gis-container">
+
+    <!-- MAP -->
+
+    <div id="map"></div>
+
+
+    <!-- RIGHT PANEL -->
+
+    <div class="right-panel">
+
+        <div class="panel-title">
+            مدیریت اطلاعات مکانی
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="panel-section">
+
+            <div class="section-title">
+                جستجوی مکانی
+            </div>
+
+            <div class="search-box">
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="مثلاً شیراز..."
+                >
+
+                <button onclick="searchLocation()">
+                    🔍
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- LAYERS -->
+
+        <div class="panel-section">
+
+            <div class="section-title">
+                لایه‌های اطلاعاتی
+            </div>
+
+
+            <label class="layer">
+
+                <input
+                    type="checkbox"
+                    checked
+                    onchange="toggleLayer('stations')"
+                >
+
+                <span class="symbol station-symbol"></span>
+
+                پست‌های برق
+
+            </label>
+
+
+            <label class="layer">
+
+                <input
+                    type="checkbox"
+                    checked
+                    onchange="toggleLayer('powerplants')"
+                >
+
+                <span class="symbol power-symbol"></span>
+
+                نیروگاه‌ها
+
+            </label>
+
+
+            <label class="layer">
+
+                <input
+                    type="checkbox"
+                    checked
+                    onchange="toggleLayer('fiber')"
+                >
+
+                <span class="symbol fiber-symbol"></span>
+
+                فیبر نوری
+
+            </label>
+
+
+            <label class="layer">
+
+                <input
+                    type="checkbox"
+                    checked
+                    onchange="toggleLayer('incidents')"
+                >
+
+                <span class="symbol incident-symbol"></span>
+
+                حوادث شبکه
+
+            </label>
+
+
+            <label class="layer">
+
+                <input
+                    type="checkbox"
+                    checked
+                    onchange="toggleLayer('roads')"
+                >
+
+                <span class="symbol road-symbol"></span>
+
+                راه‌ها
+
+            </label>
+
+        </div>
+
+
+        <!-- QUICK -->
+
+        <div class="panel-section">
+
+            <div class="section-title">
+                ابزارهای سریع
+            </div>
+
+            <button
+                onclick="zoomFars()"
+                style="width:100%;padding:9px;border:0;border-radius:6px;background:#eaf3fb;color:#1265a3;cursor:pointer;"
+            >
+                📍 محدوده فارس
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAP TOOLS -->
+
+    <div class="map-tools">
+
+        <button
+            class="tool"
+            onclick="zoomIn()"
+            title="بزرگنمایی"
+        >
+            +
+        </button>
+
+        <button
+            class="tool"
+            onclick="zoomOut()"
+            title="کوچکنمایی"
+        >
+            −
+        </button>
+
+        <button
+            class="tool"
+            onclick="myLocation()"
+            title="موقعیت من"
+        >
+            📍
+        </button>
+
+        <button
+            class="tool"
+            onclick="resetMap()"
+            title="نمای اولیه"
+        >
+            ⌂
+        </button>
+
+    </div>
+
+
+    <!-- INFO -->
+
+    <div
+        id="infoPanel"
+        class="info-panel"
+    >
+
+        <div class="info-header">
+
+            <span id="infoTitle">
+                اطلاعات عارضه
+            </span>
+
+            <span
+                class="close-info"
+                onclick="closeInfo()"
+            >
+                ✕
+            </span>
+
+        </div>
+
+        <div
+            id="infoContent"
+            class="info-content"
+        >
+        </div>
+
+    </div>
+
+
+    <!-- LEGEND -->
+
+    <div class="legend">
+
+        <div class="legend-title">
+            راهنمای نقشه
+        </div>
+
+        <div class="legend-row">
+
+            <span class="legend-line transmission"></span>
+
+            خط انتقال
+
+        </div>
+
+        <div class="legend-row">
+
+            <span class="legend-line distribution"></span>
+
+            خط فوق‌توزیع
+
+        </div>
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div class="status-bar">
+
+        سیستم WebGIS فعال | داده نمایشی | آماده اتصال به GIS واقعی
+
+    </div>
+
+</div>
+
+
+<!-- LEAFLET -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<script>
+
+    /* =========================
+       INITIAL MAP
+    ========================= */
+
+    const map = L.map('map').setView(
+        [29.6, 52.53],
+        8
+    );
+
+
+    /* =========================
+       BASE MAP
+    ========================= */
+
+    const baseMap = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }
+    );
+
+    baseMap.addTo(map);
+
+
+    /* =========================
+       LAYERS
+    ========================= */
+
+    const stations = L.layerGroup().addTo(map);
+
+    const powerplants = L.layerGroup().addTo(map);
+
+    const fiber = L.layerGroup().addTo(map);
+
+    const incidents = L.layerGroup().addTo(map);
+
+    const roads = L.layerGroup().addTo(map);
+
+
+    /* =========================
+       STATIONS
+    ========================= */
+
+    const stationData = [
+
+        {
+            name: "پست شیراز",
+            lat: 29.5918,
+            lng: 52.5837,
+            voltage: "230/63 kV"
+        },
+
+        {
+            name: "پست مرودشت",
+            lat: 29.8747,
+            lng: 52.8025,
+            voltage: "230/63 kV"
+        },
+
+        {
+            name: "پست کازرون",
+            lat: 29.6195,
+            lng: 51.6541,
+            voltage: "132/63 kV"
+        },
+
+        {
+            name: "پست جهرم",
+            lat: 28.5000,
+            lng: 53.5600,
+            voltage: "230/63 kV"
+        }
+
+    ];
+
+
+    stationData.forEach(function(station) {
+
+        const marker = L.circleMarker(
+            [station.lat, station.lng],
+            {
+                radius: 8,
+                color: '#ffffff',
+                weight: 2,
+                fillColor: '#d62828',
+                fillOpacity: 1
+            }
+        );
+
+
+        marker.bindTooltip(
+            station.name
+        );
+
+
+        marker.on(
+            'click',
+            function() {
+
+                showInfo(
+                    station.name,
+                    `
+                    <b>نوع:</b> پست برق<br>
+                    <b>ولتاژ:</b> ${station.voltage}<br>
+                    <b>مختصات:</b> ${station.lat.toFixed(4)},
+                    ${station.lng.toFixed(4)}
+                    `
+                );
+
+            }
+        );
+
+
+        stations.addLayer(marker);
+
+    });
+
+
+    /* =========================
+       POWER PLANTS
+       ========================= */
+
+    const plantData = [
+
+        {
+            name: "نیروگاه شیراز",
+            lat: 29.55,
+            lng: 52.55
+        },
+
+        {
+            name: "نیروگاه کازرون",
+            lat: 29.60,
+            lng: 51.65
+        }
+
+    ];
+
+
+    plantData.forEach(function(plant) {
+
+        const marker = L.circleMarker(
+            [plant.lat, plant.lng],
+            {
+                radius: 8,
+                color: '#ffffff',
+                weight: 2,
+                fillColor: '#f59e0b',
+                fillOpacity: 1
+            }
+        );
+
+
+        marker.bindTooltip(
+            plant.name
+        );
+
+
+        marker.on(
+            'click',
+            function() {
+
+                showInfo(
+                    plant.name,
+                    `
+                    <b>نوع:</b> نیروگاه<br>
+                    <b>وضعیت:</b> فعال<br>
+                    <b>مختصات:</b>
+                    ${plant.lat},
+                    ${plant.lng}
+                    `
+                );
+
+            }
+        );
+
+
+        powerplants.addLayer(marker);
+
+    });
+
+
+    /* =========================
+       INCIDENTS
+       ========================= */
+
+    const incidentData = [
+
+        {
+            name: "حادثه خط شیراز",
+            lat: 29.62,
+            lng: 52.48
+        },
+
+        {
+            name: "حادثه خط مرودشت",
+            lat: 29.82,
+            lng: 52.72
+        }
+
+    ];
+
+
+    incidentData.forEach(function(item) {
+
+        const marker = L.circleMarker(
+            [item.lat, item.lng],
+            {
+                radius: 7,
+                color: '#ffffff',
+                weight: 2,
+                fillColor: '#111827',
+                fillOpacity: 1
+            }
+        );
+
+
+        marker.bindTooltip(
+            item.name
+        );
+
+
+        marker.on(
+            'click',
+            function() {
+
+                showInfo(
+                    item.name,
+                    `
+                    <b>نوع:</b> حادثه شبکه<br>
+                    <b>وضعیت:</b> ثبت شده<br>
+                    <b>نیازمند بررسی GIS</b>
+                    `
+                );
+
+            }
+        );
+
+
+        incidents.addLayer(marker);
+
+    });
+
+
+    /* =========================
+       FIBER
+       ========================= */
+
+    const fiberLine = L.polyline(
+
+        [
+            [29.5918,52.5837],
+            [29.70,52.68],
+            [29.8747,52.8025]
+        ],
+
+        {
+            color: '#7c3aed',
+            weight: 4
+        }
+
+    );
+
+
+    fiberLine.bindTooltip(
+        "مسیر فیبر نوری"
+    );
+
+
+    fiberLine.on(
+        'click',
+        function() {
+
+            showInfo(
+                "فیبر نوری",
+                `
+                <b>نوع:</b> مسیر ارتباطی<br>
+                <b>وضعیت:</b> فعال<br>
+                <b>کاربرد:</b> ارتباطات شبکه برق
+                `
+            );
+
+        }
+    );
+
+
+    fiber.addLayer(fiberLine);
+
+
+    /* =========================
+       POWER LINES
+       ========================= */
+
+    const transmissionLine = L.polyline(
+
+        [
+            [29.5918,52.5837],
+            [29.8747,52.8025]
+        ],
+
+        {
+            color: '#d62828',
+            weight: 4
+        }
+
+    );
+
+
+    transmissionLine.bindTooltip(
+        "خط انتقال 230 کیلوولت"
+    );
+
+
+    roads.addLayer(
+        transmissionLine
+    );
+
+
+    /* =========================
+       FUNCTIONS
+       ========================= */
+
+    function toggleLayer(layerName) {
+
+        const layer = {
+
+            stations: stations,
+
+            powerplants: powerplants,
+
+            fiber: fiber,
+
+            incidents: incidents,
+
+            roads: roads
+
+        }[layerName];
+
+
+        if (map.hasLayer(layer)) {
+
+            map.removeLayer(layer);
+
+        } else {
+
+            map.addLayer(layer);
+
+        }
+
+    }
+
+
+    function showInfo(title, content) {
+
+        document.getElementById(
+            'infoTitle'
+        ).innerHTML = title;
+
+
+        document.getElementById(
+            'infoContent'
+        ).innerHTML = content;
+
+
+        document.getElementById(
+            'infoPanel'
+        ).style.display = 'block';
+
+    }
+
+
+    function closeInfo() {
+
+        document.getElementById(
+            'infoPanel'
+        ).style.display = 'none';
+
+    }
+
+
+    function zoomIn() {
+
+        map.zoomIn();
+
+    }
+
+
+    function zoomOut() {
+
+        map.zoomOut();
+
+    }
+
+
+    function resetMap() {
+
+        map.setView(
+            [29.6, 52.53],
+            8
+        );
+
+    }
+
+
+    function zoomFars() {
+
+        map.fitBounds([
+            [27.9, 50.8],
+            [31.2, 55.0]
+        ]);
+
+    }
+
+
+    function myLocation() {
+
+        map.locate({
+            setView: true,
+            maxZoom: 15
+        });
+
+    }
+
+
+    map.on(
+        'locationfound',
+        function(e) {
+
+            L.marker(e.latlng)
+                .addTo(map)
+                .bindPopup(
+                    "موقعیت فعلی شما"
+                )
+                .openPopup();
+
+        }
+    );
+
+
+    /* =========================
+       SEARCH
+       ========================= */
+
+    function searchLocation() {
+
+        const value =
+            document.getElementById(
+                'searchInput'
+            ).value.trim();
+
+
+        if (!value) {
+
+            alert(
+                "نام مکان را وارد کنید."
+            );
+
+            return;
+
+        }
+
+
+        /*
+           فعلاً جستجوی نمونه
+           در مرحله بعد به سرویس مکانی
+           متصل می‌شود.
+        */
+
+        const locations = {
+
+            "شیراز": [29.5918,52.5837],
+
+            "مرودشت": [29.8747,52.8025],
+
+            "کازرون": [29.6195,51.6541],
+
+            "جهرم": [28.5000,53.5600]
+
+        };
+
+
+        if (locations[value]) {
+
+            map.setView(
+                locations[value],
+                12
+            );
+
+
+            L.popup()
+                .setLatLng(
+                    locations[value]
+                )
+                .setContent(
+                    "📍 " + value
+                )
+                .openOn(map);
+
+        } else {
+
+            alert(
+                "این مکان فعلاً در داده‌های نمونه وجود ندارد."
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       HOME
+       ========================= */
+
+    function goHome() {
+
+        window.location.href =
+            "index.html";
+
+    }
+
+</script>
+
+</body>
+</html>
