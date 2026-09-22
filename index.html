@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>داشبورد مکانی GIS صنعت برق</title>
 
 <link rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <link rel="stylesheet"
-href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
+href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
 
 <style>
 
@@ -21,330 +23,639 @@ href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"/>
 body{
     margin:0;
     font-family:Tahoma,Arial,sans-serif;
-    background:#08121d;
-    color:#e8f1f8;
+    background:#07131e;
+    color:#e8f2f7;
     overflow:hidden;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 
 .header{
+
     height:64px;
-    background:#0c1b29;
-    border-bottom:1px solid #1e394d;
+
+    background:
+    linear-gradient(
+        90deg,
+        #07151f,
+        #0b202d,
+        #0b1823
+    );
+
+    border-bottom:1px solid #244658;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     padding:0 20px;
+
     position:relative;
+
     z-index:1000;
 }
 
 .logo{
+
     display:flex;
     align-items:center;
+
     gap:12px;
-    font-size:18px;
+
+    font-size:17px;
+
     font-weight:bold;
 }
 
 .logoIcon{
-    width:40px;
-    height:40px;
-    border-radius:10px;
-    background:#0e7c86;
+
+    width:42px;
+    height:42px;
+
+    border-radius:11px;
+
+    background:
+    linear-gradient(
+        145deg,
+        #0a9b9b,
+        #075e73
+    );
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-size:22px;
+
+    box-shadow:
+    0 0 15px #0b8b9255;
 }
 
 .logo small{
+
     display:block;
-    color:#8da8ba;
-    font-size:11px;
-    margin-top:3px;
+
+    color:#819eae;
+
+    font-size:10px;
+
+    margin-top:4px;
+
     font-weight:normal;
 }
 
 .headerButtons{
+
     display:flex;
+
     gap:8px;
 }
 
 .headerBtn{
-    background:#102838;
-    border:1px solid #23475b;
-    color:#c9dce7;
+
+    background:#102b3a;
+
+    border:1px solid #2a5265;
+
+    color:#d6e7ef;
+
     border-radius:8px;
+
     padding:8px 13px;
+
     cursor:pointer;
+
+    transition:.2s;
 }
 
 .headerBtn:hover{
-    background:#16384c;
+
+    background:#174257;
+
+    border-color:#3c7388;
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
 
 .main{
+
     height:calc(100vh - 64px);
+
     display:flex;
 }
 
-/* SIDEBAR */
+/* ================= SIDEBAR ================= */
 
 .sidebar{
+
     width:310px;
-    background:#0b1926;
-    border-left:1px solid #1c3547;
+
+    background:
+    linear-gradient(
+        180deg,
+        #0a1925,
+        #091722
+    );
+
+    border-left:1px solid #203e4f;
+
     padding:14px;
+
     overflow-y:auto;
+
     z-index:900;
 }
 
+.sidebar::-webkit-scrollbar{
+    width:6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+    background:#244a5d;
+    border-radius:10px;
+}
+
 .section{
-    margin-bottom:15px;
+
+    margin-bottom:17px;
 }
 
 .sectionTitle{
+
     font-size:13px;
-    color:#80b6c8;
-    margin-bottom:8px;
+
+    color:#83c3d0;
+
+    margin-bottom:9px;
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 }
 
-.layer{
-    background:#102533;
-    border:1px solid #1c3b4d;
-    border-radius:8px;
-    margin-bottom:6px;
-    padding:9px;
-    cursor:pointer;
+/* ================= SEARCH ================= */
+
+.searchBox{
+
     display:flex;
+
+    gap:5px;
+
+    margin-bottom:8px;
+}
+
+.searchBox input{
+
+    flex:1;
+
+    background:#07141e;
+
+    border:1px solid #274858;
+
+    color:white;
+
+    padding:10px;
+
+    border-radius:7px;
+
+    outline:none;
+
+    font-family:inherit;
+
+    font-size:11px;
+}
+
+.searchBox input:focus{
+
+    border-color:#1aa5a7;
+}
+
+.searchBox button{
+
+    background:#087f88;
+
+    border:none;
+
+    color:white;
+
+    border-radius:7px;
+
+    padding:0 12px;
+
+    cursor:pointer;
+}
+
+/* ================= LAYERS ================= */
+
+.layer{
+
+    background:#0d2533;
+
+    border:1px solid #1b3d4d;
+
+    border-radius:8px;
+
+    margin-bottom:6px;
+
+    padding:9px;
+
+    cursor:pointer;
+
+    display:flex;
+
     align-items:center;
+
     gap:8px;
+
     transition:.2s;
 }
 
 .layer:hover{
-    background:#143447;
+
+    background:#12394b;
+
+    border-color:#286074;
 }
 
 .layer input{
-    accent-color:#18a9a0;
+
+    accent-color:#19aaa4;
+
+    cursor:pointer;
 }
 
 .layerName{
+
     flex:1;
-    font-size:12px;
+
+    font-size:11px;
 }
 
 .layerIcon{
+
     font-size:15px;
+
+    width:22px;
+
+    text-align:center;
 }
 
-/* SEARCH */
-
-.searchBox{
-    display:flex;
-    gap:5px;
-    margin-bottom:10px;
-}
-
-.searchBox input{
-    flex:1;
-    background:#081722;
-    border:1px solid #254556;
-    color:white;
-    padding:9px;
-    border-radius:7px;
-    outline:none;
-}
-
-.searchBox button{
-    background:#087f88;
-    border:none;
-    color:white;
-    border-radius:7px;
-    padding:0 12px;
-    cursor:pointer;
-}
-
-/* ACTIVITIES */
+/* ================= ACTIVITY ================= */
 
 .activity{
+
     padding:10px;
-    background:#0e2432;
+
+    background:#0d2432;
+
     border:1px solid #1b3b4c;
+
     border-radius:8px;
+
     margin-bottom:6px;
-    font-size:12px;
+
+    font-size:11px;
+
     cursor:pointer;
+
+    transition:.2s;
 }
 
 .activity:hover{
-    background:#143b4c;
+
+    background:#143b4d;
+
+    border-color:#2a6275;
 }
 
-/* MAP */
+/* ================= MAP ================= */
 
 .mapArea{
+
     flex:1;
+
     position:relative;
 }
 
 #map{
+
     width:100%;
+
     height:100%;
 }
 
-/* MAP TOOLBAR */
+/* ================= MAP TOOLBAR ================= */
 
 .mapToolbar{
+
     position:absolute;
+
     top:15px;
+
     right:15px;
+
     z-index:700;
-    background:#0c1c28ee;
-    border:1px solid #28495a;
+
+    background:#091c28e8;
+
+    border:1px solid #315365;
+
     border-radius:10px;
+
     padding:7px;
+
     display:flex;
+
     gap:5px;
+
+    backdrop-filter:blur(8px);
 }
 
 .toolBtn{
-    background:#112b3a;
-    border:1px solid #2a5063;
+
+    background:#112c3c;
+
+    border:1px solid #2a5366;
+
     color:#d9edf4;
+
     border-radius:7px;
-    padding:8px 11px;
+
+    padding:8px 10px;
+
     cursor:pointer;
-    font-size:12px;
-}
 
-.toolBtn:hover{
-    background:#175064;
-}
-
-/* INFO PANEL */
-
-.infoPanel{
-    position:absolute;
-    bottom:18px;
-    right:18px;
-    width:330px;
-    max-height:55%;
-    overflow:auto;
-    background:#0b1b27ee;
-    backdrop-filter:blur(8px);
-    border:1px solid #315467;
-    border-radius:12px;
-    padding:15px;
-    z-index:700;
-    display:none;
-}
-
-.infoTitle{
-    font-size:14px;
-    font-weight:bold;
-    color:#6fd0d0;
-    margin-bottom:12px;
-}
-
-.infoRow{
-    border-bottom:1px solid #1c3543;
-    padding:7px 0;
     font-size:11px;
 }
 
-.infoRow strong{
-    color:#86aabd;
+.toolBtn:hover{
+
+    background:#175064;
 }
 
-/* FOOTER */
+/* ================= BASE MAP SELECTOR ================= */
+
+.baseMapBox{
+
+    position:absolute;
+
+    top:75px;
+
+    right:15px;
+
+    z-index:700;
+
+    background:#091c28ee;
+
+    border:1px solid #315365;
+
+    border-radius:10px;
+
+    padding:10px;
+
+    width:185px;
+
+    backdrop-filter:blur(8px);
+}
+
+.baseMapTitle{
+
+    color:#83c3d0;
+
+    font-size:11px;
+
+    margin-bottom:7px;
+}
+
+.baseMapSelect{
+
+    width:100%;
+
+    background:#102b3a;
+
+    color:#e8f2f7;
+
+    border:1px solid #2c5568;
+
+    border-radius:7px;
+
+    padding:8px;
+
+    font-family:Tahoma;
+
+    font-size:11px;
+
+    outline:none;
+}
+
+/* ================= INFO ================= */
+
+.infoPanel{
+
+    position:absolute;
+
+    bottom:38px;
+
+    right:18px;
+
+    width:330px;
+
+    max-height:55%;
+
+    overflow:auto;
+
+    background:#091b27f2;
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid #315467;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    z-index:700;
+
+    display:none;
+
+    box-shadow:0 8px 30px #0008;
+}
+
+.infoTitle{
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    color:#73d1d0;
+
+    margin-bottom:12px;
+
+    border-bottom:1px solid #254454;
+
+    padding-bottom:9px;
+}
+
+.infoRow{
+
+    border-bottom:1px solid #1c3543;
+
+    padding:7px 0;
+
+    font-size:10px;
+
+    line-height:1.8;
+}
+
+.infoRow strong{
+
+    color:#86aabd;
+
+}
+
+/* ================= STATUS ================= */
 
 .statusBar{
+
     position:absolute;
+
     bottom:0;
+
     left:0;
+
     right:0;
+
     height:28px;
-    background:#08151fdd;
+
+    background:#07151fef;
+
     border-top:1px solid #193342;
+
     z-index:800;
+
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
+
     padding:0 12px;
-    font-size:10px;
+
+    font-size:9px;
+
     color:#7895a6;
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
 
 .modal{
+
     position:fixed;
+
     inset:0;
-    background:#00000088;
+
+    background:#00000099;
+
     display:none;
+
     align-items:center;
+
     justify-content:center;
+
     z-index:3000;
 }
 
 .modalBox{
+
     width:420px;
+
     max-width:90%;
+
     background:#0d202e;
+
     border:1px solid #31586b;
+
     border-radius:13px;
+
     padding:20px;
+
+    box-shadow:0 20px 60px #000;
 }
 
 .modalBox h3{
+
     margin-top:0;
+
     color:#7bd1d0;
 }
 
+.modalBox p{
+
+    color:#91aab7;
+
+    font-size:11px;
+}
+
 .modalBox input{
+
     width:100%;
+
     background:#07151e;
+
     border:1px solid #2a4c5c;
+
     color:white;
+
     padding:10px;
+
     border-radius:7px;
+
     margin:7px 0;
+
+    font-family:Tahoma;
 }
 
 .modalButtons{
+
     display:flex;
+
     justify-content:flex-end;
+
     gap:8px;
+
     margin-top:12px;
 }
 
 .btn{
+
     border:none;
+
     padding:9px 15px;
+
     border-radius:7px;
+
     cursor:pointer;
+
+    font-family:Tahoma;
 }
 
 .btnPrimary{
+
     background:#0b898d;
+
     color:white;
 }
 
 .btnCancel{
+
     background:#203442;
+
     color:white;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:800px){
 
@@ -360,37 +671,72 @@ body{
         display:none;
     }
 
+    .mapToolbar{
+        top:10px;
+        right:10px;
+    }
+
+    .baseMapBox{
+        top:65px;
+        right:10px;
+    }
+
     .infoPanel{
         width:270px;
+        right:10px;
     }
+
 }
 
 </style>
+
 </head>
 
 <body>
+
+
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
 <div class="logo">
 
-<div class="logoIcon">⚡</div>
+<div class="logoIcon">
+⚡
+</div>
 
 <div>
-<span>داشبورد مکانی GIS صنعت برق</span>
-<small>سامانه مدیریت و کاربردی‌سازی اطلاعات مکانی</small>
+
+<span>
+داشبورد مکانی GIS صنعت برق
+</span>
+
+<small>
+سامانه مدیریت و کاربردی‌سازی اطلاعات مکانی
+</small>
+
 </div>
 
 </div>
+
 
 <div class="headerButtons">
 
-<button class="headerBtn" onclick="openAddLayer()">
+<button
+class="headerBtn"
+onclick="openAddLayer()">
+
 ＋ افزودن لایه
+
 </button>
 
-<button class="headerBtn" onclick="goHome()">
+
+<button
+class="headerBtn"
+onclick="goHome()">
+
 ⌂ نمای کلی
+
 </button>
 
 </div>
@@ -398,11 +744,16 @@ body{
 </header>
 
 
+
 <div class="main">
 
-<!-- SIDEBAR -->
+
+<!-- ================= SIDEBAR ================= -->
 
 <aside class="sidebar">
+
+
+<!-- SEARCH -->
 
 <div class="section">
 
@@ -412,15 +763,21 @@ body{
 
 <div class="searchBox">
 
-<input id="searchInput"
+<input
+id="searchInput"
 placeholder="نام پست، خط، دکل...">
 
-<button onclick="searchMap()">جستجو</button>
+<button onclick="searchMap()">
+جستجو
+</button>
 
 </div>
 
 </div>
 
+
+
+<!-- NETWORK LAYERS -->
 
 <div class="section">
 
@@ -431,11 +788,14 @@ placeholder="نام پست، خط، دکل...">
 
 <div class="layer">
 
-<input type="checkbox"
+<input
+type="checkbox"
 id="postLayer"
 onchange="toggleLayer('postLayer')">
 
-<span class="layerIcon">⚡</span>
+<span class="layerIcon">
+⚡
+</span>
 
 <span class="layerName">
 پست‌های برق
@@ -446,11 +806,14 @@ onchange="toggleLayer('postLayer')">
 
 <div class="layer">
 
-<input type="checkbox"
+<input
+type="checkbox"
 id="lineLayer"
 onchange="toggleLayer('lineLayer')">
 
-<span class="layerIcon">━</span>
+<span class="layerIcon">
+━
+</span>
 
 <span class="layerName">
 خطوط انتقال و فوق‌توزیع
@@ -461,11 +824,14 @@ onchange="toggleLayer('lineLayer')">
 
 <div class="layer">
 
-<input type="checkbox"
+<input
+type="checkbox"
 id="towerLayer"
 onchange="toggleLayer('towerLayer')">
 
-<span class="layerIcon">🗼</span>
+<span class="layerIcon">
+🗼
+</span>
 
 <span class="layerName">
 دکل‌های برق
@@ -476,11 +842,14 @@ onchange="toggleLayer('towerLayer')">
 
 <div class="layer">
 
-<input type="checkbox"
+<input
+type="checkbox"
 id="plantLayer"
 onchange="toggleLayer('plantLayer')">
 
-<span class="layerIcon">🏭</span>
+<span class="layerIcon">
+🏭
+</span>
 
 <span class="layerName">
 نیروگاه‌ها
@@ -491,11 +860,14 @@ onchange="toggleLayer('plantLayer')">
 
 <div class="layer">
 
-<input type="checkbox"
+<input
+type="checkbox"
 id="fiberLayer"
 onchange="toggleLayer('fiberLayer')">
 
-<span class="layerIcon">📡</span>
+<span class="layerIcon">
+📡
+</span>
 
 <span class="layerName">
 فیبر نوری و مخابرات
@@ -506,11 +878,14 @@ onchange="toggleLayer('fiberLayer')">
 
 <div class="layer">
 
-<input type="checkbox"
+<input
+type="checkbox"
 id="incidentLayer"
 onchange="toggleLayer('incidentLayer')">
 
-<span class="layerIcon">🚨</span>
+<span class="layerIcon">
+🚨
+</span>
 
 <span class="layerName">
 حوادث شبکه
@@ -521,11 +896,14 @@ onchange="toggleLayer('incidentLayer')">
 
 <div class="layer">
 
-<input type="checkbox"
+<input
+type="checkbox"
 id="boundaryLayer"
 onchange="toggleLayer('boundaryLayer')">
 
-<span class="layerIcon">🗺</span>
+<span class="layerIcon">
+🗺
+</span>
 
 <span class="layerName">
 محدوده‌های اداری
@@ -536,44 +914,68 @@ onchange="toggleLayer('boundaryLayer')">
 </div>
 
 
+
+<!-- GIS ACTIVITIES -->
+
 <div class="section">
 
 <div class="sectionTitle">
 🛠️ فعالیت‌های GIS
 </div>
 
+
 <div class="activity"
 onclick="showActivity('پاسخ به نامه‌ها')">
+
 ✉️ پاسخ به نامه‌ها
+
 </div>
+
 
 <div class="activity"
 onclick="showActivity('بروزرسانی لایه‌های مکانی')">
+
 🔄 بروزرسانی لایه‌های مکانی
+
 </div>
+
 
 <div class="activity"
 onclick="showActivity('فعالیت‌های قراردادی')">
+
 📑 فعالیت‌های قراردادی
+
 </div>
+
 
 <div class="activity"
 onclick="showActivity('مدیریت فعالیت همکاران')">
+
 👥 مدیریت فعالیت همکاران
+
 </div>
+
 
 <div class="activity"
 onclick="showActivity('پروژه‌های GIS')">
+
 🗂️ پروژه‌های GIS
+
 </div>
+
 
 <div class="activity"
 onclick="showActivity('عملیاتی‌سازی GIS')">
+
 🌐 عملیاتی‌سازی GIS
-</div>
 
 </div>
 
+</div>
+
+
+
+<!-- LINKS -->
 
 <div class="section">
 
@@ -581,54 +983,128 @@ onclick="showActivity('عملیاتی‌سازی GIS')">
 🔗 لینک‌های کاربردی
 </div>
 
+
 <div class="activity"
 onclick="openLink('https://www.arcgis.com')">
+
 🌐 ArcGIS
+
 </div>
+
 
 <div class="activity"
 onclick="openLink('#')">
+
 🌐 WebGIS شرکت
+
 </div>
+
 
 <div class="activity"
 onclick="openLink('#')">
+
 📁 مخزن داده‌های GIS
+
 </div>
 
 </div>
+
 
 </aside>
 
 
-<!-- MAP -->
+
+<!-- ================= MAP ================= -->
 
 <main class="mapArea">
+
 
 <div id="map"></div>
 
 
+
+<!-- MAP TOOLS -->
+
 <div class="mapToolbar">
 
-<button class="toolBtn"
+
+<button
+class="toolBtn"
 onclick="locateUser()">
+
 📍 موقعیت من
+
 </button>
 
-<button class="toolBtn"
+
+<button
+class="toolBtn"
 onclick="goHome()">
-🏠 تمام نقشه
+
+🏠 نمای کلی
+
 </button>
 
-<button class="toolBtn"
+
+<button
+class="toolBtn"
 onclick="clearMap()">
+
 ✕ پاکسازی
+
 </button>
+
 
 </div>
 
 
-<div id="infoPanel"
+
+<!-- BASEMAP -->
+
+<div class="baseMapBox">
+
+<div class="baseMapTitle">
+
+🗺️ نقشه پایه
+
+</div>
+
+
+<select
+class="baseMapSelect"
+id="baseMapSelect"
+onchange="changeBaseMap(this.value)">
+
+<option value="google">
+Google Maps
+</option>
+
+<option value="googleSatellite">
+Google Satellite
+</option>
+
+<option value="osm">
+OpenStreetMap
+</option>
+
+<option value="esriSatellite">
+Esri Satellite
+</option>
+
+<option value="dark">
+Dark GIS
+</option>
+
+</select>
+
+</div>
+
+
+
+<!-- INFO PANEL -->
+
+<div
+id="infoPanel"
 class="infoPanel">
 
 <div class="infoTitle">
@@ -639,6 +1115,9 @@ class="infoPanel">
 
 </div>
 
+
+
+<!-- STATUS -->
 
 <div class="statusBar">
 
@@ -652,370 +1131,801 @@ class="infoPanel">
 
 </div>
 
+
 </main>
 
 </div>
 
 
-<!-- ADD LAYER MODAL -->
 
-<div class="modal" id="layerModal">
+<!-- ================= ADD LAYER MODAL ================= -->
+
+<div
+class="modal"
+id="layerModal">
 
 <div class="modalBox">
 
-<h3>➕ افزودن لایه مکانی</h3>
+<h3>
+➕ افزودن لایه مکانی
+</h3>
 
-<p style="font-size:12px;color:#8faab8">
+<p>
 فایل GeoJSON خود را انتخاب کنید.
 </p>
+
 
 <input
 type="file"
 id="geojsonFile"
 accept=".geojson,.json">
 
+
 <input
 id="layerTitle"
 placeholder="نام لایه">
 
+
 <div class="modalButtons">
+
 
 <button
 class="btn btnCancel"
 onclick="closeAddLayer()">
+
 انصراف
+
 </button>
+
 
 <button
 class="btn btnPrimary"
 onclick="loadGeoJSON()">
+
 افزودن به نقشه
+
 </button>
 
-</div>
 
 </div>
 
 </div>
 
+</div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+<!-- ================= SCRIPTS ================= -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js">
+</script>
+
 
 
 <script>
 
-/* MAP */
+/* =========================================================
+   MAP
+========================================================= */
 
-const map = L.map('map', {
+const map = L.map('map',{
+
     center:[29.6,52.5],
+
     zoom:7,
+
     zoomControl:false
+
 });
 
 
-/* BASEMAP */
+/* =========================================================
+   BASE MAPS
+========================================================= */
+
+
+/*
+    Google Maps
+    -----------------------------------------
+    توجه:
+    برای استفاده رسمی از Google Maps باید
+    Google Maps Platform API Key داشته باشید.
+
+    مقدار زیر را با API Key خود جایگزین کنید.
+*/
+
+const GOOGLE_API_KEY = "";
+
+
+/* Google Maps */
+
+let googleMap;
+
+
+/* Google Satellite */
+
+let googleSatellite;
+
+
+/*
+   اگر API Key وارد شده باشد،
+   Google Maps از طریق Google API بارگذاری می‌شود.
+*/
+
+if(GOOGLE_API_KEY !== ""){
+
+    googleMap = L.tileLayer(
+
+        'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+
+        {
+            attribution:'Google Maps',
+            maxZoom:20
+        }
+
+    );
+
+
+    googleSatellite = L.tileLayer(
+
+        'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+
+        {
+            attribution:'Google Satellite',
+            maxZoom:20
+        }
+
+    );
+
+}
+
+
+/* OpenStreetMap */
+
+const osm = L.tileLayer(
+
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+    {
+
+        attribution:
+        '&copy; OpenStreetMap contributors',
+
+        maxZoom:19
+
+    }
+
+);
+
+
+/* Esri Satellite */
+
+const esriSatellite = L.tileLayer(
+
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+
+    {
+
+        attribution:
+        'Tiles &copy; Esri',
+
+        maxZoom:19
+
+    }
+
+);
+
+
+/* Dark GIS */
 
 const darkMap = L.tileLayer(
-'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-{
-    attribution:'© OpenStreetMap © CARTO',
-    maxZoom:19
+
+    'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+
+    {
+
+        attribution:
+        '&copy; OpenStreetMap &copy; CARTO',
+
+        maxZoom:19
+
+    }
+
+);
+
+
+/*
+    پیش‌فرض:
+    Dark GIS
+*/
+
+darkMap.addTo(map);
+
+
+/* =========================================================
+   BASEMAP CHANGE
+========================================================= */
+
+function changeBaseMap(type){
+
+    map.eachLayer(function(layer){
+
+        if(
+
+            layer === osm ||
+
+            layer === esriSatellite ||
+
+            layer === darkMap ||
+
+            layer === googleMap ||
+
+            layer === googleSatellite
+
+        ){
+
+            map.removeLayer(layer);
+
+        }
+
+    });
+
+
+    if(type === 'google'){
+
+        if(googleMap){
+
+            googleMap.addTo(map);
+
+        }else{
+
+            alert(
+                'برای Google Maps باید API Key وارد شود.'
+            );
+
+            darkMap.addTo(map);
+
+            document.getElementById(
+                'baseMapSelect'
+            ).value='dark';
+
+        }
+
+    }
+
+
+    else if(type === 'googleSatellite'){
+
+        if(googleSatellite){
+
+            googleSatellite.addTo(map);
+
+        }else{
+
+            alert(
+                'برای Google Satellite باید API Key وارد شود.'
+            );
+
+            darkMap.addTo(map);
+
+            document.getElementById(
+                'baseMapSelect'
+            ).value='dark';
+
+        }
+
+    }
+
+
+    else if(type === 'osm'){
+
+        osm.addTo(map);
+
+    }
+
+
+    else if(type === 'esriSatellite'){
+
+        esriSatellite.addTo(map);
+
+    }
+
+
+    else if(type === 'dark'){
+
+        darkMap.addTo(map);
+
+    }
+
 }
-).addTo(map);
 
 
-const satellite = L.tileLayer(
-'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-{
-    attribution:'© Esri',
-    maxZoom:19
-});
 
+/* =========================================================
+   LAYERS
+========================================================= */
 
-L.control.zoom({
-    position:'bottomleft'
-}).addTo(map);
-
-
-/* LAYERS */
-
-let layers = {
+let layers={
 
     postLayer:null,
+
     lineLayer:null,
+
     towerLayer:null,
+
     plantLayer:null,
+
     fiberLayer:null,
+
     incidentLayer:null,
+
     boundaryLayer:null
 
 };
 
 
-/* FILE PATHS */
+/* =========================================================
+   GEOJSON FILE PATHS
+========================================================= */
 
-const layerFiles = {
+const layerFiles={
 
-    postLayer:'data/post.geojson',
+    postLayer:
+    'data/post.geojson',
 
-    lineLayer:'data/line.geojson',
+    lineLayer:
+    'data/line.geojson',
 
-    towerLayer:'data/tower.geojson',
+    towerLayer:
+    'data/tower.geojson',
 
-    plantLayer:'data/powerplant.geojson',
+    plantLayer:
+    'data/powerplant.geojson',
 
-    fiberLayer:'data/fiber.geojson',
+    fiberLayer:
+    'data/fiber.geojson',
 
-    incidentLayer:'data/incident.geojson',
+    incidentLayer:
+    'data/incident.geojson',
 
-    boundaryLayer:'data/shahrestan.geojson'
-
-};
-
-
-/* STYLES */
-
-const styles = {
-
-    postLayer:{
-        radius:7,
-        fillOpacity:.9
-    },
-
-    towerLayer:{
-        radius:4,
-        fillOpacity:.9
-    },
-
-    plantLayer:{
-        radius:8,
-        fillOpacity:.9
-    }
+    boundaryLayer:
+    'data/shahrestan.geojson'
 
 };
 
 
-/* LOAD LAYER */
+/* =========================================================
+   LOAD LAYER
+========================================================= */
 
 function loadLayer(id){
 
     if(layers[id]){
-        map.addLayer(layers[id]);
+
+        map.addLayer(
+            layers[id]
+        );
+
         return;
+
     }
 
-    const file = layerFiles[id];
+
+    const file=layerFiles[id];
+
 
     fetch(file)
 
-    .then(response => {
+    .then(response=>{
 
-        if(!response.ok)
-            throw new Error('File not found');
+        if(!response.ok){
+
+            throw new Error(
+                'File not found'
+            );
+
+        }
 
         return response.json();
 
     })
 
-    .then(data => {
 
-        layers[id] = L.geoJSON(data,{
+    .then(data=>{
 
-            style:function(feature){
+        layers[id]=L.geoJSON(
 
-                if(id === 'lineLayer')
-                    return {
-                        weight:3
-                    };
+            data,
 
-                if(id === 'boundaryLayer')
-                    return {
-                        weight:1,
-                        fillOpacity:.05
-                    };
+            {
 
-                return {};
-            },
+                style:function(feature){
 
-            pointToLayer:function(feature,latlng){
+                    if(id==='lineLayer'){
 
-                if(id === 'towerLayer')
+                        return{
+
+                            weight:3,
+
+                            opacity:.9
+
+                        };
+
+                    }
+
+
+                    if(id==='boundaryLayer'){
+
+                        return{
+
+                            weight:1,
+
+                            fillOpacity:.04
+
+                        };
+
+                    }
+
+
+                    if(id==='fiberLayer'){
+
+                        return{
+
+                            weight:2,
+
+                            dashArray:'5,5'
+
+                        };
+
+                    }
+
+
+                    return{};
+
+                },
+
+
+                pointToLayer:
+                function(feature,latlng){
+
+                    if(id==='towerLayer'){
+
+                        return L.circleMarker(
+
+                            latlng,
+
+                            {
+
+                                radius:4,
+
+                                fillOpacity:.9
+
+                            }
+
+                        );
+
+                    }
+
+
+                    if(id==='postLayer'){
+
+                        return L.circleMarker(
+
+                            latlng,
+
+                            {
+
+                                radius:8,
+
+                                fillOpacity:.9
+
+                            }
+
+                        );
+
+                    }
+
+
+                    if(id==='plantLayer'){
+
+                        return L.circleMarker(
+
+                            latlng,
+
+                            {
+
+                                radius:9,
+
+                                fillOpacity:.9
+
+                            }
+
+                        );
+
+                    }
+
+
                     return L.circleMarker(
+
                         latlng,
+
                         {
-                            radius:4
+
+                            radius:6
+
                         }
+
                     );
 
-                if(id === 'postLayer')
-                    return L.circleMarker(
-                        latlng,
-                        {
-                            radius:7
+                },
+
+
+                onEachFeature:
+                function(feature,layer){
+
+                    layer.on(
+
+                        'click',
+
+                        function(){
+
+                            showFeatureInfo(
+
+                                feature.properties
+
+                            );
+
                         }
+
                     );
 
-                if(id === 'plantLayer')
-                    return L.circleMarker(
-                        latlng,
-                        {
-                            radius:9
-                        }
-                    );
-
-                return L.circleMarker(latlng);
-            },
-
-            onEachFeature:function(feature,layer){
-
-                layer.on('click',function(){
-
-                    showFeatureInfo(feature.properties);
-
-                });
+                }
 
             }
 
-        }).addTo(map);
+        ).addTo(map);
 
-        if(layers[id].getBounds().isValid())
+
+        const bounds=
+        layers[id].getBounds();
+
+
+        if(bounds.isValid()){
+
             map.fitBounds(
-                layers[id].getBounds(),
+
+                bounds,
+
                 {
+
                     padding:[30,30]
+
                 }
+
             );
+
+        }
 
     })
 
-    .catch(error => {
+
+    .catch(error=>{
 
         alert(
-            'فایل لایه پیدا نشد:\n'+file+
-            '\n\nابتدا فایل را در پوشه data قرار دهید.'
+
+            'فایل لایه پیدا نشد:\n\n'+
+
+            file+
+
+            '\n\nفایل را در پوشه data قرار دهید.'
+
         );
 
-        document.getElementById(id).checked=false;
+
+        document
+        .getElementById(id)
+        .checked=false;
 
     });
 
 }
 
 
-/* TOGGLE */
+/* =========================================================
+   TOGGLE LAYER
+========================================================= */
 
 function toggleLayer(id){
 
-    const checkbox =
-        document.getElementById(id);
+    const checkbox=
+    document.getElementById(id);
+
 
     if(checkbox.checked){
 
         loadLayer(id);
 
-    }else{
+    }
 
-        if(layers[id])
-            map.removeLayer(layers[id]);
+    else{
+
+        if(layers[id]){
+
+            map.removeLayer(
+                layers[id]
+            );
+
+        }
 
     }
 
 }
 
 
-/* FEATURE INFO */
+/* =========================================================
+   FEATURE INFO
+========================================================= */
 
 function showFeatureInfo(properties){
 
-    const panel =
-        document.getElementById('infoPanel');
+    const panel=
+    document.getElementById(
+        'infoPanel'
+    );
 
-    const content =
-        document.getElementById('infoContent');
+
+    const content=
+    document.getElementById(
+        'infoContent'
+    );
+
 
     content.innerHTML='';
 
-    if(!properties ||
-       Object.keys(properties).length===0){
+
+    if(
+
+        !properties ||
+
+        Object.keys(properties).length===0
+
+    ){
 
         content.innerHTML=
-        '<div class="infoRow">اطلاعاتی ثبت نشده است.</div>';
 
-    }else{
+        '<div class="infoRow">'+
 
-        Object.entries(properties)
-        .forEach(([key,value])=>{
+        'اطلاعاتی برای این عارضه ثبت نشده است.'+
 
-            content.innerHTML +=
-            `
-            <div class="infoRow">
-            <strong>${key}:</strong>
-            ${value ?? ''}
-            </div>
-            `;
-
-        });
+        '</div>';
 
     }
+
+    else{
+
+        Object.entries(
+            properties
+        )
+
+        .forEach(
+
+            ([key,value])=>{
+
+                content.innerHTML+=
+
+                `
+
+                <div class="infoRow">
+
+                    <strong>${key}</strong>
+
+                    <br>
+
+                    ${value ?? ''}
+
+                </div>
+
+                `;
+
+            }
+
+        );
+
+    }
+
 
     panel.style.display='block';
 
 }
 
 
-/* SEARCH */
+/* =========================================================
+   SEARCH
+========================================================= */
 
 function searchMap(){
 
-    const text =
-        document
-        .getElementById('searchInput')
-        .value
-        .trim()
-        .toLowerCase();
+    const text=
+
+    document
+    .getElementById(
+        'searchInput'
+    )
+    .value
+    .trim()
+    .toLowerCase();
+
 
     if(!text){
-        alert('عبارت جستجو را وارد کنید.');
+
+        alert(
+            'عبارت جستجو را وارد کنید.'
+        );
+
         return;
+
     }
+
 
     let found=false;
 
+
     Object.values(layers)
+
     .forEach(layer=>{
 
-        if(!layer) return;
+        if(!layer)
+            return;
+
 
         layer.eachLayer(item=>{
 
-            if(!item.feature ||
-               !item.feature.properties)
+            if(
+
+                !item.feature ||
+
+                !item.feature.properties
+
+            )
                 return;
 
-            const properties =
-                item.feature.properties;
 
-            const values =
-                Object.values(properties)
-                .join(' ')
-                .toLowerCase();
+            const properties=
+            item.feature.properties;
+
+
+            const values=
+
+            Object.values(
+                properties
+            )
+
+            .join(' ')
+            .toLowerCase();
+
 
             if(values.includes(text)){
 
                 found=true;
 
+
                 if(item.getLatLng){
 
                     map.setView(
+
                         item.getLatLng(),
+
                         14
+
                     );
 
-                    item.openPopup?.();
 
-                    showFeatureInfo(properties);
+                    showFeatureInfo(
+                        properties
+                    );
 
                 }
 
@@ -1025,102 +1935,170 @@ function searchMap(){
 
     });
 
-    if(!found)
-        alert('عارضه موردنظر پیدا نشد.');
+
+    if(!found){
+
+        alert(
+            'عارضه موردنظر پیدا نشد.'
+        );
+
+    }
 
 }
 
 
-/* LOCATION */
+/* =========================================================
+   USER LOCATION
+========================================================= */
 
 function locateUser(){
 
     map.locate({
+
         setView:true,
+
         maxZoom:15
+
     });
 
 }
 
 
-map.on('locationfound',function(e){
+map.on(
 
-    L.marker(e.latlng)
-    .addTo(map)
-    .bindPopup('موقعیت فعلی')
-    .openPopup();
+    'locationfound',
 
-});
+    function(e){
 
+        L.marker(
+            e.latlng
+        )
 
-/* COORDINATES */
+        .addTo(map)
 
-map.on('mousemove',function(e){
+        .bindPopup(
+            'موقعیت فعلی'
+        )
 
-    document
-    .getElementById('coordinates')
-    .innerText =
-    'مختصات: '+
-    e.latlng.lat.toFixed(5)+
-    ' , '+
-    e.latlng.lng.toFixed(5);
+        .openPopup();
 
-});
+    }
+
+);
 
 
-/* HOME */
+/* =========================================================
+   COORDINATES
+========================================================= */
+
+map.on(
+
+    'mousemove',
+
+    function(e){
+
+        document
+        .getElementById(
+            'coordinates'
+        )
+        .innerText=
+
+        'مختصات: '+
+
+        e.latlng.lat.toFixed(5)+
+
+        ' , '+
+
+        e.latlng.lng.toFixed(5);
+
+    }
+
+);
+
+
+/* =========================================================
+   HOME
+========================================================= */
 
 function goHome(){
 
     map.setView(
+
         [29.6,52.5],
+
         7
+
     );
 
 }
 
 
-/* CLEAR */
+/* =========================================================
+   CLEAR
+========================================================= */
 
 function clearMap(){
 
     Object.values(layers)
+
     .forEach(layer=>{
 
-        if(layer)
-            map.removeLayer(layer);
+        if(layer){
+
+            map.removeLayer(
+                layer
+            );
+
+        }
 
     });
+
 
     document
     .querySelectorAll(
         '.layer input'
     )
+
     .forEach(input=>{
+
         input.checked=false;
+
     });
 
+
     document
-    .getElementById('infoPanel')
+    .getElementById(
+        'infoPanel'
+    )
     .style.display='none';
 
 }
 
 
-/* ACTIVITY */
+/* =========================================================
+   ACTIVITIES
+========================================================= */
 
 function showActivity(name){
 
     alert(
-        'بخش «'+name+
+
+        'بخش «'+
+
+        name+
+
         '» انتخاب شد.\n\n'+
-        'در مرحله بعد می‌توانیم این بخش را به فولدر، فایل، فرم یا سامانه مربوطه متصل کنیم.'
+
+        'در مرحله بعد می‌توان این بخش را به فایل، فولدر، فرم، قرارداد یا سامانه مربوطه متصل کرد.'
+
     );
 
 }
 
 
-/* LINKS */
+/* =========================================================
+   LINKS
+========================================================= */
 
 function openLink(url){
 
@@ -1131,22 +2109,31 @@ function openLink(url){
         );
 
         return;
+
     }
 
+
     window.open(
+
         url,
+
         '_blank'
+
     );
 
 }
 
 
-/* ADD LAYER */
+/* =========================================================
+   ADD GEOJSON
+========================================================= */
 
 function openAddLayer(){
 
     document
-    .getElementById('layerModal')
+    .getElementById(
+        'layerModal'
+    )
     .style.display='flex';
 
 }
@@ -1155,7 +2142,9 @@ function openAddLayer(){
 function closeAddLayer(){
 
     document
-    .getElementById('layerModal')
+    .getElementById(
+        'layerModal'
+    )
     .style.display='none';
 
 }
@@ -1163,93 +2152,157 @@ function closeAddLayer(){
 
 function loadGeoJSON(){
 
-    const fileInput =
-        document.getElementById('geojsonFile');
+    const fileInput=
+    document.getElementById(
+        'geojsonFile'
+    );
 
-    const title =
-        document
-        .getElementById('layerTitle')
-        .value ||
-        'لایه جدید';
 
-    if(!fileInput.files.length){
+    const title=
 
-        alert('ابتدا فایل GeoJSON را انتخاب کنید.');
+    document
+    .getElementById(
+        'layerTitle'
+    )
+    .value ||
+
+    'لایه جدید';
+
+
+    if(
+        !fileInput.files.length
+    ){
+
+        alert(
+            'ابتدا فایل GeoJSON را انتخاب کنید.'
+        );
 
         return;
+
     }
 
-    const file =
-        fileInput.files[0];
 
-    const reader =
-        new FileReader();
+    const file=
+    fileInput.files[0];
+
+
+    const reader=
+    new FileReader();
+
 
     reader.onload=function(e){
 
         try{
 
-            const data =
-                JSON.parse(e.target.result);
+            const data=
+            JSON.parse(
+                e.target.result
+            );
 
-            const layer =
-                L.geoJSON(data,{
+
+            const layer=
+
+            L.geoJSON(
+
+                data,
+
+                {
 
                     style:{
+
                         weight:3
+
                     },
 
-                    pointToLayer:function(
+
+                    pointToLayer:
+
+                    function(
                         feature,
                         latlng
                     ){
 
                         return L.circleMarker(
+
                             latlng,
+
                             {
+
                                 radius:6
+
                             }
+
                         );
 
                     },
 
-                    onEachFeature:function(
+
+                    onEachFeature:
+
+                    function(
                         feature,
                         layer
                     ){
 
                         layer.on(
+
                             'click',
+
                             function(){
 
                                 showFeatureInfo(
+
                                     feature.properties
+
                                 );
 
                             }
+
                         );
 
                     }
 
-                }).addTo(map);
+                }
 
-            if(layer.getBounds().isValid())
+            ).addTo(map);
+
+
+            if(
+                layer.getBounds().isValid()
+            ){
+
                 map.fitBounds(
+
                     layer.getBounds(),
+
                     {
+
                         padding:[30,30]
+
                     }
+
                 );
 
+            }
+
+
             alert(
+
                 'لایه «'+
+
                 title+
-                '» با موفقیت به نقشه اضافه شد.'
+
+                '» با موفقیت اضافه شد.'
+
             );
+
 
             closeAddLayer();
 
-        }catch(error){
+
+        }
+
+        catch(error){
 
             alert(
                 'ساختار فایل GeoJSON معتبر نیست.'
@@ -1259,43 +2312,64 @@ function loadGeoJSON(){
 
     };
 
+
     reader.readAsText(file);
 
 }
 
 
-/* DRAW */
+/* =========================================================
+   DRAW TOOLS
+========================================================= */
 
-const drawnItems =
-    new L.FeatureGroup();
-
-map.addLayer(drawnItems);
-
-
-const drawControl =
-    new L.Control.Draw({
-
-        draw:{
-            polygon:true,
-            polyline:true,
-            rectangle:false,
-            circle:false,
-            marker:false,
-            circlemarker:false
-        },
-
-        edit:{
-            featureGroup:drawnItems
-        }
-
-    });
+const drawnItems=
+new L.FeatureGroup();
 
 
-map.addControl(drawControl);
+map.addLayer(
+    drawnItems
+);
+
+
+const drawControl=
+
+new L.Control.Draw({
+
+    draw:{
+
+        polygon:true,
+
+        polyline:true,
+
+        rectangle:false,
+
+        circle:false,
+
+        marker:false,
+
+        circlemarker:false
+
+    },
+
+    edit:{
+
+        featureGroup:
+        drawnItems
+
+    }
+
+});
+
+
+map.addControl(
+    drawControl
+);
 
 
 map.on(
+
     L.Draw.Event.CREATED,
+
     function(e){
 
         drawnItems.addLayer(
@@ -1303,24 +2377,32 @@ map.on(
         );
 
     }
+
 );
 
 
-/* ESC CLOSE INFO */
+/* =========================================================
+   ESC
+========================================================= */
 
 document.addEventListener(
+
     'keydown',
+
     function(e){
 
         if(e.key==='Escape'){
 
             document
-            .getElementById('infoPanel')
+            .getElementById(
+                'infoPanel'
+            )
             .style.display='none';
 
         }
 
     }
+
 );
 
 </script>
