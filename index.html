@@ -4,7 +4,9 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>داشبورد مکانی GIS صنعت برق</title>
 
@@ -14,21 +16,51 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
 
+
 <style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
 
 *{
     box-sizing:border-box;
 }
 
+html,
 body{
+    width:100%;
+    height:100%;
     margin:0;
-    font-family:Tahoma,Arial,sans-serif;
+    padding:0;
+}
+
+body{
+    font-family:
+    Tahoma,
+    Arial,
+    sans-serif;
+
     background:#07131e;
     color:#e8f2f7;
+
     overflow:hidden;
 }
 
-/* ================= HEADER ================= */
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+button{
+    -webkit-tap-highlight-color:transparent;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 .header{
 
@@ -36,10 +68,10 @@ body{
 
     background:
     linear-gradient(
-        90deg,
-        #07151f,
-        #0b202d,
-        #0b1823
+        135deg,
+        #06131e,
+        #0b2533,
+        #081923
     );
 
     border-bottom:1px solid #244658;
@@ -48,37 +80,41 @@ body{
     align-items:center;
     justify-content:space-between;
 
-    padding:0 20px;
+    padding:0 18px;
 
     position:relative;
 
-    z-index:1000;
+    z-index:2000;
+
+    box-shadow:
+    0 4px 20px #0005;
 }
+
 
 .logo{
 
     display:flex;
     align-items:center;
+    gap:11px;
 
-    gap:12px;
-
-    font-size:17px;
-
-    font-weight:bold;
+    min-width:0;
 }
+
 
 .logoIcon{
 
     width:42px;
     height:42px;
 
+    flex:none;
+
     border-radius:11px;
 
     background:
     linear-gradient(
         145deg,
-        #0a9b9b,
-        #075e73
+        #11a6a2,
+        #07566c
     );
 
     display:flex;
@@ -88,28 +124,43 @@ body{
     font-size:22px;
 
     box-shadow:
-    0 0 15px #0b8b9255;
+    0 0 18px #0b8b9255;
 }
 
-.logo small{
+
+.logoText{
+
+    min-width:0;
+}
+
+
+.logoTitle{
+
+    font-size:16px;
+    font-weight:bold;
+
+    white-space:nowrap;
+}
+
+
+.logoSub{
 
     display:block;
 
     color:#819eae;
 
-    font-size:10px;
+    font-size:9px;
 
     margin-top:4px;
-
-    font-weight:normal;
 }
+
 
 .headerButtons{
 
     display:flex;
-
-    gap:8px;
+    gap:7px;
 }
+
 
 .headerBtn{
 
@@ -121,94 +172,137 @@ body{
 
     border-radius:8px;
 
-    padding:8px 13px;
+    padding:8px 12px;
 
     cursor:pointer;
 
     transition:.2s;
+
+    min-height:38px;
 }
+
 
 .headerBtn:hover{
 
     background:#174257;
-
     border-color:#3c7388;
 }
 
-/* ================= MAIN ================= */
+
+.mobileMenuBtn{
+
+    display:none;
+
+    width:42px;
+    height:42px;
+
+    background:#102b3a;
+
+    border:1px solid #2a5265;
+
+    color:#dff5fa;
+
+    border-radius:9px;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
 
 .main{
 
     height:calc(100vh - 64px);
 
     display:flex;
+
+    position:relative;
 }
 
-/* ================= SIDEBAR ================= */
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
 
 .sidebar{
 
     width:310px;
 
+    flex:none;
+
     background:
     linear-gradient(
         180deg,
-        #0a1925,
-        #091722
+        #091a26,
+        #071620
     );
 
     border-left:1px solid #203e4f;
 
-    padding:14px;
+    padding:13px;
 
     overflow-y:auto;
 
-    z-index:900;
+    z-index:1500;
+
+    transition:
+    transform .3s ease;
 }
+
 
 .sidebar::-webkit-scrollbar{
-    width:6px;
+    width:5px;
 }
 
+
 .sidebar::-webkit-scrollbar-thumb{
+
     background:#244a5d;
     border-radius:10px;
 }
+
 
 .section{
 
     margin-bottom:17px;
 }
 
+
 .sectionTitle{
 
-    font-size:13px;
+    font-size:12px;
 
     color:#83c3d0;
 
-    margin-bottom:9px;
+    margin-bottom:8px;
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
+    justify-content:space-between;
 }
 
-/* ================= SEARCH ================= */
+
+/* =====================================================
+   SEARCH
+===================================================== */
 
 .searchBox{
 
     display:flex;
-
     gap:5px;
-
-    margin-bottom:8px;
 }
+
 
 .searchBox input{
 
     flex:1;
+
+    min-width:0;
 
     background:#07141e;
 
@@ -218,19 +312,22 @@ body{
 
     padding:10px;
 
-    border-radius:7px;
+    border-radius:8px;
 
     outline:none;
-
-    font-family:inherit;
 
     font-size:11px;
 }
 
+
 .searchBox input:focus{
 
     border-color:#1aa5a7;
+
+    box-shadow:
+    0 0 0 2px #1aa5a720;
 }
+
 
 .searchBox button{
 
@@ -240,14 +337,79 @@ body{
 
     color:white;
 
-    border-radius:7px;
+    border-radius:8px;
 
-    padding:0 12px;
+    padding:0 13px;
 
     cursor:pointer;
+
+    min-width:70px;
 }
 
-/* ================= LAYERS ================= */
+
+.searchBox button:hover{
+
+    background:#0a999e;
+}
+
+
+/* =====================================================
+   KPI CARDS
+===================================================== */
+
+.kpiGrid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:6px;
+}
+
+
+.kpi{
+
+    background:
+    linear-gradient(
+        145deg,
+        #0d2736,
+        #0a202d
+    );
+
+    border:1px solid #1d4353;
+
+    border-radius:9px;
+
+    padding:9px;
+
+    min-width:0;
+}
+
+
+.kpiValue{
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    color:#71d2d0;
+
+    margin-bottom:3px;
+}
+
+
+.kpiLabel{
+
+    color:#7f9aaa;
+
+    font-size:9px;
+}
+
+
+/* =====================================================
+   LAYERS
+===================================================== */
 
 .layer{
 
@@ -269,8 +431,11 @@ body{
 
     gap:8px;
 
+    min-height:39px;
+
     transition:.2s;
 }
+
 
 .layer:hover{
 
@@ -279,30 +444,41 @@ body{
     border-color:#286074;
 }
 
+
 .layer input{
 
     accent-color:#19aaa4;
 
     cursor:pointer;
+
+    width:15px;
+    height:15px;
 }
+
 
 .layerName{
 
     flex:1;
 
-    font-size:11px;
+    font-size:10px;
 }
+
 
 .layerIcon{
 
-    font-size:15px;
+    font-size:14px;
 
     width:22px;
 
     text-align:center;
+
+    flex:none;
 }
 
-/* ================= ACTIVITY ================= */
+
+/* =====================================================
+   ACTIVITY
+===================================================== */
 
 .activity{
 
@@ -316,12 +492,13 @@ body{
 
     margin-bottom:6px;
 
-    font-size:11px;
+    font-size:10px;
 
     cursor:pointer;
 
     transition:.2s;
 }
+
 
 .activity:hover{
 
@@ -330,31 +507,41 @@ body{
     border-color:#2a6275;
 }
 
-/* ================= MAP ================= */
+
+/* =====================================================
+   MAP
+===================================================== */
 
 .mapArea{
 
     flex:1;
 
+    min-width:0;
+
     position:relative;
+
+    overflow:hidden;
 }
+
 
 #map{
 
     width:100%;
-
     height:100%;
 }
 
-/* ================= MAP TOOLBAR ================= */
+
+/* =====================================================
+   MAP TOOLBAR
+===================================================== */
 
 .mapToolbar{
 
     position:absolute;
 
-    top:15px;
+    top:14px;
 
-    right:15px;
+    right:14px;
 
     z-index:700;
 
@@ -364,14 +551,18 @@ body{
 
     border-radius:10px;
 
-    padding:7px;
+    padding:6px;
 
     display:flex;
 
     gap:5px;
 
     backdrop-filter:blur(8px);
+
+    box-shadow:
+    0 8px 25px #0005;
 }
+
 
 .toolBtn{
 
@@ -387,23 +578,29 @@ body{
 
     cursor:pointer;
 
-    font-size:11px;
+    font-size:10px;
+
+    min-height:36px;
 }
+
 
 .toolBtn:hover{
 
     background:#175064;
 }
 
-/* ================= BASE MAP SELECTOR ================= */
+
+/* =====================================================
+   BASEMAP
+===================================================== */
 
 .baseMapBox{
 
     position:absolute;
 
-    top:75px;
+    top:72px;
 
-    right:15px;
+    right:14px;
 
     z-index:700;
 
@@ -418,16 +615,21 @@ body{
     width:185px;
 
     backdrop-filter:blur(8px);
+
+    box-shadow:
+    0 8px 25px #0005;
 }
+
 
 .baseMapTitle{
 
     color:#83c3d0;
 
-    font-size:11px;
+    font-size:10px;
 
     margin-bottom:7px;
 }
+
 
 .baseMapSelect{
 
@@ -443,22 +645,23 @@ body{
 
     padding:8px;
 
-    font-family:Tahoma;
-
-    font-size:11px;
+    font-size:10px;
 
     outline:none;
 }
 
-/* ================= INFO ================= */
+
+/* =====================================================
+   INFO PANEL
+===================================================== */
 
 .infoPanel{
 
     position:absolute;
 
-    bottom:38px;
+    bottom:40px;
 
-    right:18px;
+    right:15px;
 
     width:330px;
 
@@ -466,7 +669,7 @@ body{
 
     overflow:auto;
 
-    background:#091b27f2;
+    background:#091b27f5;
 
     backdrop-filter:blur(10px);
 
@@ -474,29 +677,55 @@ body{
 
     border-radius:12px;
 
-    padding:15px;
+    padding:14px;
 
     z-index:700;
 
     display:none;
 
-    box-shadow:0 8px 30px #0008;
+    box-shadow:
+    0 8px 30px #0008;
 }
+
+
+.infoClose{
+
+    position:absolute;
+
+    left:8px;
+
+    top:7px;
+
+    width:28px;
+    height:28px;
+
+    border:0;
+
+    background:#163344;
+
+    color:white;
+
+    border-radius:6px;
+
+    cursor:pointer;
+}
+
 
 .infoTitle{
 
-    font-size:14px;
+    font-size:13px;
 
     font-weight:bold;
 
     color:#73d1d0;
 
-    margin-bottom:12px;
+    margin-bottom:10px;
 
     border-bottom:1px solid #254454;
 
     padding-bottom:9px;
 }
+
 
 .infoRow{
 
@@ -509,13 +738,16 @@ body{
     line-height:1.8;
 }
 
+
 .infoRow strong{
 
     color:#86aabd;
-
 }
 
-/* ================= STATUS ================= */
+
+/* =====================================================
+   STATUS
+===================================================== */
 
 .statusBar{
 
@@ -524,10 +756,9 @@ body{
     bottom:0;
 
     left:0;
-
     right:0;
 
-    height:28px;
+    height:27px;
 
     background:#07151fef;
 
@@ -541,14 +772,47 @@ body{
 
     justify-content:space-between;
 
-    padding:0 12px;
+    padding:0 11px;
 
-    font-size:9px;
+    font-size:8px;
 
     color:#7895a6;
+
+    pointer-events:none;
 }
 
-/* ================= MODAL ================= */
+
+/* =====================================================
+   MOBILE BOTTOM NAV
+===================================================== */
+
+.mobileBottomNav{
+
+    display:none;
+}
+
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+.sidebarOverlay{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:#0008;
+
+    z-index:1400;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
 
 .modal{
 
@@ -565,13 +829,16 @@ body{
     justify-content:center;
 
     z-index:3000;
+
+    padding:15px;
 }
+
 
 .modalBox{
 
     width:420px;
 
-    max-width:90%;
+    max-width:100%;
 
     background:#0d202e;
 
@@ -581,8 +848,10 @@ body{
 
     padding:20px;
 
-    box-shadow:0 20px 60px #000;
+    box-shadow:
+    0 20px 60px #000;
 }
+
 
 .modalBox h3{
 
@@ -591,12 +860,14 @@ body{
     color:#7bd1d0;
 }
 
+
 .modalBox p{
 
     color:#91aab7;
 
-    font-size:11px;
+    font-size:10px;
 }
+
 
 .modalBox input{
 
@@ -614,8 +885,9 @@ body{
 
     margin:7px 0;
 
-    font-family:Tahoma;
+    outline:none;
 }
+
 
 .modalButtons{
 
@@ -628,6 +900,7 @@ body{
     margin-top:12px;
 }
 
+
 .btn{
 
     border:none;
@@ -638,8 +911,9 @@ body{
 
     cursor:pointer;
 
-    font-family:Tahoma;
+    min-height:38px;
 }
+
 
 .btnPrimary{
 
@@ -648,6 +922,7 @@ body{
     color:white;
 }
 
+
 .btnCancel{
 
     background:#203442;
@@ -655,35 +930,350 @@ body{
     color:white;
 }
 
-/* ================= MOBILE ================= */
 
-@media(max-width:800px){
+/* =====================================================
+   LEAFLET CUSTOM
+===================================================== */
+
+.leaflet-control-zoom{
+
+    margin-top:130px !important;
+}
+
+
+.leaflet-control-zoom a{
+
+    background:#102b3a !important;
+
+    color:#d9edf4 !important;
+
+    border-color:#315365 !important;
+}
+
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip{
+
+    background:#0d202e;
+
+    color:#e8f2f7;
+}
+
+
+.leaflet-popup-content{
+
+    font-family:Tahoma;
+
+    font-size:11px;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media(max-width:1000px){
 
     .sidebar{
-        width:250px;
+
+        width:275px;
     }
 
-    .logo span{
+    .logoSub{
+
         display:none;
     }
+
+    .headerBtn{
+
+        padding:7px 9px;
+        font-size:10px;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+    body{
+        overflow:hidden;
+    }
+
+
+    .header{
+
+        height:58px;
+
+        padding:
+        0 9px;
+    }
+
+
+    .logoIcon{
+
+        width:37px;
+        height:37px;
+
+        border-radius:9px;
+
+        font-size:19px;
+    }
+
+
+    .logoTitle{
+
+        font-size:12px;
+    }
+
+
+    .logoSub{
+
+        display:none;
+    }
+
 
     .headerButtons{
+
         display:none;
     }
 
-    .mapToolbar{
-        top:10px;
-        right:10px;
+
+    .mobileMenuBtn{
+
+        display:block;
     }
+
+
+    .main{
+
+        height:calc(100vh - 58px);
+    }
+
+
+    .sidebar{
+
+        position:fixed;
+
+        top:58px;
+
+        right:0;
+
+        bottom:0;
+
+        width:
+        min(310px,88vw);
+
+        transform:
+        translateX(105%);
+
+        box-shadow:
+        -10px 0 35px #0009;
+
+        z-index:1500;
+    }
+
+
+    .sidebar.open{
+
+        transform:
+        translateX(0);
+    }
+
+
+    .sidebarOverlay.active{
+
+        display:block;
+    }
+
+
+    .mapArea{
+
+        width:100%;
+
+        height:100%;
+    }
+
+
+    .mapToolbar{
+
+        top:10px;
+
+        right:8px;
+
+        left:8px;
+
+        justify-content:flex-start;
+
+        overflow-x:auto;
+
+        scrollbar-width:none;
+    }
+
+
+    .mapToolbar::-webkit-scrollbar{
+        display:none;
+    }
+
+
+    .toolBtn{
+
+        white-space:nowrap;
+
+        flex:none;
+
+        min-height:38px;
+
+        padding:8px 10px;
+    }
+
 
     .baseMapBox{
-        top:65px;
-        right:10px;
+
+        top:63px;
+
+        right:8px;
+
+        width:
+        min(190px,48vw);
     }
 
+
     .infoPanel{
-        width:270px;
-        right:10px;
+
+        left:8px;
+
+        right:8px;
+
+        bottom:55px;
+
+        width:auto;
+
+        max-height:43vh;
+
+        border-radius:12px;
+    }
+
+
+    .statusBar{
+
+        bottom:49px;
+
+        height:23px;
+
+        font-size:7px;
+    }
+
+
+    .mobileBottomNav{
+
+        position:absolute;
+
+        display:flex;
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        height:49px;
+
+        background:#071720f7;
+
+        border-top:1px solid #254655;
+
+        z-index:1200;
+
+        backdrop-filter:blur(10px);
+    }
+
+
+    .mobileNavBtn{
+
+        flex:1;
+
+        border:0;
+
+        background:transparent;
+
+        color:#8ba8b6;
+
+        font-size:9px;
+
+        cursor:pointer;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        justify-content:center;
+
+        gap:3px;
+    }
+
+
+    .mobileNavBtn span:first-child{
+
+        font-size:17px;
+    }
+
+
+    .mobileNavBtn.active,
+    .mobileNavBtn:hover{
+
+        color:#67d2d0;
+
+        background:#102d3a;
+    }
+
+
+    .leaflet-control-zoom{
+
+        margin-top:150px !important;
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
+
+@media(max-width:420px){
+
+    .logoTitle{
+
+        font-size:11px;
+    }
+
+
+    .baseMapBox{
+
+        width:150px;
+    }
+
+
+    .baseMapSelect{
+
+        padding:7px;
+
+        font-size:9px;
+    }
+
+
+    .kpiGrid{
+
+        grid-template-columns:1fr 1fr;
+    }
+
+
+    .infoPanel{
+
+        max-height:40vh;
     }
 
 }
@@ -692,12 +1282,16 @@ body{
 
 </head>
 
+
 <body>
 
 
-<!-- ================= HEADER ================= -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header class="header">
+
 
 <div class="logo">
 
@@ -705,15 +1299,16 @@ body{
 ⚡
 </div>
 
-<div>
 
-<span>
+<div class="logoText">
+
+<div class="logoTitle">
 داشبورد مکانی GIS صنعت برق
-</span>
+</div>
 
-<small>
+<span class="logoSub">
 سامانه مدیریت و کاربردی‌سازی اطلاعات مکانی
-</small>
+</span>
 
 </div>
 
@@ -741,16 +1336,34 @@ onclick="goHome()">
 
 </div>
 
+
+<button
+class="mobileMenuBtn"
+onclick="toggleSidebar()">
+
+☰
+
+</button>
+
+
 </header>
 
 
 
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
 <div class="main">
 
 
-<!-- ================= SIDEBAR ================= -->
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
-<aside class="sidebar">
+<aside
+class="sidebar"
+id="sidebar">
 
 
 <!-- SEARCH -->
@@ -758,18 +1371,122 @@ onclick="goHome()">
 <div class="section">
 
 <div class="sectionTitle">
+
+<span>
 🔎 جستجوی مکانی
+</span>
+
 </div>
+
 
 <div class="searchBox">
 
 <input
 id="searchInput"
-placeholder="نام پست، خط، دکل...">
+placeholder="نام پست، خط، دکل..."
+onkeydown="if(event.key==='Enter')searchMap()">
 
-<button onclick="searchMap()">
+
+<button
+onclick="searchMap()">
+
 جستجو
+
 </button>
+
+</div>
+
+</div>
+
+
+
+<!-- KPI -->
+
+<div class="section">
+
+<div class="sectionTitle">
+
+<span>
+📊 نمای کلی
+</span>
+
+</div>
+
+
+<div class="kpiGrid">
+
+
+<div class="kpi">
+
+<div
+class="kpiValue"
+id="kpiLayers">
+
+0
+
+</div>
+
+<div class="kpiLabel">
+
+لایه فعال
+
+</div>
+
+</div>
+
+
+<div class="kpi">
+
+<div
+class="kpiValue"
+id="kpiFeatures">
+
+0
+
+</div>
+
+<div class="kpiLabel">
+
+عارضه نمایشی
+
+</div>
+
+</div>
+
+
+<div class="kpi">
+
+<div class="kpiValue">
+
+GIS
+
+</div>
+
+<div class="kpiLabel">
+
+زیرساخت مکانی
+
+</div>
+
+</div>
+
+
+<div class="kpi">
+
+<div class="kpiValue">
+
+Web
+
+</div>
+
+<div class="kpiLabel">
+
+دسترسی سازمانی
+
+</div>
+
+</div>
+
 
 </div>
 
@@ -782,7 +1499,11 @@ placeholder="نام پست، خط، دکل...">
 <div class="section">
 
 <div class="sectionTitle">
+
+<span>
 🗺️ لایه‌های شبکه برق
+</span>
+
 </div>
 
 
@@ -915,16 +1636,21 @@ onchange="toggleLayer('boundaryLayer')">
 
 
 
-<!-- GIS ACTIVITIES -->
+<!-- ACTIVITIES -->
 
 <div class="section">
 
 <div class="sectionTitle">
+
+<span>
 🛠️ فعالیت‌های GIS
+</span>
+
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="showActivity('پاسخ به نامه‌ها')">
 
 ✉️ پاسخ به نامه‌ها
@@ -932,7 +1658,8 @@ onclick="showActivity('پاسخ به نامه‌ها')">
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="showActivity('بروزرسانی لایه‌های مکانی')">
 
 🔄 بروزرسانی لایه‌های مکانی
@@ -940,7 +1667,8 @@ onclick="showActivity('بروزرسانی لایه‌های مکانی')">
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="showActivity('فعالیت‌های قراردادی')">
 
 📑 فعالیت‌های قراردادی
@@ -948,7 +1676,8 @@ onclick="showActivity('فعالیت‌های قراردادی')">
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="showActivity('مدیریت فعالیت همکاران')">
 
 👥 مدیریت فعالیت همکاران
@@ -956,7 +1685,8 @@ onclick="showActivity('مدیریت فعالیت همکاران')">
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="showActivity('پروژه‌های GIS')">
 
 🗂️ پروژه‌های GIS
@@ -964,7 +1694,8 @@ onclick="showActivity('پروژه‌های GIS')">
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="showActivity('عملیاتی‌سازی GIS')">
 
 🌐 عملیاتی‌سازی GIS
@@ -980,11 +1711,16 @@ onclick="showActivity('عملیاتی‌سازی GIS')">
 <div class="section">
 
 <div class="sectionTitle">
+
+<span>
 🔗 لینک‌های کاربردی
+</span>
+
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="openLink('https://www.arcgis.com')">
 
 🌐 ArcGIS
@@ -992,7 +1728,8 @@ onclick="openLink('https://www.arcgis.com')">
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="openLink('#')">
 
 🌐 WebGIS شرکت
@@ -1000,7 +1737,8 @@ onclick="openLink('#')">
 </div>
 
 
-<div class="activity"
+<div
+class="activity"
 onclick="openLink('#')">
 
 📁 مخزن داده‌های GIS
@@ -1014,7 +1752,19 @@ onclick="openLink('#')">
 
 
 
-<!-- ================= MAP ================= -->
+<!-- OVERLAY -->
+
+<div
+class="sidebarOverlay"
+id="sidebarOverlay"
+onclick="closeSidebar()">
+</div>
+
+
+
+<!-- =====================================================
+     MAP
+===================================================== -->
 
 <main class="mapArea">
 
@@ -1023,7 +1773,7 @@ onclick="openLink('#')">
 
 
 
-<!-- MAP TOOLS -->
+<!-- MAP TOOLBAR -->
 
 <div class="mapToolbar">
 
@@ -1055,6 +1805,15 @@ onclick="clearMap()">
 </button>
 
 
+<button
+class="toolBtn"
+onclick="openAddLayer()">
+
+＋ لایه
+
+</button>
+
+
 </div>
 
 
@@ -1075,12 +1834,8 @@ class="baseMapSelect"
 id="baseMapSelect"
 onchange="changeBaseMap(this.value)">
 
-<option value="google">
-Google Maps
-</option>
-
-<option value="googleSatellite">
-Google Satellite
+<option value="dark">
+Dark GIS
 </option>
 
 <option value="osm">
@@ -1091,8 +1846,12 @@ OpenStreetMap
 Esri Satellite
 </option>
 
-<option value="dark">
-Dark GIS
+<option value="google">
+Google Maps
+</option>
+
+<option value="googleSatellite">
+Google Satellite
 </option>
 
 </select>
@@ -1101,15 +1860,27 @@ Dark GIS
 
 
 
-<!-- INFO PANEL -->
+<!-- INFO -->
 
 <div
 id="infoPanel"
 class="infoPanel">
 
+
+<button
+class="infoClose"
+onclick="closeInfo()">
+
+×
+</button>
+
+
 <div class="infoTitle">
+
 اطلاعات عارضه
+
 </div>
+
 
 <div id="infoContent"></div>
 
@@ -1132,23 +1903,88 @@ class="infoPanel">
 </div>
 
 
+
+<!-- MOBILE NAV -->
+
+<div class="mobileBottomNav">
+
+
+<button
+class="mobileNavBtn active"
+onclick="mobileMap()">
+
+<span>🗺️</span>
+<span>نقشه</span>
+
+</button>
+
+
+<button
+class="mobileNavBtn"
+onclick="mobileLayers()">
+
+<span>🗂️</span>
+<span>لایه‌ها</span>
+
+</button>
+
+
+<button
+class="mobileNavBtn"
+onclick="mobileSearch()">
+
+<span>🔎</span>
+<span>جستجو</span>
+
+</button>
+
+
+<button
+class="mobileNavBtn"
+onclick="openAddLayer()">
+
+<span>＋</span>
+<span>افزودن</span>
+
+</button>
+
+
+<button
+class="mobileNavBtn"
+onclick="mobileHome()">
+
+<span>⌂</span>
+<span>خانه</span>
+
+</button>
+
+
+</div>
+
+
 </main>
+
 
 </div>
 
 
 
-<!-- ================= ADD LAYER MODAL ================= -->
+<!-- =====================================================
+     MODAL
+===================================================== -->
 
 <div
 class="modal"
 id="layerModal">
 
+
 <div class="modalBox">
+
 
 <h3>
 ➕ افزودن لایه مکانی
 </h3>
+
 
 <p>
 فایل GeoJSON خود را انتخاب کنید.
@@ -1189,208 +2025,160 @@ onclick="loadGeoJSON()">
 
 </div>
 
-</div>
 
 </div>
 
+</div>
 
 
-<!-- ================= SCRIPTS ================= -->
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+<!-- =====================================================
+     SCRIPTS
+===================================================== -->
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
-<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js">
+
+<script
+src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js">
 </script>
 
 
 
 <script>
 
-/* =========================================================
+/* =====================================================
    MAP
-========================================================= */
+===================================================== */
 
-const map = L.map('map',{
+const map =
+L.map(
+    'map',
+    {
+        center:[29.6,52.5],
+        zoom:7,
+        zoomControl:false
+    }
+);
 
-    center:[29.6,52.5],
 
-    zoom:7,
-
-    zoomControl:false
-
-});
-
-
-/* =========================================================
+/* =====================================================
    BASE MAPS
-========================================================= */
-
-
-/*
-    Google Maps
-    -----------------------------------------
-    توجه:
-    برای استفاده رسمی از Google Maps باید
-    Google Maps Platform API Key داشته باشید.
-
-    مقدار زیر را با API Key خود جایگزین کنید.
-*/
+===================================================== */
 
 const GOOGLE_API_KEY = "";
 
 
-/* Google Maps */
+let googleMap = null;
+let googleSatellite = null;
 
-let googleMap;
-
-
-/* Google Satellite */
-
-let googleSatellite;
-
-
-/*
-   اگر API Key وارد شده باشد،
-   Google Maps از طریق Google API بارگذاری می‌شود.
-*/
 
 if(GOOGLE_API_KEY !== ""){
 
-    googleMap = L.tileLayer(
-
+    googleMap =
+    L.tileLayer(
         'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
-
         {
             attribution:'Google Maps',
             maxZoom:20
         }
-
     );
 
 
-    googleSatellite = L.tileLayer(
-
+    googleSatellite =
+    L.tileLayer(
         'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
-
         {
             attribution:'Google Satellite',
             maxZoom:20
         }
-
     );
 
 }
 
 
-/* OpenStreetMap */
-
-const osm = L.tileLayer(
-
+const osm =
+L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-
     {
-
-        attribution:
-        '&copy; OpenStreetMap contributors',
-
+        attribution:'&copy; OpenStreetMap contributors',
         maxZoom:19
-
     }
-
 );
 
 
-/* Esri Satellite */
-
-const esriSatellite = L.tileLayer(
-
+const esriSatellite =
+L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-
     {
-
-        attribution:
-        'Tiles &copy; Esri',
-
+        attribution:'Tiles &copy; Esri',
         maxZoom:19
-
     }
-
 );
 
 
-/* Dark GIS */
-
-const darkMap = L.tileLayer(
-
+const darkMap =
+L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-
     {
-
-        attribution:
-        '&copy; OpenStreetMap &copy; CARTO',
-
+        attribution:'&copy; OpenStreetMap &copy; CARTO',
         maxZoom:19
-
     }
-
 );
 
-
-/*
-    پیش‌فرض:
-    Dark GIS
-*/
 
 darkMap.addTo(map);
 
 
-/* =========================================================
+/* =====================================================
    BASEMAP CHANGE
-========================================================= */
+===================================================== */
 
 function changeBaseMap(type){
 
-    map.eachLayer(function(layer){
+    [
+        osm,
+        esriSatellite,
+        darkMap,
+        googleMap,
+        googleSatellite
+    ]
 
-        if(
+    .filter(Boolean)
 
-            layer === osm ||
-
-            layer === esriSatellite ||
-
-            layer === darkMap ||
-
-            layer === googleMap ||
-
-            layer === googleSatellite
-
-        ){
-
-            map.removeLayer(layer);
-
+    .forEach(
+        layer => {
+            if(map.hasLayer(layer)){
+                map.removeLayer(layer);
+            }
         }
+    );
 
-    });
+
+    let selected = null;
 
 
     if(type === 'google'){
 
         if(googleMap){
 
-            googleMap.addTo(map);
+            selected = googleMap;
 
-        }else{
+        }
+
+        else{
 
             alert(
                 'برای Google Maps باید API Key وارد شود.'
             );
 
-            darkMap.addTo(map);
+            selected = darkMap;
 
-            document.getElementById(
-                'baseMapSelect'
-            ).value='dark';
+            document
+            .getElementById('baseMapSelect')
+            .value='dark';
 
         }
 
@@ -1401,19 +2189,21 @@ function changeBaseMap(type){
 
         if(googleSatellite){
 
-            googleSatellite.addTo(map);
+            selected = googleSatellite;
 
-        }else{
+        }
+
+        else{
 
             alert(
                 'برای Google Satellite باید API Key وارد شود.'
             );
 
-            darkMap.addTo(map);
+            selected = darkMap;
 
-            document.getElementById(
-                'baseMapSelect'
-            ).value='dark';
+            document
+            .getElementById('baseMapSelect')
+            .value='dark';
 
         }
 
@@ -1422,104 +2212,90 @@ function changeBaseMap(type){
 
     else if(type === 'osm'){
 
-        osm.addTo(map);
+        selected = osm;
 
     }
 
 
     else if(type === 'esriSatellite'){
 
-        esriSatellite.addTo(map);
+        selected = esriSatellite;
 
     }
 
 
-    else if(type === 'dark'){
+    else{
 
-        darkMap.addTo(map);
+        selected = darkMap;
 
     }
+
+
+    selected.addTo(map);
 
 }
 
 
+/* =====================================================
+   DATA LAYERS
+===================================================== */
 
-/* =========================================================
-   LAYERS
-========================================================= */
-
-let layers={
+let layers = {
 
     postLayer:null,
-
     lineLayer:null,
-
     towerLayer:null,
-
     plantLayer:null,
-
     fiberLayer:null,
-
     incidentLayer:null,
-
     boundaryLayer:null
 
 };
 
 
-/* =========================================================
-   GEOJSON FILE PATHS
-========================================================= */
+const layerFiles = {
 
-const layerFiles={
+    postLayer:'data/post.geojson',
 
-    postLayer:
-    'data/post.geojson',
+    lineLayer:'data/line.geojson',
 
-    lineLayer:
-    'data/line.geojson',
+    towerLayer:'data/tower.geojson',
 
-    towerLayer:
-    'data/tower.geojson',
+    plantLayer:'data/powerplant.geojson',
 
-    plantLayer:
-    'data/powerplant.geojson',
+    fiberLayer:'data/fiber.geojson',
 
-    fiberLayer:
-    'data/fiber.geojson',
+    incidentLayer:'data/incident.geojson',
 
-    incidentLayer:
-    'data/incident.geojson',
-
-    boundaryLayer:
-    'data/shahrestan.geojson'
+    boundaryLayer:'data/shahrestan.geojson'
 
 };
 
 
-/* =========================================================
+/* =====================================================
    LOAD LAYER
-========================================================= */
+===================================================== */
 
 function loadLayer(id){
 
     if(layers[id]){
 
-        map.addLayer(
-            layers[id]
-        );
+        map.addLayer(layers[id]);
+
+        updateKPIs();
 
         return;
 
     }
 
 
-    const file=layerFiles[id];
+    const file =
+    layerFiles[id];
 
 
     fetch(file)
 
-    .then(response=>{
+    .then(response => {
 
         if(!response.ok){
 
@@ -1534,50 +2310,52 @@ function loadLayer(id){
     })
 
 
-    .then(data=>{
+    .then(data => {
 
-        layers[id]=L.geoJSON(
 
+        layers[id] =
+
+        L.geoJSON(
             data,
-
             {
 
                 style:function(feature){
 
-                    if(id==='lineLayer'){
+                    if(id === 'lineLayer'){
 
                         return{
-
                             weight:3,
-
                             opacity:.9
-
                         };
 
                     }
 
 
-                    if(id==='boundaryLayer'){
+                    if(id === 'boundaryLayer'){
 
                         return{
-
                             weight:1,
-
                             fillOpacity:.04
-
                         };
 
                     }
 
 
-                    if(id==='fiberLayer'){
+                    if(id === 'fiberLayer'){
 
                         return{
-
                             weight:2,
-
                             dashArray:'5,5'
+                        };
 
+                    }
+
+
+                    if(id === 'incidentLayer'){
+
+                        return{
+                            weight:2,
+                            fillOpacity:.25
                         };
 
                     }
@@ -1591,73 +2369,44 @@ function loadLayer(id){
                 pointToLayer:
                 function(feature,latlng){
 
-                    if(id==='towerLayer'){
 
-                        return L.circleMarker(
+                    let radius = 6;
 
-                            latlng,
 
-                            {
+                    if(id === 'towerLayer'){
 
-                                radius:4,
-
-                                fillOpacity:.9
-
-                            }
-
-                        );
+                        radius = 4;
 
                     }
 
 
-                    if(id==='postLayer'){
+                    if(id === 'postLayer'){
 
-                        return L.circleMarker(
-
-                            latlng,
-
-                            {
-
-                                radius:8,
-
-                                fillOpacity:.9
-
-                            }
-
-                        );
+                        radius = 8;
 
                     }
 
 
-                    if(id==='plantLayer'){
+                    if(id === 'plantLayer'){
 
-                        return L.circleMarker(
+                        radius = 9;
 
-                            latlng,
+                    }
 
-                            {
 
-                                radius:9,
+                    if(id === 'incidentLayer'){
 
-                                fillOpacity:.9
-
-                            }
-
-                        );
+                        radius = 7;
 
                     }
 
 
                     return L.circleMarker(
-
                         latlng,
-
                         {
-
-                            radius:6
-
+                            radius:radius,
+                            fillOpacity:.9
                         }
-
                     );
 
                 },
@@ -1667,80 +2416,76 @@ function loadLayer(id){
                 function(feature,layer){
 
                     layer.on(
-
                         'click',
-
                         function(){
 
                             showFeatureInfo(
-
                                 feature.properties
-
                             );
 
                         }
-
                     );
 
                 }
 
             }
+        )
 
-        ).addTo(map);
+
+        .addTo(map);
 
 
-        const bounds=
+        const bounds =
         layers[id].getBounds();
 
 
         if(bounds.isValid()){
 
             map.fitBounds(
-
                 bounds,
-
                 {
-
                     padding:[30,30]
-
                 }
-
             );
 
         }
 
+
+        updateKPIs();
+
     })
 
 
-    .catch(error=>{
+    .catch(error => {
 
         alert(
-
-            'فایل لایه پیدا نشد:\n\n'+
-
-            file+
-
-            '\n\nفایل را در پوشه data قرار دهید.'
-
+            'فایل لایه پیدا نشد:\n\n' +
+            file +
+            '\n\n' +
+            'فایل را در پوشه data قرار دهید.'
         );
 
 
-        document
-        .getElementById(id)
-        .checked=false;
+        const checkbox =
+        document.getElementById(id);
+
+
+        if(checkbox){
+            checkbox.checked=false;
+        }
 
     });
 
 }
 
 
-/* =========================================================
-   TOGGLE LAYER
-========================================================= */
+/* =====================================================
+   TOGGLE
+===================================================== */
 
 function toggleLayer(id){
 
-    const checkbox=
+    const checkbox =
     document.getElementById(id);
 
 
@@ -1762,22 +2507,66 @@ function toggleLayer(id){
 
     }
 
+
+    updateKPIs();
+
 }
 
 
-/* =========================================================
+/* =====================================================
+   KPI
+===================================================== */
+
+function updateKPIs(){
+
+    let active = 0;
+    let features = 0;
+
+
+    Object.values(layers)
+    .forEach(layer => {
+
+        if(
+            layer &&
+            map.hasLayer(layer)
+        ){
+
+            active++;
+
+            layer.eachLayer(
+                () => features++
+            );
+
+        }
+
+    });
+
+
+    document
+    .getElementById('kpiLayers')
+    .innerText = active;
+
+
+    document
+    .getElementById('kpiFeatures')
+    .innerText = features;
+
+}
+
+
+/* =====================================================
    FEATURE INFO
-========================================================= */
+===================================================== */
 
 function showFeatureInfo(properties){
 
-    const panel=
+    const panel =
     document.getElementById(
         'infoPanel'
     );
 
 
-    const content=
+    const content =
     document.getElementById(
         'infoContent'
     );
@@ -1787,51 +2576,39 @@ function showFeatureInfo(properties){
 
 
     if(
-
         !properties ||
-
-        Object.keys(properties).length===0
-
+        Object.keys(properties).length === 0
     ){
 
-        content.innerHTML=
-
-        '<div class="infoRow">'+
-
-        'اطلاعاتی برای این عارضه ثبت نشده است.'+
-
+        content.innerHTML =
+        '<div class="infoRow">' +
+        'اطلاعاتی برای این عارضه ثبت نشده است.' +
         '</div>';
 
     }
 
+
     else{
 
-        Object.entries(
-            properties
-        )
-
+        Object.entries(properties)
         .forEach(
+            ([key,value]) => {
 
-            ([key,value])=>{
+                content.innerHTML +=
 
-                content.innerHTML+=
+                '<div class="infoRow">' +
 
-                `
+                '<strong>' +
+                key +
+                '</strong>' +
 
-                <div class="infoRow">
+                '<br>' +
 
-                    <strong>${key}</strong>
+                (value ?? '') +
 
-                    <br>
-
-                    ${value ?? ''}
-
-                </div>
-
-                `;
+                '</div>';
 
             }
-
         );
 
     }
@@ -1842,18 +2619,24 @@ function showFeatureInfo(properties){
 }
 
 
-/* =========================================================
+function closeInfo(){
+
+    document
+    .getElementById('infoPanel')
+    .style.display='none';
+
+}
+
+
+/* =====================================================
    SEARCH
-========================================================= */
+===================================================== */
 
 function searchMap(){
 
-    const text=
-
+    const text =
     document
-    .getElementById(
-        'searchInput'
-    )
+    .getElementById('searchInput')
     .value
     .trim()
     .toLowerCase();
@@ -1870,62 +2653,75 @@ function searchMap(){
     }
 
 
-    let found=false;
+    let found = false;
 
 
     Object.values(layers)
+    .forEach(layer => {
 
-    .forEach(layer=>{
 
         if(!layer)
             return;
 
 
-        layer.eachLayer(item=>{
+        layer.eachLayer(item => {
+
 
             if(
-
                 !item.feature ||
-
                 !item.feature.properties
-
             )
                 return;
 
 
-            const properties=
+            const properties =
             item.feature.properties;
 
 
-            const values=
-
-            Object.values(
-                properties
-            )
-
+            const values =
+            Object.values(properties)
             .join(' ')
             .toLowerCase();
 
 
-            if(values.includes(text)){
+            if(
+                values.includes(text)
+            ){
 
-                found=true;
+                found = true;
 
 
                 if(item.getLatLng){
 
                     map.setView(
-
                         item.getLatLng(),
-
                         14
-
                     );
 
 
                     showFeatureInfo(
                         properties
                     );
+
+                }
+
+                else if(
+                    item.getBounds
+                ){
+
+                    const bounds =
+                    item.getBounds();
+
+                    if(bounds.isValid()){
+
+                        map.fitBounds(
+                            bounds,
+                            {
+                                padding:[40,40]
+                            }
+                        );
+
+                    }
 
                 }
 
@@ -1947,101 +2743,104 @@ function searchMap(){
 }
 
 
-/* =========================================================
-   USER LOCATION
-========================================================= */
+/* =====================================================
+   LOCATION
+===================================================== */
+
+let userMarker = null;
+
 
 function locateUser(){
 
     map.locate({
-
         setView:true,
-
         maxZoom:15
-
     });
 
 }
 
 
 map.on(
-
     'locationfound',
-
     function(e){
 
+        if(userMarker){
+
+            map.removeLayer(
+                userMarker
+            );
+
+        }
+
+
+        userMarker =
         L.marker(
             e.latlng
         )
-
         .addTo(map)
-
         .bindPopup(
             'موقعیت فعلی'
         )
-
         .openPopup();
 
     }
-
 );
 
 
-/* =========================================================
+map.on(
+    'locationerror',
+    function(){
+
+        alert(
+            'دسترسی به موقعیت مکانی امکان‌پذیر نیست.'
+        );
+
+    }
+);
+
+
+/* =====================================================
    COORDINATES
-========================================================= */
+===================================================== */
 
 map.on(
-
     'mousemove',
-
     function(e){
 
         document
-        .getElementById(
-            'coordinates'
-        )
-        .innerText=
-
-        'مختصات: '+
-
-        e.latlng.lat.toFixed(5)+
-
-        ' , '+
-
+        .getElementById('coordinates')
+        .innerText =
+        'مختصات: ' +
+        e.latlng.lat.toFixed(5) +
+        ' , ' +
         e.latlng.lng.toFixed(5);
 
     }
-
 );
 
 
-/* =========================================================
+/* =====================================================
    HOME
-========================================================= */
+===================================================== */
 
 function goHome(){
 
     map.setView(
-
         [29.6,52.5],
-
         7
-
     );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    CLEAR
-========================================================= */
+===================================================== */
 
 function clearMap(){
 
     Object.values(layers)
-
-    .forEach(layer=>{
+    .forEach(layer => {
 
         if(layer){
 
@@ -2058,51 +2857,44 @@ function clearMap(){
     .querySelectorAll(
         '.layer input'
     )
-
-    .forEach(input=>{
+    .forEach(input => {
 
         input.checked=false;
 
     });
 
 
-    document
-    .getElementById(
-        'infoPanel'
-    )
-    .style.display='none';
+    closeInfo();
+
+
+    updateKPIs();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    ACTIVITIES
-========================================================= */
+===================================================== */
 
 function showActivity(name){
 
     alert(
-
-        'بخش «'+
-
-        name+
-
-        '» انتخاب شد.\n\n'+
-
+        'بخش «' +
+        name +
+        '» انتخاب شد.\n\n' +
         'در مرحله بعد می‌توان این بخش را به فایل، فولدر، فرم، قرارداد یا سامانه مربوطه متصل کرد.'
-
     );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    LINKS
-========================================================= */
+===================================================== */
 
 function openLink(url){
 
-    if(url==='#'){
+    if(url === '#'){
 
         alert(
             'لینک این بخش هنوز تعریف نشده است.'
@@ -2114,26 +2906,21 @@ function openLink(url){
 
 
     window.open(
-
         url,
-
         '_blank'
-
     );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    ADD GEOJSON
-========================================================= */
+===================================================== */
 
 function openAddLayer(){
 
     document
-    .getElementById(
-        'layerModal'
-    )
+    .getElementById('layerModal')
     .style.display='flex';
 
 }
@@ -2142,30 +2929,30 @@ function openAddLayer(){
 function closeAddLayer(){
 
     document
-    .getElementById(
-        'layerModal'
-    )
+    .getElementById('layerModal')
     .style.display='none';
 
 }
 
 
+/* =====================================================
+   LOAD USER GEOJSON
+===================================================== */
+
 function loadGeoJSON(){
 
-    const fileInput=
+    const fileInput =
     document.getElementById(
         'geojsonFile'
     );
 
 
-    const title=
-
+    const title =
     document
     .getElementById(
         'layerTitle'
     )
     .value ||
-
     'لایه جدید';
 
 
@@ -2182,118 +2969,96 @@ function loadGeoJSON(){
     }
 
 
-    const file=
+    const file =
     fileInput.files[0];
 
 
-    const reader=
+    const reader =
     new FileReader();
 
 
-    reader.onload=function(e){
+    reader.onload =
+    function(e){
 
         try{
 
-            const data=
+            const data =
             JSON.parse(
                 e.target.result
             );
 
 
-            const layer=
+            const layer =
 
             L.geoJSON(
-
                 data,
-
                 {
 
                     style:{
-
                         weight:3
-
                     },
 
 
                     pointToLayer:
-
                     function(
                         feature,
                         latlng
                     ){
 
                         return L.circleMarker(
-
                             latlng,
-
                             {
-
                                 radius:6
-
                             }
-
                         );
 
                     },
 
 
                     onEachFeature:
-
                     function(
                         feature,
                         layer
                     ){
 
                         layer.on(
-
                             'click',
-
                             function(){
 
                                 showFeatureInfo(
-
                                     feature.properties
-
                                 );
 
                             }
-
                         );
 
                     }
 
                 }
+            )
+            .addTo(map);
 
-            ).addTo(map);
+
+            const bounds =
+            layer.getBounds();
 
 
-            if(
-                layer.getBounds().isValid()
-            ){
+            if(bounds.isValid()){
 
                 map.fitBounds(
-
-                    layer.getBounds(),
-
+                    bounds,
                     {
-
                         padding:[30,30]
-
                     }
-
                 );
 
             }
 
 
             alert(
-
-                'لایه «'+
-
-                title+
-
+                'لایه «' +
+                title +
                 '» با موفقیت اضافه شد.'
-
             );
 
 
@@ -2318,11 +3083,11 @@ function loadGeoJSON(){
 }
 
 
-/* =========================================================
-   DRAW TOOLS
-========================================================= */
+/* =====================================================
+   DRAW
+===================================================== */
 
-const drawnItems=
+const drawnItems =
 new L.FeatureGroup();
 
 
@@ -2331,31 +3096,21 @@ map.addLayer(
 );
 
 
-const drawControl=
-
+const drawControl =
 new L.Control.Draw({
 
     draw:{
-
         polygon:true,
-
         polyline:true,
-
         rectangle:false,
-
         circle:false,
-
         marker:false,
-
         circlemarker:false
-
     },
 
     edit:{
-
         featureGroup:
         drawnItems
-
     }
 
 });
@@ -2367,9 +3122,7 @@ map.addControl(
 
 
 map.on(
-
     L.Draw.Event.CREATED,
-
     function(e){
 
         drawnItems.addLayer(
@@ -2377,35 +3130,209 @@ map.on(
         );
 
     }
-
 );
 
 
-/* =========================================================
-   ESC
-========================================================= */
+/* =====================================================
+   MOBILE SIDEBAR
+===================================================== */
 
-document.addEventListener(
+function toggleSidebar(){
 
-    'keydown',
+    const sidebar =
+    document.getElementById(
+        'sidebar'
+    );
 
-    function(e){
 
-        if(e.key==='Escape'){
+    const overlay =
+    document.getElementById(
+        'sidebarOverlay'
+    );
+
+
+    sidebar.classList.toggle(
+        'open'
+    );
+
+
+    overlay.classList.toggle(
+        'active'
+    );
+
+
+    setTimeout(
+        function(){
+
+            map.invalidateSize();
+
+        },
+        320
+    );
+
+}
+
+
+function closeSidebar(){
+
+    const sidebar =
+    document.getElementById(
+        'sidebar'
+    );
+
+
+    const overlay =
+    document.getElementById(
+        'sidebarOverlay'
+    );
+
+
+    sidebar.classList.remove(
+        'open'
+    );
+
+
+    overlay.classList.remove(
+        'active'
+    );
+
+
+    setTimeout(
+        function(){
+
+            map.invalidateSize();
+
+        },
+        320
+    );
+
+}
+
+
+/* =====================================================
+   MOBILE NAVIGATION
+===================================================== */
+
+function mobileLayers(){
+
+    openSidebar();
+
+}
+
+
+function openSidebar(){
+
+    const sidebar =
+    document.getElementById(
+        'sidebar'
+    );
+
+
+    const overlay =
+    document.getElementById(
+        'sidebarOverlay'
+    );
+
+
+    sidebar.classList.add(
+        'open'
+    );
+
+
+    overlay.classList.add(
+        'active'
+    );
+
+
+    setTimeout(
+        function(){
+
+            map.invalidateSize();
+
+        },
+        320
+    );
+
+}
+
+
+function mobileSearch(){
+
+    openSidebar();
+
+
+    setTimeout(
+        function(){
 
             document
             .getElementById(
-                'infoPanel'
+                'searchInput'
             )
-            .style.display='none';
+            .focus();
+
+        },
+        350
+    );
+
+}
+
+
+function mobileMap(){
+
+    closeSidebar();
+
+}
+
+
+function mobileHome(){
+
+    closeSidebar();
+
+    goHome();
+
+}
+
+
+/* =====================================================
+   ESC
+===================================================== */
+
+document.addEventListener(
+    'keydown',
+    function(e){
+
+        if(e.key === 'Escape'){
+
+            closeInfo();
+
+            closeSidebar();
+
+            closeAddLayer();
 
         }
 
     }
+);
 
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+updateKPIs();
+
+
+setTimeout(
+    function(){
+
+        map.invalidateSize();
+
+    },
+    500
 );
 
 </script>
 
 </body>
+
 </html>
