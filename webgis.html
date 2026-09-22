@@ -1,139 +1,1113 @@
-```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Web GIS</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
+    <title>WebGIS | شرکت برق منطقه‌ای فارس</title>
+
+    <!-- Leaflet -->
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
 
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"
-    />
+    <style>
 
-    <link rel="stylesheet" href="style.css">
+        * {
+            box-sizing: border-box;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f1f5f9;
+            overflow: hidden;
+        }
+
+        /* Header */
+
+        .header {
+
+            height: 65px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e3a8a
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 22px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(0,0,0,.2);
+
+            position: relative;
+
+            z-index: 1000;
+        }
+
+        .title {
+
+            font-size: 19px;
+
+            font-weight: bold;
+        }
+
+        .subtitle {
+
+            font-size: 11px;
+
+            opacity: .75;
+
+            margin-top: 4px;
+        }
+
+        .back-button {
+
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            padding: 10px 18px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+        }
+
+        .back-button:hover {
+
+            background: #1d4ed8;
+        }
+
+        /* Main */
+
+        .container {
+
+            display: flex;
+
+            height:
+                calc(100vh - 65px);
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+
+            width: 285px;
+
+            background: white;
+
+            border-left:
+                1px solid #dbe2ea;
+
+            padding: 18px;
+
+            overflow-y: auto;
+
+            z-index: 900;
+
+            box-shadow:
+                -3px 0 10px
+                rgba(0,0,0,.05);
+        }
+
+        .sidebar h3 {
+
+            margin-top: 0;
+
+            font-size: 16px;
+
+            color: #0f172a;
+
+            padding-bottom: 12px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+        /* Search */
+
+        .search {
+
+            width: 100%;
+
+            padding: 10px;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            margin-bottom: 15px;
+
+            outline: none;
+        }
+
+        .search:focus {
+
+            border-color: #2563eb;
+        }
+
+        /* Layer */
+
+        .layer {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding: 11px;
+
+            margin-bottom: 7px;
+
+            background: #f8fafc;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+        }
+
+        .layer:hover {
+
+            background: #eff6ff;
+        }
+
+        .layer input {
+
+            width: 16px;
+
+            height: 16px;
+
+            cursor: pointer;
+        }
+
+        .layer-icon {
+
+            font-size: 18px;
+        }
+
+        /* Info */
+
+        .info-box {
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            background: #eff6ff;
+
+            border-radius: 8px;
+
+            border-right:
+                4px solid #2563eb;
+
+            font-size: 12px;
+
+            line-height: 2;
+        }
+
+        .info-box strong {
+
+            color: #1e3a8a;
+        }
+
+        /* Map */
+
+        #map {
+
+            flex: 1;
+
+            height: 100%;
+
+            z-index: 1;
+        }
+
+        /* Legend */
+
+        .legend {
+
+            background: white;
+
+            padding: 12px 15px;
+
+            border-radius: 8px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,.2);
+
+            font-size: 12px;
+
+            line-height: 1.8;
+        }
+
+        .legend-title {
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+        }
+
+        .legend-color {
+
+            display: inline-block;
+
+            width: 18px;
+
+            height: 12px;
+
+            background: #60a5fa;
+
+            border:
+                2px solid #1d4ed8;
+
+            margin-left: 5px;
+
+            vertical-align: middle;
+        }
+
+        /* Popup */
+
+        .popup-title {
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            color: #1e3a8a;
+
+            margin-bottom: 8px;
+        }
+
+        .popup-row {
+
+            padding: 4px 0;
+
+            border-bottom:
+                1px solid #eef2f7;
+
+            font-size: 12px;
+        }
+
+        /* Loading */
+
+        .loading {
+
+            position: fixed;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            background: white;
+
+            padding: 20px 30px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 5px 25px
+                rgba(0,0,0,.2);
+
+            z-index: 2000;
+
+            font-size: 14px;
+        }
+
+        .hidden {
+
+            display: none;
+        }
+
+        /* Mobile */
+
+        @media(max-width: 800px) {
+
+            .sidebar {
+
+                width: 230px;
+            }
+
+            .title {
+
+                font-size: 15px;
+            }
+
+            .back-button {
+
+                padding: 8px 10px;
+
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<header class="topbar">
-    <div class="logo">
-        🌍 Web GIS
-    </div>
 
-    <div class="tools">
-        <button onclick="goHome()">🏠 خانه</button>
-        <button onclick="locateUser()">📍 موقعیت من</button>
-        <button onclick="togglePanel()">☰ ابزارها</button>
-    </div>
-</header>
+<!-- Header -->
 
-<div id="map"></div>
+<header class="header">
 
-<div id="sidePanel">
+    <div>
 
-    <h2>ابزارهای Web GIS</h2>
+        <div class="title">
 
-    <div class="section">
-        <h3>جستجوی مکان</h3>
+            سامانه WebGIS
+            | شرکت برق منطقه‌ای فارس
 
-        <div class="searchBox">
-            <input
-                id="searchInput"
-                type="text"
-                placeholder="نام مکان را وارد کنید..."
-            >
-
-            <button onclick="searchPlace()">جستجو</button>
         </div>
 
-        <div id="searchResults"></div>
+        <div class="subtitle">
+
+            سامانه اطلاعات مکانی شبکه برق
+
+        </div>
+
     </div>
 
-    <div class="section">
 
-        <h3>لایه‌ها</h3>
+    <button
+        class="back-button"
+        onclick="window.location.href='https://abtin1405.github.io/gisdashboard/'"
+    >
 
-        <label>
+        ← بازگشت به داشبورد
+
+    </button>
+
+</header>
+
+
+
+<div class="container">
+
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <h3>
+
+            🗺️ لایه‌های اطلاعاتی
+
+        </h3>
+
+
+        <!-- Search -->
+
+        <input
+
+            id="searchBox"
+
+            class="search"
+
+            type="text"
+
+            placeholder="جستجوی شهرستان..."
+
+        >
+
+
+        <!-- Layers -->
+
+        <label class="layer">
+
             <input
                 type="checkbox"
-                id="osmLayer"
-                checked
-                onchange="toggleOSM()"
+                id="districtCheck"
+                onchange="toggleDistricts()"
             >
-            OpenStreetMap
+
+            <span class="layer-icon">
+                🏛️
+            </span>
+
+            <span>
+                شهرستان‌های فارس
+            </span>
+
         </label>
 
-        <label>
+
+        <label class="layer">
+
             <input
                 type="checkbox"
-                id="satelliteLayer"
-                onchange="toggleSatellite()"
+                disabled
             >
-            تصاویر ماهواره‌ای
+
+            <span class="layer-icon">
+                ⚡
+            </span>
+
+            <span>
+                پست‌های برق
+            </span>
+
         </label>
-    </div>
 
-    <div class="section">
 
-        <h3>داده مکانی</h3>
+        <label class="layer">
 
-        <label class="fileButton">
-            📂 بارگذاری GeoJSON
             <input
-                type="file"
-                id="geojsonFile"
-                accept=".geojson,.json"
-                onchange="loadGeoJSON(event)"
+                type="checkbox"
+                disabled
             >
+
+            <span class="layer-icon">
+                🔌
+            </span>
+
+            <span>
+                خطوط انتقال
+            </span>
+
         </label>
 
-        <button onclick="downloadGeoJSON()">
-            💾 دانلود GeoJSON
-        </button>
 
-    </div>
+        <label class="layer">
 
-    <div class="section">
+            <input
+                type="checkbox"
+                disabled
+            >
 
-        <h3>ابزارها</h3>
+            <span class="layer-icon">
+                🏭
+            </span>
 
-        <button onclick="clearDrawings()">
-            🗑 پاک کردن ترسیمات
-        </button>
+            <span>
+                نیروگاه‌ها
+            </span>
 
-        <button onclick="showCoordinates()">
-            📐 مختصات مرکز نقشه
-        </button>
+        </label>
 
-    </div>
 
-    <div class="info">
-        <b>مختصات موس:</b>
-        <span id="mouseCoordinates">
-            -
-        </span>
-    </div>
+        <label class="layer">
+
+            <input
+                type="checkbox"
+                disabled
+            >
+
+            <span class="layer-icon">
+                📡
+            </span>
+
+            <span>
+                فیبر نوری
+            </span>
+
+        </label>
+
+
+        <label class="layer">
+
+            <input
+                type="checkbox"
+                disabled
+            >
+
+            <span class="layer-icon">
+                🚨
+            </span>
+
+            <span>
+                حوادث شبکه
+            </span>
+
+        </label>
+
+
+        <label class="layer">
+
+            <input
+                type="checkbox"
+                disabled
+            >
+
+            <span class="layer-icon">
+                📁
+            </span>
+
+            <span>
+                پروژه‌ها
+            </span>
+
+        </label>
+
+
+        <!-- Information -->
+
+        <div class="info-box">
+
+            <strong>
+                لایه فعال:
+            </strong>
+
+            <br>
+
+            شهرستان‌های استان فارس
+
+            <br><br>
+
+            تعداد عوارض:
+
+            <strong>
+                ۳۹ شهرستان
+            </strong>
+
+            <br><br>
+
+            برای مشاهده اطلاعات هر شهرستان،
+            روی آن کلیک کنید.
+
+        </div>
+
+    </aside>
+
+
+    <!-- Map -->
+
+    <div id="map"></div>
+
 
 </div>
 
-<div id="coordinatesBox">
-    مختصات:
-    <span id="coords">-</span>
+
+
+<!-- Loading -->
+
+<div
+    id="loading"
+    class="loading"
+>
+
+    در حال بارگذاری لایه شهرستان‌ها...
+
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 
-<script src="app.js"></script>
+<!-- Leaflet -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+
+<script>
+
+
+/* ==========================================
+   MAP
+========================================== */
+
+
+const map = L.map('map', {
+
+    center: [29.60, 52.53],
+
+    zoom: 8
+
+});
+
+
+/* OpenStreetMap */
+
+const osm = L.tileLayer(
+
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+    {
+
+        maxZoom: 19,
+
+        attribution:
+            '&copy; OpenStreetMap contributors'
+
+    }
+
+).addTo(map);
+
+
+
+/* ==========================================
+   DISTRICTS
+========================================== */
+
+
+let districtLayer = null;
+
+let districtData = null;
+
+
+
+/* Style */
+
+function districtStyle(feature) {
+
+    return {
+
+        color: '#1d4ed8',
+
+        weight: 1.5,
+
+        fillColor: '#60a5fa',
+
+        fillOpacity: 0.18
+
+    };
+
+}
+
+
+
+/* Highlight */
+
+function highlightFeature(e) {
+
+    const layer = e.target;
+
+    layer.setStyle({
+
+        weight: 3,
+
+        color: '#1e3a8a',
+
+        fillColor: '#3b82f6',
+
+        fillOpacity: 0.35
+
+    });
+
+}
+
+
+
+/* Reset */
+
+function resetHighlight(e) {
+
+    districtLayer.resetStyle(e.target);
+
+}
+
+
+
+/* Click */
+
+function districtClick(e) {
+
+    const props =
+        e.target.feature.properties;
+
+    const name =
+        props.name || 'بدون نام';
+
+    const id =
+        props.gis_id || props.OBJECTID || '-';
+
+    const area =
+        props.SHAPE_Area
+        ? Number(props.SHAPE_Area).toLocaleString()
+        : '-';
+
+
+    const popup = `
+
+        <div>
+
+            <div class="popup-title">
+
+                شهرستان ${name}
+
+            </div>
+
+
+            <div class="popup-row">
+
+                <strong>
+                    نام شهرستان:
+                </strong>
+
+                ${name}
+
+            </div>
+
+
+            <div class="popup-row">
+
+                <strong>
+                    شناسه GIS:
+                </strong>
+
+                ${id}
+
+            </div>
+
+
+            <div class="popup-row">
+
+                <strong>
+                    مساحت:
+                </strong>
+
+                ${area}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    e.target
+        .bindPopup(popup)
+        .openPopup();
+
+}
+
+
+
+/* Events */
+
+function districtEvents(feature, layer) {
+
+    layer.on({
+
+        mouseover:
+            highlightFeature,
+
+        mouseout:
+            resetHighlight,
+
+        click:
+            districtClick
+
+    });
+
+}
+
+
+
+/* Load GeoJSON */
+
+fetch('shahrestan.geojson')
+
+    .then(response => {
+
+        if (!response.ok) {
+
+            throw new Error(
+                'فایل shahrestan.geojson پیدا نشد'
+            );
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(data => {
+
+        districtData = data;
+
+
+        districtLayer = L.geoJSON(
+
+            data,
+
+            {
+
+                style:
+                    districtStyle,
+
+                onEachFeature:
+                    districtEvents
+
+            }
+
+        );
+
+
+        document
+            .getElementById('loading')
+            .classList.add('hidden');
+
+
+        /*
+           لایه را در ابتدا نمایش نمی‌دهیم.
+           کاربر با تیک زدن فعالش می‌کند.
+        */
+
+
+        console.log(
+            'Districts loaded:',
+            data.features.length
+        );
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+
+        document
+            .getElementById('loading')
+            .innerHTML =
+
+            'خطا در بارگذاری لایه شهرستان‌ها.<br>' +
+
+            '<small>' +
+            error.message +
+            '</small>';
+
+    });
+
+
+
+/* ==========================================
+   TOGGLE DISTRICTS
+========================================== */
+
+
+function toggleDistricts() {
+
+    const checkbox =
+        document.getElementById(
+            'districtCheck'
+        );
+
+
+    if (!districtLayer) {
+
+        alert(
+            'لایه هنوز بارگذاری نشده است.'
+        );
+
+        checkbox.checked = false;
+
+        return;
+
+    }
+
+
+    if (checkbox.checked) {
+
+        districtLayer.addTo(map);
+
+
+        /*
+           Zoom to all districts
+        */
+
+        map.fitBounds(
+            districtLayer.getBounds(),
+            {
+                padding: [20, 20]
+            }
+        );
+
+    }
+
+    else {
+
+        map.removeLayer(
+            districtLayer
+        );
+
+    }
+
+}
+
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+
+document
+    .getElementById('searchBox')
+    .addEventListener(
+        'input',
+        function() {
+
+            const text =
+                this.value
+                .trim()
+                .toLowerCase();
+
+
+            if (!text || !districtLayer) {
+
+                return;
+
+            }
+
+
+            let found = null;
+
+
+            districtLayer.eachLayer(
+                function(layer) {
+
+                    const name =
+                        (
+                            layer.feature
+                            .properties
+                            .name || ''
+                        )
+                        .toLowerCase();
+
+
+                    if (
+                        name.includes(text)
+                    ) {
+
+                        found = layer;
+
+                    }
+
+                }
+            );
+
+
+            if (found) {
+
+                if (
+                    !map.hasLayer(
+                        districtLayer
+                    )
+                ) {
+
+                    districtLayer.addTo(map);
+
+                    document
+                        .getElementById(
+                            'districtCheck'
+                        )
+                        .checked = true;
+
+                }
+
+
+                map.fitBounds(
+                    found.getBounds(),
+                    {
+                        padding: [50, 50]
+                    }
+                );
+
+
+                found.openPopup();
+
+            }
+
+        }
+    );
+
+
+
+/* ==========================================
+   LEGEND
+========================================== */
+
+
+const legend =
+    L.control({
+        position: 'bottomright'
+    });
+
+
+legend.onAdd = function() {
+
+    const div =
+        L.DomUtil.create(
+            'div',
+            'legend'
+        );
+
+
+    div.innerHTML = `
+
+        <div class="legend-title">
+            راهنمای نقشه
+        </div>
+
+        <div>
+
+            <span
+                class="legend-color">
+            </span>
+
+            محدوده شهرستان
+
+        </div>
+
+    `;
+
+
+    return div;
+
+};
+
+
+legend.addTo(map);
+
+
+
+/* ==========================================
+   SCALE
+========================================== */
+
+
+L.control
+    .scale({
+        imperial: false
+    })
+    .addTo(map);
+
+
+
+</script>
+
 
 </body>
+
 </html>
-```
