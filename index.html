@@ -28,18 +28,31 @@ input,select{
  border-radius:6px;padding:8px;font-size:12px
 }
 .top{
- position:absolute;z-index:1000;top:10px;right:10px;left:10px;min-height:54px;
- background:rgba(8,17,31,.94);border:1px solid #263951;border-radius:12px;
- display:flex;align-items:center;gap:7px;padding:7px 9px;box-shadow:0 8px 30px #0008
+ position:absolute;z-index:1000;top:10px;right:10px;left:10px;min-height:86px;
+ background:
+   linear-gradient(rgba(8,17,31,.70),rgba(8,17,31,.88)),
+   url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Transmission_Towers.jpg");
+ background-size:cover;background-position:center 48%;
+ border:1px solid #263951;border-radius:12px;
+ display:flex;align-items:center;gap:7px;padding:10px 14px;
+ box-shadow:0 8px 30px #0008;overflow:hidden
 }
-.logo{display:flex;align-items:center;gap:8px;margin-left:auto;font-weight:bold;color:#8bdcff;font-size:16px}
+.top:after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(90deg,rgba(5,13,24,.82),rgba(5,13,24,.38),rgba(5,13,24,.78));
+}
+.logo{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-left:auto;font-weight:bold;color:#b9ecff;font-size:19px;text-shadow:0 2px 5px #000}
 .logoIcon{
- width:34px;height:34px;border-radius:9px;background:#0b4969;display:flex;
- align-items:center;justify-content:center;font-size:20px
+ width:40px;height:40px;border-radius:9px;background:rgba(11,73,105,.9);display:flex;
+ align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 8px #0008
+}
+.headerEmail{
+ position:absolute;z-index:2;left:16px;bottom:8px;color:#d8f5ff;font-size:12px;
+ direction:ltr;text-shadow:0 1px 4px #000;font-weight:500
 }
 .iconBtn{font-size:18px;padding:7px 10px}
 #sidebar{
- position:absolute;z-index:1001;right:10px;top:75px;width:330px;bottom:10px;
+ position:absolute;z-index:1001;right:10px;top:107px;width:330px;bottom:10px;
  background:rgba(9,18,31,.97);border:1px solid #263951;border-radius:12px;
  box-shadow:0 10px 35px #0009;overflow:hidden;display:flex;flex-direction:column
 }
@@ -103,7 +116,7 @@ tr:hover td{background:#122238}
  background:#091522eF;border:1px solid #263951;border-radius:7px;padding:6px 10px;
  color:#9fb2c8;font-size:10px
 }
-.leaflet-control-zoom{margin-top:78px!important}
+.leaflet-control-zoom{margin-top:108px!important}
 .leaflet-control-attribution{font-size:9px}
 .legend{
  position:absolute;z-index:998;bottom:275px;right:20px;background:#091522eF;
@@ -135,7 +148,8 @@ tr:hover td{background:#122238}
 <div id="map"></div>
 
 <div class="top">
- <div class="logo"><div class="logoIcon">⚡</div>WebGIS شبکه برق</div>
+ <div class="logo"><div class="logoIcon">⚡</div>سامانه اطلاعات مکانی برق منطقه ای فارس</div>
+ <div class="headerEmail">kh.rahimi1402@gmail.com</div>
  <button class="iconBtn" onclick="toggleSidebar()" title="مدیریت">☰</button>
  <button class="iconBtn" onclick="toggleTable()" title="جدول مشخصات">▦</button>
  <button class="iconBtn" onclick="locateUser()" title="موقعیت من">📍</button>
