@@ -85,9 +85,10 @@ input,select{
 .row{display:flex;gap:6px}
 .row>*{flex:1}
 #tablePanel{
- position:absolute;z-index:999;left:10px;right:360px;bottom:10px;height:245px;
- background:rgba(8,17,30,.97);border:1px solid #2a3d56;border-radius:11px;
- box-shadow:0 8px 30px #0009;display:none;overflow:hidden
+ position:absolute;z-index:1200;right:18px;left:auto;top:112px;bottom:auto;width:360px;height:245px;
+ background:rgba(8,17,30,.97);border:1px solid #2f5875;border-radius:12px;
+ box-shadow:0 10px 35px rgba(0,0,0,.45);display:none;overflow:hidden;
+ direction:rtl;backdrop-filter:blur(8px)
 }
 .tableHead{
  height:43px;display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #2a3d56;
@@ -134,7 +135,7 @@ tr:hover td{background:#122238}
 .hidden{display:none!important}
 @media(max-width:850px){
  #sidebar{width:290px;right:6px;top:65px;bottom:auto;max-height:72vh}
- #tablePanel{left:6px;right:6px;bottom:6px;height:210px}
+ #tablePanel{left:auto;right:8px;top:96px;width:calc(100% - 16px);height:220px}
  #infoCard{left:6px;top:65px;width:calc(100% - 12px);max-height:35vh}
  .coordBar{bottom:225px;left:6px}
  .legend{right:6px;bottom:225px}
@@ -380,25 +381,25 @@ function popupHTML(props){
 function showFeature(type,feature,layer){
  lastSelectedLayer=layer;
  lastSelectedFeature=feature;
- const props=feature.properties||{};
- let h=`<div class="infoTitle"><b>${escapeHtml(config[type]?.name||type)}</b><button onclick="closeInfo()">✕</button></div>`;
- h+=popupHTML(props);
- h+='<div style="margin-top:8px"><button onclick="openAttributeTable()">▦ جدول مشخصات</button></div>';
- document.getElementById('infoCard').innerHTML=h;
- document.getElementById('infoCard').style.display='block';
- openAttributeTable();
+ // با انتخاب عارضه، فقط جدول توصیفی شناور نمایش داده می‌شود.
+ document.getElementById('infoCard').style.display='none';
+ openAttributeTable(config[type]?.name||'جدول مشخصات عارضه');
 }
 
 function closeInfo(){document.getElementById('infoCard').style.display='none'}
 
-function openAttributeTable(){
+function openAttributeTable(title='جدول مشخصات عارضه'){
  if(!lastSelectedFeature)return;
  const p=lastSelectedFeature.properties||{};
  const t=document.getElementById('attributeTable');
  const keys=Object.keys(p);
- t.innerHTML='<thead><tr>'+keys.map(k=>`<th>${escapeHtml(k)}</th>`).join('')+'</tr></thead>'+
- '<tbody><tr>'+keys.map(k=>`<td>${escapeHtml(typeof p[k]==='object'?JSON.stringify(p[k]):p[k])}</td>`).join('')+'</tr></tbody>';
- document.getElementById('tableTitle').innerText='جدول مشخصات عارضه';
+ if(!keys.length){
+  t.innerHTML='<tbody><tr><td style="text-align:center;padding:20px">اطلاعات توصیفی برای این عارضه ثبت نشده است.</td></tr></tbody>';
+ }else{
+  t.innerHTML='<thead><tr>'+keys.map(k=>`<th>${escapeHtml(k)}</th>`).join('')+'</tr></thead>'+
+   '<tbody><tr>'+keys.map(k=>`<td>${escapeHtml(typeof p[k]==='object'?JSON.stringify(p[k]):p[k])}</td>`).join('')+'</tr></tbody>';
+ }
+ document.getElementById('tableTitle').innerText=title;
  document.getElementById('tablePanel').style.display='block';
 }
 
@@ -412,7 +413,6 @@ function buildLayer(type){
    style:()=>featureStyle(c.color),
    pointToLayer:(f,ll)=>L.circleMarker(ll,pointStyle(c.color)),
    onEachFeature:(f,l)=>{
-    l.bindPopup(popupHTML(f.properties||{}),{maxWidth:360});
     l.on('click',()=>showFeature(type,f,l));
    }
   }).addTo(map);
@@ -580,7 +580,6 @@ function addImported(geo,name){
   style:{color:'#fbbf24',weight:3,fillColor:'#fbbf24',fillOpacity:.12},
   pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:7,color:'#fbbf24',fillColor:'#fbbf24',fillOpacity:.9}),
   onEachFeature:(f,l)=>{
-   l.bindPopup(popupHTML(f.properties||{}));
    l.on('click',()=>showImported(f,l,name));
   }
  });
@@ -589,14 +588,12 @@ function addImported(geo,name){
  setStatus(name+' با موفقیت وارد شد');
 }
 function showImported(f,l,name){
- lastSelectedLayer=l;lastSelectedFeature=f;
- let h=`<div class="infoTitle"><b>📂 ${escapeHtml(name)}</b><button onclick="closeInfo()">✕</button></div>`;
- h+=popupHTML(f.properties||{});
- h+='<div style="margin-top:8px"><button onclick="openAttributeTable()">▦ جدول مشخصات</button></div>';
- document.getElementById('infoCard').innerHTML=h;
- document.getElementById('infoCard').style.display='block';
- openAttributeTable();
+ lastSelectedLayer=l;
+ lastSelectedFeature=f;
+ document.getElementById('infoCard').style.display='none';
+ openAttributeTable('جدول مشخصات - '+name);
 }
+
 async function importGeoJSON(input){
  const f=input.files[0];if(!f)return;
  try{addImported(JSON.parse(await f.text()),f.name)}catch(e){alert('GeoJSON معتبر نیست.')}
