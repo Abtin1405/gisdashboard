@@ -29,26 +29,13 @@ input,select{
 }
 .top{
  position:absolute;z-index:1000;top:10px;right:10px;left:10px;min-height:86px;
- background:
-   linear-gradient(rgba(8,17,31,.70),rgba(8,17,31,.88)),
-   url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Transmission_Towers.jpg");
- background-size:cover;background-position:center 48%;
- border:1px solid #263951;border-radius:12px;
- display:flex;align-items:center;gap:7px;padding:10px 14px;
- box-shadow:0 8px 30px #0008;overflow:hidden
+ background:linear-gradient(rgba(8,17,31,.72),rgba(8,17,31,.88)),url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Transmission_Towers.jpg");background-size:cover;background-position:center;border:1px solid #263951;border-radius:12px;
+ display:flex;align-items:center;gap:7px;padding:7px 9px;box-shadow:0 8px 30px #0008
 }
-.top:after{
- content:"";position:absolute;inset:0;pointer-events:none;
- background:linear-gradient(90deg,rgba(5,13,24,.82),rgba(5,13,24,.38),rgba(5,13,24,.78));
-}
-.logo{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-left:auto;font-weight:bold;color:#b9ecff;font-size:19px;text-shadow:0 2px 5px #000}
+.logo{display:flex;align-items:center;gap:8px;margin-left:auto;font-weight:bold;color:#b9ecff;font-size:19px;text-shadow:0 2px 5px #000;position:relative;z-index:2}
 .logoIcon{
- width:40px;height:40px;border-radius:9px;background:rgba(11,73,105,.9);display:flex;
- align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 8px #0008
-}
-.headerEmail{
- position:absolute;z-index:2;left:16px;bottom:8px;color:#d8f5ff;font-size:12px;
- direction:ltr;text-shadow:0 1px 4px #000;font-weight:500
+ width:34px;height:34px;border-radius:9px;background:#0b4969;display:flex;
+ align-items:center;justify-content:center;font-size:20px
 }
 .iconBtn{font-size:18px;padding:7px 10px}
 #sidebar{
@@ -86,9 +73,8 @@ input,select{
 .row>*{flex:1}
 #tablePanel{
  position:absolute;z-index:1200;right:18px;left:auto;top:112px;bottom:auto;width:360px;height:245px;
- background:rgba(8,17,30,.97);border:1px solid #2f5875;border-radius:12px;
- box-shadow:0 10px 35px rgba(0,0,0,.45);display:none;overflow:hidden;
- direction:rtl;backdrop-filter:blur(8px)
+ background:rgba(8,17,30,.97);border:1px solid #2a3d56;border-radius:11px;
+ box-shadow:0 8px 30px #0009;display:none;overflow:hidden
 }
 .tableHead{
  height:43px;display:flex;align-items:center;padding:7px 10px;border-bottom:1px solid #2a3d56;
@@ -135,8 +121,8 @@ tr:hover td{background:#122238}
 .hidden{display:none!important}
 @media(max-width:850px){
  #sidebar{width:290px;right:6px;top:65px;bottom:auto;max-height:72vh}
- #tablePanel{left:auto;right:8px;top:96px;width:calc(100% - 16px);height:220px}
- #infoCard{left:6px;top:65px;width:calc(100% - 12px);max-height:35vh}
+ #tablePanel{left:6px;right:6px;bottom:6px;height:210px}
+ #infoCard{left:6px;top:96px;width:calc(100% - 12px);max-height:35vh}
  .coordBar{bottom:225px;left:6px}
  .legend{right:6px;bottom:225px}
  .logo{font-size:12px}
@@ -150,7 +136,7 @@ tr:hover td{background:#122238}
 
 <div class="top">
  <div class="logo"><div class="logoIcon">⚡</div>سامانه اطلاعات مکانی برق منطقه ای فارس</div>
- <div class="headerEmail">kh.rahimi1402@gmail.com</div>
+ <div style="position:absolute;left:16px;bottom:8px;z-index:2;color:#d8f5ff;font-size:12px;direction:ltr;text-shadow:0 1px 4px #000">kh.rahimi1402@gmail.com</div>
  <button class="iconBtn" onclick="toggleSidebar()" title="مدیریت">☰</button>
  <button class="iconBtn" onclick="toggleTable()" title="جدول مشخصات">▦</button>
  <button class="iconBtn" onclick="locateUser()" title="موقعیت من">📍</button>
@@ -381,7 +367,6 @@ function popupHTML(props){
 function showFeature(type,feature,layer){
  lastSelectedLayer=layer;
  lastSelectedFeature=feature;
- // با انتخاب عارضه، فقط جدول توصیفی شناور نمایش داده می‌شود.
  document.getElementById('infoCard').style.display='none';
  openAttributeTable(config[type]?.name||'جدول مشخصات عارضه');
 }
@@ -593,7 +578,6 @@ function showImported(f,l,name){
  document.getElementById('infoCard').style.display='none';
  openAttributeTable('جدول مشخصات - '+name);
 }
-
 async function importGeoJSON(input){
  const f=input.files[0];if(!f)return;
  try{addImported(JSON.parse(await f.text()),f.name)}catch(e){alert('GeoJSON معتبر نیست.')}
