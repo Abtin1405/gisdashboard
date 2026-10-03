@@ -128,6 +128,24 @@ tr:hover td{background:#122238}
  .logo{font-size:12px}
  .top{overflow-x:auto}
 }
+
+/* Enhanced GIS management */
+.gisModal{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:5000;display:flex;align-items:center;justify-content:center;padding:12px}
+.gisModalBox{width:min(760px,96vw);max-height:86vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 60px #000b;padding:13px;direction:rtl}
+.gisModalHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.gisModalHead b{font-size:14px;color:#bdefff}
+.gisClose{background:#18283d!important;padding:4px 8px!important}
+.gisCards{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.gisCard{background:#0a1524;border:1px solid var(--line);border-radius:9px;padding:10px}
+.gisCard .v{font-size:18px;font-weight:bold;color:#dff7ff}
+.gisCard .k{font-size:10px;color:var(--muted);margin-top:3px}
+.gisTable{width:100%;border-collapse:collapse;font-size:11px}
+.gisTable th,.gisTable td{border-bottom:1px solid var(--line);padding:7px;text-align:right}
+.gisTable th{background:#14263d;color:#9edff8;position:sticky;top:0}
+.gisInput{width:100%;box-sizing:border-box;background:#0a1524;color:var(--text);border:1px solid #30465f;border-radius:6px;padding:8px}
+.gisAction{background:#12304a!important;border-color:#2d5974!important}
+@media(max-width:700px){.gisCards{grid-template-columns:1fr 1fr}.gisModalBox{max-height:91vh}}
+
 </style>
 </head>
 
@@ -148,6 +166,7 @@ tr:hover td{background:#122238}
   <div class="tab active" onclick="showTab('layers',this)">لایه‌ها</div>
   <div class="tab" onclick="showTab('tools',this)">ابزارها</div>
   <div class="tab" onclick="showTab('data',this)">ورود داده</div>
+  <div class="tab" onclick="showTab('manage',this)">مدیریت GIS</div>
  </div>
 
  <div id="layersTab" class="content">
@@ -282,6 +301,22 @@ tr:hover td{background:#122238}
     <br>dg.geojson
    </div>
   </div>
+ </div>
+</div>
+
+
+<div id="manageTab" class="content hidden">
+ <div class="section">
+  <div class="sectionTitle">📊 مدیریت و گزارش GIS</div>
+  <div class="grid2">
+   <button onclick="openGisDashboard()">داشبورد</button>
+   <button onclick="openAdvancedSearch()">جستجوی پیشرفته</button>
+   <button onclick="openProjectManager()">پروژه‌ها</button>
+   <button onclick="openLoadManager()">بار و ظرفیت پست</button>
+   <button onclick="openTimeCompare()">مقایسه زمانی</button>
+   <button onclick="openReports()">گزارش‌گیری</button>
+  </div>
+  <p class="small">ماژول‌های «حوادث» و «تحلیل مکانی» در این نسخه وجود ندارند.</p>
  </div>
 </div>
 
@@ -433,7 +468,7 @@ function toggleTable(){
 function showTab(tab,el){
  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
  el.classList.add('active');
- ['layers','tools','data'].forEach(x=>document.getElementById(x+'Tab').classList.add('hidden'));
+ ['layers','tools','data','manage'].forEach(x=>document.getElementById(x+'Tab').classList.add('hidden'));
  document.getElementById(tab+'Tab').classList.remove('hidden');
 }
 
