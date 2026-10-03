@@ -1,0 +1,47 @@
+{
+  "type": "CIMSimpleRenderer",
+  "sampleSize": 10000,
+  "patch": "Default",
+  "symbol": {
+    "type": "CIMSymbolReference",
+    "symbol": {
+      "type": "CIMPolygonSymbol",
+      "symbolLayers": [
+        {
+          "type": "CIMSolidStroke",
+          "enable": true,
+          "capStyle": "Round",
+          "joinStyle": "Round",
+          "lineStyle3D": "Strip",
+          "miterLimit": 10,
+          "width": 2,
+          "height3D": 1,
+          "anchor3D": "Center",
+          "color": {
+            "type": "CIMRGBColor",
+            "values": [
+              230,
+              152,
+              0,
+              100
+            ]
+          }
+        },
+        {
+          "type": "CIMSolidFill",
+          "enable": true,
+          "color": {
+            "type": "CIMRGBColor",
+            "values": [
+              130,
+              130,
+              130,
+              0
+            ]
+          }
+        }
+      ],
+      "angleAlignment": "Map"
+    }
+  }
+}
