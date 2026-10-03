@@ -1,0 +1,59 @@
+{
+  "renderer": {
+    "type": "simple",
+    "symbol": {
+      "type": "esriSFS",
+      "style": "esriSFSSolid",
+      "color": [
+        130,
+        130,
+        130,
+        0
+      ],
+      "outline": {
+        "type": "esriSLS",
+        "style": "esriSLSSolid",
+        "color": [
+          230,
+          152,
+          0,
+          255
+        ],
+        "width": 2
+      }
+    }
+  },
+  "labelingInfo": [
+    {
+      "labelExpressionInfo": {
+        "expression": "$feature.name"
+      },
+      "labelExpression": "[name]",
+      "labelPlacement": "esriServerPolygonPlacementAlwaysHorizontal",
+      "symbol": {
+        "type": "esriTS",
+        "color": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "font": {
+          "family": "Tahoma",
+          "size": 10
+        },
+        "horizontalAlignment": "center",
+        "verticalAlignment": "middle",
+        "haloColor": [
+          255,
+          255,
+          255,
+          0
+        ],
+        "haloSize": 0
+      },
+      "minScale": 0,
+      "maxScale": 0
+    }
+  ]
+}
