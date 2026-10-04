@@ -146,179 +146,223 @@ tr:hover td{background:#122238}
 .gisAction{background:#12304a!important;border-color:#2d5974!important}
 @media(max-width:700px){.gisCards{grid-template-columns:1fr 1fr}.gisModalBox{max-height:91vh}}
 
+
+@font-face{
+ font-family:'IranNastaliq';
+ src:local('IranNastaliq'),local('Iran Nastaliq');
+ font-weight:normal;
+ font-style:normal;
+}
+.titleNastaliq{
+ font-family:'IranNastaliq','B Nazanin','Tahoma',serif;
+ font-size:27px;
+ color:#e8faff;
+ text-shadow:0 2px 6px #000;
+ white-space:nowrap;
+}
+.loginOverlay{
+ position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;
+ background:linear-gradient(rgba(4,12,22,.78),rgba(4,12,22,.92)),
+ url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Transmission_Towers.jpg") center/cover;
+}
+.loginBox{
+ width:min(390px,92vw);padding:25px;border:1px solid #34506c;border-radius:16px;
+ background:rgba(9,20,34,.96);box-shadow:0 20px 70px #000c;text-align:center;
+}
+.loginLogo{font-size:42px;margin-bottom:8px}
+.loginBox h1{font-size:20px;color:#bdefff;margin:5px 0 20px}
+.loginBox input{margin:6px 0;padding:11px}
+.loginBox button{width:100%;margin-top:10px;padding:11px}
+.loginError{min-height:18px;color:#ff8585;font-size:11px;margin-top:8px}
+.logoutBtn{font-size:11px!important;padding:6px 8px!important}
+.accordionMenu{overflow:auto;padding:7px}
+.accordionItem{border-bottom:1px solid #24354b}
+.accordionHeader{
+ width:100%;display:flex;align-items:center;gap:8px;text-align:right;
+ background:transparent;border:0;border-radius:0;padding:13px 10px;color:#e8eef7;
+}
+.accordionHeader:hover{background:#122239}
+.accordionArrow{margin-left:auto;transition:transform .2s}
+.accordionHeader.open .accordionArrow{transform:rotate(180deg)}
+.accordionBody{display:none;padding:0 7px 8px}
+.accordionBody.open{display:block}
+.accordionBody .section{margin-bottom:8px}
+@media(max-width:850px){
+ .top{top:5px;right:5px;left:5px;min-height:62px;padding:6px}
+ .titleNastaliq{font-size:17px}
+ .logoIcon{width:29px;height:29px;font-size:17px}
+ .top .iconBtn{font-size:16px;padding:6px 8px}
+ #sidebar{
+   right:5px;top:72px;width:min(92vw,360px);bottom:5px;max-height:calc(100vh - 77px);
+ }
+ .legend{right:5px;bottom:70px;min-width:105px}
+ .coordBar{left:5px;bottom:70px;max-width:48vw}
+ .leaflet-control-zoom{margin-top:74px!important}
+ .status{bottom:5px;max-width:80vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+@media(max-width:480px){
+ .top{flex-wrap:wrap;justify-content:flex-start}
+ .logo{margin-left:auto;order:0}
+ .titleNastaliq{font-size:15px}
+ .top .iconBtn{order:2}
+ #sidebar{width:calc(100vw - 10px)}
+ .legend{font-size:9px}
+ .legendRow{margin:3px 0}
+}
+@media print{
+ @page{size:A4 landscape;margin:0}
+ html,body{width:100%;height:100%;background:#fff!important}
+ body>*:not(#map){display:none!important}
+ #map{
+   position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+   display:block!important;
+ }
+ .leaflet-control-container,.leaflet-control-attribution{display:none!important}
+ .leaflet-tile{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+
 </style>
 </head>
 
 <body>
+
+<div id="loginOverlay" class="loginOverlay">
+ <form class="loginBox" onsubmit="return doLogin(event)">
+  <div class="loginLogo">⚡</div>
+  <h1>سامانه اطلاعات مکانی برق منطقه ای فارس</h1>
+  <input id="loginUser" autocomplete="username" placeholder="نام کاربری" required>
+  <input id="loginPass" type="password" autocomplete="current-password" placeholder="رمز عبور" required>
+  <button class="primary" type="submit">ورود به سامانه</button>
+  <div id="loginError" class="loginError"></div>
+  <div class="small">برای نسخه آزمایشی: admin / 1234</div>
+ </form>
+</div>
+
 <div id="map"></div>
 
 <div class="top">
- <div class="logo"><div class="logoIcon">⚡</div>سامانه اطلاعات مکانی برق منطقه ای فارس</div>
- <div style="position:absolute;left:16px;bottom:8px;z-index:2;color:#d8f5ff;font-size:12px;direction:ltr;text-shadow:0 1px 4px #000">kh.rahimi1402@gmail.com</div>
- <button class="iconBtn" onclick="toggleSidebar()" title="مدیریت">☰</button>
+ <div class="logo">
+  <div class="logoIcon">⚡</div>
+  <div class="titleNastaliq">سامانه اطلاعات مکانی برق منطقه ای فارس</div>
+ </div>
+ <div style="position:absolute;left:16px;bottom:6px;z-index:2;color:#d8f5ff;font-size:10px;direction:ltr;text-shadow:0 1px 4px #000">kh.rahimi1402@gmail.com</div>
+ <button class="iconBtn" onclick="toggleSidebar()" title="منو">☰</button>
  <button class="iconBtn" onclick="toggleTable()" title="جدول مشخصات">▦</button>
  <button class="iconBtn" onclick="locateUser()" title="موقعیت من">📍</button>
- <button class="iconBtn" onclick="printMap()" title="چاپ">🖨</button>
+ <button class="iconBtn" onclick="printMap()" title="چاپ نقشه">🖨</button>
+ <button class="logoutBtn" onclick="logout()" title="خروج">خروج</button>
 </div>
+
 
 <div id="sidebar">
- <div class="tabs">
-  <div class="tab active" onclick="showTab('layers',this)">لایه‌ها</div>
-  <div class="tab" onclick="showTab('tools',this)">ابزارها</div>
-  <div class="tab" onclick="showTab('data',this)">ورود داده</div>
-  <div class="tab" onclick="showTab('manage',this)">مدیریت GIS</div>
- </div>
+ <div class="accordionMenu">
 
- <div id="layersTab" class="content">
-  <div class="section">
-   <div class="sectionTitle">🗺 نقشه پایه</div>
-   <select id="basemap" onchange="setBasemap(this.value)">
-    <option value="osm">OpenStreetMap</option>
-    <option value="google">Google Maps</option>
-    <option value="googleSat">Google Satellite</option>
-    <option value="esri">Esri Satellite</option>
-    <option value="dark">Dark GIS</option>
-   </select>
-  </div>
-
-  <div class="section">
-   <div class="sectionTitle">⚡ لایه‌های اصلی شبکه برق</div>
-
-   <label class="layer"><input type="checkbox" data-layer="line" checked onchange="setLayerVisible('line',this.checked)">
-   <span class="swatch" style="background:#ef4444"></span>خطوط انتقال و فوق‌توزیع <span id="count-line" class="layerCount"></span></label>
-
-   <label class="layer"><input type="checkbox" data-layer="post" checked onchange="setLayerVisible('post',this.checked)">
-   <span class="swatch" style="background:#f59e0b"></span>پست‌ها <span id="count-post" class="layerCount"></span></label>
-
-   <label class="layer"><input type="checkbox" data-layer="county" checked onchange="setLayerVisible('county',this.checked)">
-   <span class="swatch" style="background:#22c55e"></span>شهرستان‌ها <span id="count-county" class="layerCount"></span></label>
-
-   <label class="layer"><input type="checkbox" data-layer="plant" checked onchange="setLayerVisible('plant',this.checked)">
-   <span class="swatch" style="background:#a855f7"></span>نیروگاه‌ها <span id="count-plant" class="layerCount"></span></label>
-
-   <label class="layer"><input type="checkbox" data-layer="tower" checked onchange="setLayerVisible('tower',this.checked)">
-   <span class="swatch" style="background:#06b6d4"></span>دکل‌ها <span id="count-tower" class="layerCount"></span></label>
-
-   <label class="layer"><input type="checkbox" data-layer="dg" checked onchange="setLayerVisible('dg',this.checked)">
-   <span class="swatch" style="background:#84cc16"></span>DG <span id="count-dg" class="layerCount"></span></label>
-  </div>
-
-  <div class="section">
-   <div class="sectionTitle">🔎 جستجو در عوارض</div>
-   <div class="row">
-    <input id="searchInput" placeholder="نام، کد، نوع و...">
-    <button class="primary" onclick="searchAll()">جستجو</button>
-   </div>
-   <div id="searchResults" class="searchResults"></div>
-  </div>
- </div>
-
- <div id="toolsTab" class="content hidden">
-  <div class="section">
-   <div class="sectionTitle">📏 اندازه‌گیری</div>
-   <div class="grid2">
-    <button onclick="measureLine()">📏 طول</button>
-    <button onclick="measurePolygon()">⬡ مساحت</button>
-   </div>
-   <button style="width:100%;margin-top:6px" onclick="clearMeasure()">پاک کردن اندازه‌گیری</button>
-   <div id="measureResult" class="measureBox"></div>
-  </div>
-
-  <div class="section">
-   <div class="sectionTitle">📍 رفتن به مختصات</div>
-   <select id="coordType" onchange="coordMode()">
-    <option value="utm">UTM</option>
-    <option value="dms">DMS</option>
-    <option value="decimal">Decimal Degree</option>
-   </select>
-
-   <div id="utmBox" style="margin-top:7px">
-    <div class="grid2">
-     <input id="zone" placeholder="Zone (مثلاً 39)">
-     <select id="hemisphere"><option value="N">شمالی</option><option value="S">جنوبی</option></select>
+  <div class="accordionItem">
+   <button class="accordionHeader open" onclick="toggleAccordion(this)">
+    🗺️ <span>لایه‌ها و نقشه</span><span class="accordionArrow">▼</span>
+   </button>
+   <div class="accordionBody open">
+    <div class="section">
+     <div class="sectionTitle">نقشه پایه</div>
+     <select id="basemap" onchange="setBasemap(this.value)">
+      <option value="esri" selected>Esri Satellite</option>
+      <option value="osm">OpenStreetMap</option>
+      <option value="google">Google Maps</option>
+      <option value="googleSat">Google Satellite</option>
+      <option value="dark">Dark GIS</option>
+     </select>
     </div>
-    <input id="easting" style="margin-top:6px" placeholder="Easting">
-    <input id="northing" style="margin-top:6px" placeholder="Northing">
-   </div>
-
-   <div id="dmsBox" class="hidden" style="margin-top:7px">
-    <input id="latDms" placeholder="Lat: 29°36'00&quot;N">
-    <input id="lonDms" style="margin-top:6px" placeholder="Lon: 52°32'00&quot;E">
-   </div>
-
-   <div id="decimalBox" class="hidden" style="margin-top:7px">
-    <input id="latDec" placeholder="Latitude">
-    <input id="lonDec" style="margin-top:6px" placeholder="Longitude">
-   </div>
-
-   <button class="primary" style="width:100%;margin-top:7px" onclick="goToCoordinate()">📍 نمایش روی نقشه</button>
-   <div id="coordResult" class="small"></div>
-  </div>
-
-  <div class="section">
-   <div class="sectionTitle">🧭 ابزارهای سریع</div>
-   <div class="grid2">
-    <button onclick="zoomFull()">نمای کلی</button>
-    <button onclick="clearImported()">پاک کردن ورودی‌ها</button>
+    <div class="section">
+     <div class="sectionTitle">⚡ لایه‌های اصلی شبکه برق</div>
+     <label class="layer"><input type="checkbox" data-layer="line" checked onchange="setLayerVisible('line',this.checked)">
+     <span class="swatch" style="background:#ef4444"></span>خطوط انتقال و فوق‌توزیع <span id="count-line" class="layerCount"></span></label>
+     <label class="layer"><input type="checkbox" data-layer="post" checked onchange="setLayerVisible('post',this.checked)">
+     <span class="swatch" style="background:#f59e0b"></span>پست‌ها <span id="count-post" class="layerCount"></span></label>
+     <label class="layer"><input type="checkbox" data-layer="county" checked onchange="setLayerVisible('county',this.checked)">
+     <span class="swatch" style="background:#22c55e"></span>شهرستان‌ها <span id="count-county" class="layerCount"></span></label>
+     <label class="layer"><input type="checkbox" data-layer="plant" checked onchange="setLayerVisible('plant',this.checked)">
+     <span class="swatch" style="background:#a855f7"></span>نیروگاه‌ها <span id="count-plant" class="layerCount"></span></label>
+     <label class="layer"><input type="checkbox" data-layer="tower" checked onchange="setLayerVisible('tower',this.checked)">
+     <span class="swatch" style="background:#06b6d4"></span>دکل‌ها <span id="count-tower" class="layerCount"></span></label>
+     <label class="layer"><input type="checkbox" data-layer="dg" checked onchange="setLayerVisible('dg',this.checked)">
+     <span class="swatch" style="background:#84cc16"></span>DG <span id="count-dg" class="layerCount"></span></label>
+    </div>
+    <div class="section">
+     <div class="sectionTitle">🔎 جستجو در عوارض</div>
+     <div class="row"><input id="searchInput" placeholder="نام، کد، نوع و..."><button class="primary" onclick="searchAll()">جستجو</button></div>
+     <div id="searchResults" class="searchResults"></div>
+    </div>
    </div>
   </div>
- </div>
 
- <div id="dataTab" class="content hidden">
-  <div class="section">
-   <div class="sectionTitle">📂 ورود داده مکانی</div>
-   <div class="fileRow">
-    <label class="fileLabel">GeoJSON / JSON
-     <input type="file" accept=".geojson,.json" onchange="importGeoJSON(this)">
-    </label>
-    <label class="fileLabel">KML
-     <input type="file" accept=".kml" onchange="importKML(this)">
-    </label>
-    <label class="fileLabel">SHP
-     <input type="file" accept=".shp,.zip" onchange="importSHP(this)">
-    </label>
-   </div>
-   <p class="small">
-    فایل SHP بهتر است به‌صورت ZIP شامل SHP، SHX، DBF و PRJ وارد شود.
-    داده‌های واردشده با رنگ زرد روی نقشه نمایش داده می‌شوند.
-   </p>
-  </div>
-
-  <div class="section">
-   <div class="sectionTitle">📥 خروجی</div>
-   <button style="width:100%" onclick="exportImported()">دانلود داده‌های واردشده به GeoJSON</button>
-  </div>
-
-  <div class="section">
-   <div class="sectionTitle">📁 ساختار لایه‌های اصلی</div>
-   <div class="small">
-    برای لایه‌های دائمی، این فایل‌ها را در پوشه <b>data</b> کنار index.html قرار دهید:
-    <br>line.geojson
-    <br>post.geojson
-    <br>shahrestan.geojson
-    <br>powerplant.geojson
-    <br>tower.geojson
-    <br>dg.geojson
+  <div class="accordionItem">
+   <button class="accordionHeader" onclick="toggleAccordion(this)">
+    🛠️ <span>ابزارهای GIS</span><span class="accordionArrow">▼</span>
+   </button>
+   <div class="accordionBody">
+    <div class="section">
+     <div class="sectionTitle">📏 اندازه‌گیری</div>
+     <div class="grid2"><button onclick="measureLine()">📏 طول</button><button onclick="measurePolygon()">⬡ مساحت</button></div>
+     <button style="width:100%;margin-top:6px" onclick="clearMeasure()">پاک کردن اندازه‌گیری</button>
+     <div id="measureResult" class="measureBox"></div>
+    </div>
+    <div class="section">
+     <div class="sectionTitle">📍 رفتن به مختصات</div>
+     <select id="coordType" onchange="coordMode()">
+      <option value="utm">UTM</option><option value="dms">DMS</option><option value="decimal">Decimal Degree</option>
+     </select>
+     <div id="utmBox" style="margin-top:7px">
+      <div class="grid2"><input id="zone" placeholder="Zone (مثلاً 39)"><select id="hemisphere"><option value="N">شمالی</option><option value="S">جنوبی</option></select></div>
+      <input id="easting" style="margin-top:6px" placeholder="Easting"><input id="northing" style="margin-top:6px" placeholder="Northing">
+     </div>
+     <div id="dmsBox" class="hidden" style="margin-top:7px"><input id="latDms" placeholder="Lat: 29°36'00&quot;N"><input id="lonDms" style="margin-top:6px" placeholder="Lon: 52°32'00&quot;E"></div>
+     <div id="decimalBox" class="hidden" style="margin-top:7px"><input id="latDec" placeholder="Latitude"><input id="lonDec" style="margin-top:6px" placeholder="Longitude"></div>
+     <button class="primary" style="width:100%;margin-top:7px" onclick="goToCoordinate()">📍 نمایش روی نقشه</button>
+     <div id="coordResult" class="small"></div>
+    </div>
+    <div class="section"><div class="sectionTitle">🧭 ابزارهای سریع</div><div class="grid2"><button onclick="zoomFull()">نمای کلی</button><button onclick="clearImported()">پاک کردن ورودی‌ها</button></div></div>
    </div>
   </div>
+
+  <div class="accordionItem">
+   <button class="accordionHeader" onclick="toggleAccordion(this)">
+    📂 <span>ورود و خروجی داده</span><span class="accordionArrow">▼</span>
+   </button>
+   <div class="accordionBody">
+    <div class="section">
+     <div class="sectionTitle">📂 ورود داده مکانی</div>
+     <div class="fileRow">
+      <label class="fileLabel">GeoJSON / JSON<input type="file" accept=".geojson,.json" onchange="importGeoJSON(this)"></label>
+      <label class="fileLabel">KML<input type="file" accept=".kml" onchange="importKML(this)"></label>
+      <label class="fileLabel">SHP<input type="file" accept=".shp,.zip" onchange="importSHP(this)"></label>
+     </div>
+     <p class="small">فایل SHP بهتر است به‌صورت ZIP شامل SHP، SHX، DBF و PRJ وارد شود.<br>داده‌های واردشده با رنگ زرد روی نقشه نمایش داده می‌شوند.</p>
+    </div>
+    <div class="section"><div class="sectionTitle">📥 خروجی</div><button style="width:100%" onclick="exportImported()">دانلود داده‌های واردشده به GeoJSON</button></div>
+    <div class="section"><div class="sectionTitle">📁 ساختار لایه‌های اصلی</div><div class="small">برای لایه‌های دائمی، فایل‌ها را در پوشه <b>data</b> کنار index.html قرار دهید:<br>line.geojson<br>post.geojson<br>shahrestan.geojson<br>powerplant.geojson<br>tower.geojson<br>dg.geojson</div></div>
+   </div>
+  </div>
+
+  <div class="accordionItem">
+   <button class="accordionHeader" onclick="toggleAccordion(this)">
+    📊 <span>مدیریت GIS و گزارش‌ها</span><span class="accordionArrow">▼</span>
+   </button>
+   <div class="accordionBody">
+    <div class="section">
+     <div class="sectionTitle">📊 مدیریت و گزارش GIS</div>
+     <div class="grid2">
+      <button onclick="openGisDashboard()">داشبورد</button><button onclick="openAdvancedSearch()">جستجوی پیشرفته</button>
+      <button onclick="openProjectManager()">پروژه‌ها</button><button onclick="openLoadManager()">بار و ظرفیت پست</button>
+      <button onclick="openTimeCompare()">مقایسه زمانی</button><button onclick="openReports()">گزارش‌گیری</button>
+     </div>
+     <p class="small">ماژول‌های «حوادث» و «تحلیل مکانی» در این نسخه وجود ندارند.</p>
+    </div>
+   </div>
+  </div>
+
  </div>
 </div>
 
-
-<div id="manageTab" class="content hidden">
- <div class="section">
-  <div class="sectionTitle">📊 مدیریت و گزارش GIS</div>
-  <div class="grid2">
-   <button onclick="openGisDashboard()">داشبورد</button>
-   <button onclick="openAdvancedSearch()">جستجوی پیشرفته</button>
-   <button onclick="openProjectManager()">پروژه‌ها</button>
-   <button onclick="openLoadManager()">بار و ظرفیت پست</button>
-   <button onclick="openTimeCompare()">مقایسه زمانی</button>
-   <button onclick="openReports()">گزارش‌گیری</button>
-  </div>
-  <p class="small">ماژول‌های «حوادث» و «تحلیل مکانی» در این نسخه وجود ندارند.</p>
- </div>
-</div>
 
 <div id="infoCard"></div>
 
@@ -360,7 +404,7 @@ const base={
  esri:L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'© Esri'}),
  dark:L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'© CARTO'})
 };
-base.osm.addTo(map);
+base.esri.addTo(map);
 
 const config={
  line:{file:'data/line.geojson',color:'#ef4444',type:'line',name:'خطوط انتقال و فوق‌توزیع'},
@@ -698,10 +742,47 @@ function zoomFull(){
  if(b&&b.isValid())map.fitBounds(b,{padding:[30,30]});
 }
 function printMap(){
+ // فقط محیط نقشه چاپ می‌شود؛ کنترل‌ها و پنل‌ها توسط CSS چاپ مخفی هستند.
  window.print();
 }
 
-setTimeout(()=>setStatus('WebGIS آماده است — فایل‌های موجود در data به‌صورت خودکار بارگذاری می‌شوند.'),1800);
+function toggleAccordion(header){
+ const body=header.nextElementSibling;
+ const isOpen=body.classList.contains('open');
+ document.querySelectorAll('.accordionBody').forEach(x=>x.classList.remove('open'));
+ document.querySelectorAll('.accordionHeader').forEach(x=>x.classList.remove('open'));
+ if(!isOpen){
+  body.classList.add('open');
+  header.classList.add('open');
+ }
+}
+
+function doLogin(e){
+ e.preventDefault();
+ const u=document.getElementById('loginUser').value.trim();
+ const p=document.getElementById('loginPass').value;
+ if(u==='admin' && p==='1234'){
+  sessionStorage.setItem('webgisLoggedIn','1');
+  document.getElementById('loginOverlay').style.display='none';
+  setTimeout(()=>map.invalidateSize(),100);
+  return false;
+ }
+ document.getElementById('loginError').innerText='نام کاربری یا رمز عبور صحیح نیست.';
+ return false;
+}
+
+function logout(){
+ sessionStorage.removeItem('webgisLoggedIn');
+ location.reload();
+}
+
+if(sessionStorage.getItem('webgisLoggedIn')==='1'){
+ document.getElementById('loginOverlay').style.display='none';
+}else{
+ document.getElementById('loginOverlay').style.display='flex';
+}
+
+setTimeout(()=>setStatus('WebGIS آماده است — نقشه پایه: Esri Satellite'),1800);
 </script>
 </body>
 </html>
