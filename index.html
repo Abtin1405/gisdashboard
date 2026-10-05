@@ -583,6 +583,571 @@ body{background:#03182c}
  #referenceLayerPanel{width:calc(100vw - 70px)}
 }
 
+
+/* ==========================================================
+   طراحی رابط کاربری مطابق تصویر مرجع سامانه GIS شبکه برق فارس
+   ========================================================== */
+:root{
+ --ui-navy:#021a34;
+ --ui-navy2:#062a4d;
+ --ui-blue:#078be4;
+ --ui-blue2:#0d5f9a;
+ --ui-border:#1267a0;
+ --ui-text:#f2f8ff;
+ --ui-muted:#a7c4df;
+}
+html,body{overflow:hidden;background:#001426}
+#map{z-index:1}
+
+/* هدر */
+.top{
+ position:absolute!important;z-index:3000!important;
+ top:0!important;left:0!important;right:0!important;
+ height:138px!important;min-height:138px!important;
+ padding:0!important;border:0!important;border-radius:0 0 12px 12px!important;
+ background:
+   linear-gradient(180deg,rgba(0,20,43,.30),rgba(0,17,37,.74)),
+   url(data:image/jpeg;base64,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) center/cover no-repeat!important;
+ box-shadow:0 5px 22px rgba(0,0,0,.55)!important;
+ overflow:hidden;
+}
+.top:after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(90deg,rgba(0,19,40,.16),transparent 25%,transparent 75%,rgba(0,19,40,.22));
+}
+.logo{
+ position:absolute!important;right:28px!important;top:10px!important;
+ margin:0!important;display:flex!important;align-items:center!important;
+ gap:13px!important;direction:rtl;z-index:3;
+}
+.headerLogoImg{
+ width:68px!important;height:68px!important;border-radius:50%!important;
+ filter:drop-shadow(0 3px 7px #000)!important;
+}
+.titleNastaliq{
+ font-family:'IranNastaliq','B Nazanin','Tahoma',serif!important;
+ font-size:38px!important;font-weight:normal!important;
+ color:#fff!important;line-height:1.4!important;
+ text-shadow:0 3px 8px rgba(0,0,0,.95)!important;
+}
+.top > div[style*="kh.rahimi"]{display:none!important}
+
+/* کنترل‌های بالای چپ مثل تصویر */
+.top .iconBtn{
+ position:relative;z-index:4!important;
+ margin:0!important;width:42px!important;height:42px!important;
+ padding:0!important;border-radius:9px!important;
+ background:rgba(1,28,54,.88)!important;border:1px solid #1a70aa!important;
+ color:#fff!important;font-size:20px!important;
+ box-shadow:0 3px 12px rgba(0,0,0,.35);
+}
+.top .iconBtn:first-of-type{
+ position:absolute!important;left:17px!important;top:88px!important;
+}
+.top .iconBtn:nth-of-type(2){position:absolute!important;left:66px!important;top:88px!important}
+.top .iconBtn:nth-of-type(3){position:absolute!important;left:115px!important;top:88px!important}
+.top .iconBtn:nth-of-type(4){position:absolute!important;left:164px!important;top:88px!important}
+.top .logoutBtn{
+ position:absolute!important;left:214px!important;top:88px!important;
+ z-index:4!important;height:42px!important;padding:0 15px!important;
+ border-radius:9px!important;background:rgba(1,28,54,.88)!important;
+ border:1px solid #1a70aa!important;color:#fff!important;font-weight:700;
+}
+
+/* هدر لایه سمت چپ */
+#sidebar{
+ position:absolute!important;z-index:2500!important;
+ left:0!important;right:auto!important;top:138px!important;bottom:56px!important;
+ width:256px!important;max-height:none!important;
+ border:1px solid #075d91!important;border-left:0!important;
+ border-radius:0 11px 0 0!important;
+ background:linear-gradient(180deg,rgba(1,31,59,.98),rgba(1,20,39,.99))!important;
+ box-shadow:6px 0 25px rgba(0,0,0,.45)!important;
+ overflow:hidden!important;
+}
+.accordionMenu{padding:3px 0 10px!important;overflow:auto;height:100%}
+.accordionItem{
+ margin:0 0 3px!important;border:0!important;border-radius:0!important;
+ background:transparent!important;overflow:hidden!important;
+}
+.accordionHeader{
+ width:100%!important;height:51px!important;min-height:51px!important;
+ padding:0 15px!important;display:flex!important;align-items:center!important;
+ gap:10px!important;border:1px solid #0b6ca7!important;border-left:0!important;
+ border-right:0!important;border-radius:0 9px 9px 0!important;
+ color:#fff!important;font-size:17px!important;font-weight:900!important;
+ background:linear-gradient(90deg,#064a78,#052f50)!important;
+ text-shadow:0 2px 3px #000!important;
+}
+.accordionHeader.open{
+ background:linear-gradient(90deg,#075e98,#073b62)!important;
+ box-shadow:inset 0 0 20px rgba(0,151,255,.10);
+}
+.accordionArrow{margin-right:auto!important;font-size:15px!important;color:#bdeaff}
+.accordionBody{
+ padding:7px 11px 10px!important;background:rgba(1,23,43,.56)!important;
+}
+.section{margin:0!important;padding:8px 2px!important;border-bottom:1px solid rgba(42,111,151,.45)!important}
+.section:last-child{border-bottom:0!important}
+.sectionTitle{
+ color:#c6eaff!important;font-size:13px!important;font-weight:900!important;
+ margin-bottom:7px!important;
+}
+.layer{
+ min-height:32px!important;padding:6px 4px!important;border-radius:6px!important;
+ font-size:12px!important;color:#e9f6ff!important;
+}
+.layer:hover{background:#0a3b60!important}
+.layerCount{color:#79a9c9!important}
+.fileLabel{background:#07385b!important;border-color:#0d5d8d!important;color:#fff!important}
+.fileLabel:hover{background:#0b4c78!important}
+
+/* پنل لایه‌های سمت راست */
+#referenceLayerPanel{
+ position:absolute!important;z-index:2600!important;
+ right:70px!important;top:145px!important;width:276px!important;
+ max-height:calc(100vh - 230px)!important;overflow:auto!important;
+ background:linear-gradient(180deg,rgba(1,31,57,.98),rgba(1,23,43,.98))!important;
+ border:1px solid #12699d!important;border-radius:10px!important;
+ box-shadow:0 12px 35px rgba(0,0,0,.58)!important;
+ direction:rtl!important;color:#fff!important;
+}
+.refHead{
+ height:49px!important;padding:0 13px!important;
+ border-bottom:1px solid #175b83!important;
+ font-size:17px!important;font-weight:900!important;
+}
+.refHead span:last-child{font-size:22px!important;color:#dff6ff}
+.refSection{padding:9px 12px!important;border-bottom:1px solid #194766!important}
+.refSectionTitle{font-size:12px!important;color:#c8eaff!important;font-weight:900!important}
+.refLayer{
+ padding:7px 3px!important;font-size:12px!important;color:#f1f8ff!important;
+ border-radius:5px!important;
+}
+.refLayer:hover{background:#0a3d61!important}
+.refRadio,.refCheck{accent-color:#138fe6!important}
+.refCount{color:#78a5c5!important}
+
+/* نوار جستجو و ابزار بالای نقشه */
+#mapToolbar{
+ position:absolute!important;z-index:2700!important;
+ top:146px!important;left:265px!important;right:355px!important;
+ height:43px!important;display:flex!important;align-items:center!important;
+ gap:7px!important;direction:ltr!important;
+}
+.mapSearch{
+ height:42px!important;flex:1!important;max-width:286px!important;
+ background:rgba(2,29,54,.95)!important;border:1px solid #1b70a7!important;
+ border-radius:9px!important;
+}
+.mapSearch input{font-size:12px!important;color:#fff!important}
+.mapToolBtn{
+ height:42px!important;min-width:42px!important;padding:0 11px!important;
+ background:rgba(2,29,54,.95)!important;border:1px solid #1b70a7!important;
+ border-radius:9px!important;color:#fff!important;font-size:18px!important;
+ box-shadow:0 4px 13px rgba(0,0,0,.35);
+}
+
+/* نوار ابزار عمودی سمت راست */
+#rightTools{
+ position:absolute!important;z-index:2800!important;
+ right:8px!important;top:145px!important;
+ display:flex!important;flex-direction:column!important;gap:0!important;
+}
+.rightTool{
+ width:45px!important;height:45px!important;
+ border:1px solid #1b70a7!important;border-radius:8px!important;
+ background:rgba(2,29,54,.97)!important;color:#fff!important;font-size:20px!important;
+ box-shadow:none!important;
+}
+.rightTool:first-child{border-radius:8px 8px 0 0!important}
+.rightTool:last-child{border-radius:0 0 8px 8px!important}
+
+/* داشبورد پایین */
+#layerDashboard{
+ position:absolute!important;z-index:2750!important;
+ left:264px!important;bottom:68px!important;
+ width:min(805px,calc(100vw - 650px))!important;min-width:650px!important;
+ padding:0!important;background:rgba(2,25,46,.97)!important;
+ border:1px solid #0d6da7!important;border-radius:13px!important;
+ box-shadow:0 10px 32px rgba(0,0,0,.55)!important;
+ overflow:hidden;
+}
+#layerDashboard .dashboardHead{
+ height:53px!important;padding:0 17px!important;
+ background:linear-gradient(90deg,#062d4c,#063e64)!important;
+ border-bottom:1px solid #0e689b!important;
+}
+.dashboardTitle{font-size:18px!important;font-weight:900!important;color:#fff!important}
+.dashboardSub{font-size:9px!important;color:#8fc1df!important}
+.dashboardCards{padding:8px 10px 10px!important;grid-template-columns:repeat(5,1fr)!important;gap:9px!important}
+.dashboardCard{
+ min-height:105px!important;padding:10px 6px!important;
+ background:linear-gradient(145deg,rgba(8,52,77,.95),rgba(4,31,51,.98))!important;
+ border:1px solid #17688e!important;border-radius:10px!important;
+ display:flex!important;flex-direction:column!important;justify-content:center!important;
+}
+.dashboardCard .dashIcon{font-size:23px!important}
+.dashboardCard .dashValue{font-size:18px!important;color:#fff!important}
+.dashboardCard .dashName{font-size:10px!important;color:#b5d4e9!important}
+
+/* نوار وضعیت پایین شبیه تصویر */
+#coordBar{
+ position:absolute!important;z-index:2900!important;
+ left:0!important;right:0!important;bottom:0!important;
+ transform:none!important;width:100%!important;min-width:0!important;
+ height:56px!important;padding:0 18px!important;
+ display:flex!important;align-items:center!important;justify-content:flex-start!important;
+ background:rgba(1,23,45,.98)!important;
+ border:0!important;border-top:1px solid #12699d!important;border-radius:0!important;
+ color:#eaf7ff!important;font-size:11px!important;font-weight:700!important;
+ box-shadow:0 -4px 15px rgba(0,0,0,.35)!important;
+ direction:ltr!important;
+}
+#status{bottom:65px!important;z-index:3001!important}
+.leaflet-control-zoom{display:none!important}
+.leaflet-bottom.leaflet-right{bottom:60px!important}
+
+/* راهنما را حذف کن تا همان خلوتی تصویر حفظ شود */
+#legend{display:none!important}
+
+/* نمایشگر اطلاعات نقطه */
+#infoCard{z-index:3500!important}
+
+/* موبایل */
+@media(max-width:850px){
+ .top{height:92px!important;min-height:92px!important}
+ .logo{right:10px!important;top:5px!important}
+ .titleNastaliq{font-size:23px!important}
+ .headerLogoImg{width:48px!important;height:48px!important}
+ .top .iconBtn:first-of-type{left:8px!important;top:50px!important}
+ .top .iconBtn:nth-of-type(2){left:55px!important;top:50px!important}
+ .top .iconBtn:nth-of-type(3){left:102px!important;top:50px!important}
+ .top .iconBtn:nth-of-type(4){left:149px!important;top:50px!important}
+ .top .logoutBtn{left:196px!important;top:50px!important}
+ #sidebar{top:92px!important;bottom:56px!important;width:min(290px,82vw)!important}
+ #mapToolbar{top:99px!important;left:8px!important;right:58px!important}
+ #mapToolbar .mapToolBtn:nth-last-child(-n+3){display:none!important}
+ #referenceLayerPanel{top:146px!important;right:58px!important;width:min(276px,78vw)!important}
+ #rightTools{right:6px!important;top:146px!important}
+ #layerDashboard{left:7px!important;bottom:64px!important;width:calc(100vw - 14px)!important;min-width:0!important}
+ .dashboardCards{grid-template-columns:repeat(3,1fr)!important}
+ #coordBar{height:48px!important;font-size:9px!important;padding:0 8px!important}
+}
+@media(max-width:480px){
+ .titleNastaliq{font-size:18px!important}
+ .headerLogoImg{width:42px!important;height:42px!important}
+ #referenceLayerPanel{width:calc(100vw - 75px)!important}
+ .dashboardCards{grid-template-columns:repeat(2,1fr)!important}
+ .dashboardCard{min-height:80px!important}
+}
+@media print{
+ .top,#sidebar,#referenceLayerPanel,#mapToolbar,#rightTools,#layerDashboard,#coordBar,#status{display:none!important}
+ #map{position:absolute!important;inset:0!important}
+ .leaflet-control-container{display:none!important}
+}
+
+
+/* ==========================================================
+   Typography + menu placement — مطابق تصویر مرجع
+   ========================================================== */
+
+/* فونت نزدیک به نمونه مرجع */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+
+html,body,
+button,input,select,textarea,
+.accordionHeader,.accordionBody,.layer,.sectionTitle,
+.refHead,.refSection,.refLayer,.refTool,
+.dashboardTitle,.dashboardSub,.dashboardCard,
+.mapSearch,.mapSearch input,.mapToolBtn,.rightTool,
+#coordBar{
+  font-family:'Vazirmatn','IRANSans','Tahoma',Arial,sans-serif!important;
+}
+
+/* عنوان اصلی همچنان نستعلیق */
+.titleNastaliq{
+  font-family:'IranNastaliq','B Nazanin','Tahoma',serif!important;
+}
+
+/* ----- منوی سمت چپ ----- */
+#sidebar{
+  left:0!important;
+  right:auto!important;
+  top:138px!important;
+  width:256px!important;
+  direction:rtl!important;
+}
+
+.accordionMenu{
+  direction:rtl!important;
+  padding:4px 0 12px!important;
+}
+
+/* هر عنوان منو دقیقاً مثل کارت‌های تصویر */
+.accordionItem{
+  margin:0 0 3px!important;
+  border:0!important;
+}
+
+.accordionHeader{
+  position:relative!important;
+  height:54px!important;
+  min-height:54px!important;
+  box-sizing:border-box!important;
+  padding:0 48px 0 15px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:8px!important;
+
+  font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+  font-size:17px!important;
+  font-weight:800!important;
+  line-height:1!important;
+  letter-spacing:0!important;
+
+  border:1px solid #0872b1!important;
+  border-right:0!important;
+  border-left:0!important;
+  border-radius:0 10px 10px 0!important;
+
+  color:#ffffff!important;
+  background:linear-gradient(90deg,#07578b 0%,#063b61 100%)!important;
+  text-shadow:0 2px 3px rgba(0,0,0,.75)!important;
+}
+
+/* آیکون بزرگ سمت راست عنوان منو */
+.accordionHeader::before{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  width:27px;
+  text-align:center;
+  font-size:22px;
+  line-height:1;
+  color:#f2fbff;
+  text-shadow:0 2px 4px #00101d;
+}
+.accordionItem:nth-child(1) .accordionHeader::before{content:'◫';}
+.accordionItem:nth-child(2) .accordionHeader::before{content:'⚒';}
+.accordionItem:nth-child(3) .accordionHeader::before{content:'▣';}
+.accordionItem:nth-child(4) .accordionHeader::before{content:'▥';}
+
+.accordionHeader:hover{
+  background:linear-gradient(90deg,#0874b4 0%,#06496f 100%)!important;
+}
+
+.accordionHeader.open{
+  background:linear-gradient(90deg,#086da8 0%,#06456d 100%)!important;
+  box-shadow:inset 0 0 18px rgba(0,157,255,.13)!important;
+}
+
+.accordionArrow{
+  position:absolute!important;
+  left:15px!important;
+  right:auto!important;
+  margin:0!important;
+  font-size:17px!important;
+  color:#d9f4ff!important;
+}
+
+/* آیتم‌های داخل منو */
+.accordionBody{
+  padding:5px 12px 9px!important;
+  background:rgba(1,20,38,.78)!important;
+  border-right:1px solid rgba(15,103,153,.45);
+}
+
+.section{
+  padding:6px 2px!important;
+  margin:0!important;
+}
+
+.sectionTitle{
+  font-size:13px!important;
+  font-weight:800!important;
+  color:#aee3ff!important;
+  margin:4px 0 6px!important;
+}
+
+.layer{
+  min-height:31px!important;
+  box-sizing:border-box!important;
+  padding:6px 7px!important;
+  font-size:12px!important;
+  font-weight:500!important;
+  color:#e8f6ff!important;
+  border-radius:6px!important;
+}
+.layer:hover{
+  background:rgba(13,105,157,.30)!important;
+}
+
+/* ----- بخش بالای هدر: شبیه تصویر ----- */
+.logo{
+  right:26px!important;
+  top:8px!important;
+}
+
+.titleNastaliq{
+  font-size:40px!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+
+/* گروه کنترل‌های سمت چپ هدر */
+.top .iconBtn,
+.top .logoutBtn{
+  font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+}
+
+/* ----- پنل لایه‌های سمت راست ----- */
+#referenceLayerPanel{
+  right:69px!important;
+  top:145px!important;
+  width:276px!important;
+  direction:rtl!important;
+}
+
+.refHead{
+  font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+  font-size:17px!important;
+  font-weight:800!important;
+}
+
+.refSectionTitle{
+  font-size:12px!important;
+  font-weight:800!important;
+}
+
+.refLayer,.refTool{
+  font-size:12px!important;
+  font-weight:500!important;
+}
+
+/* ----- نوار ابزار بالا ----- */
+.mapSearch input{
+  font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+  font-size:11px!important;
+}
+.mapToolBtn{
+  font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+}
+
+/* ----- داشبورد ----- */
+.dashboardTitle{
+  font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+  font-size:18px!important;
+  font-weight:800!important;
+}
+.dashboardCard .dashName{
+  font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+  font-size:10px!important;
+  font-weight:500!important;
+}
+
+/* ----- موبایل ----- */
+@media(max-width:850px){
+  .titleNastaliq{font-size:23px!important}
+  .accordionHeader{font-size:16px!important}
+}
+@media(max-width:480px){
+  .titleNastaliq{font-size:18px!important}
+  .accordionHeader{font-size:15px!important}
+}
+
+
+/* ================== MENU LAYOUT — REFERENCE IMAGE ================== */
+#sidebar{
+  left:0!important; right:auto!important;
+  top:138px!important; bottom:56px!important;
+  width:256px!important; padding:0!important;
+  border:1px solid #075e94!important; border-left:0!important;
+  border-radius:0 10px 0 0!important;
+  background:linear-gradient(180deg,rgba(2,31,57,.985),rgba(1,18,36,.995))!important;
+  box-shadow:7px 0 28px rgba(0,0,0,.48)!important;
+  overflow:hidden!important; direction:rtl!important;
+}
+.refMenu{
+  width:100%;height:100%;overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:thin;scrollbar-color:#166b9d #031c34;
+}
+.refMenuGroup{margin:0!important;padding:0!important}
+.refMenuHead{
+  position:relative!important;width:calc(100% - 2px)!important;height:51px!important;
+  min-height:51px!important;margin:1px 0 2px!important;
+  padding:0 48px 0 30px!important;display:flex!important;align-items:center!important;
+  justify-content:flex-start!important;gap:9px!important;
+  color:#fff!important;background:linear-gradient(90deg,#075f98,#073e65)!important;
+  border:1px solid #0780c7!important;border-left:0!important;
+  border-radius:0 9px 9px 0!important;
+  box-shadow:inset 0 0 13px rgba(0,154,255,.08)!important;cursor:pointer!important;
+}
+.refMenuHead:hover{background:linear-gradient(90deg,#0878b8,#075077)!important}
+.refMenuIcon{
+  position:absolute!important;right:16px!important;width:29px!important;text-align:center!important;
+  font-size:24px!important;font-weight:700!important;color:#fff!important;
+  line-height:1!important;text-shadow:0 2px 5px #001222!important;
+}
+.refMenuTitle{
+  font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+  font-size:17px!important;font-weight:800!important;color:#fff!important;
+  white-space:nowrap!important;text-shadow:0 2px 3px rgba(0,0,0,.7)!important;
+}
+.refMenuArrow{
+  position:absolute!important;left:16px!important;font-size:20px!important;
+  color:#d9f4ff!important;transition:transform .18s ease!important;
+}
+.refMenuHead:not(.open) .refMenuArrow{transform:rotate(90deg)!important}
+.refMenuBody{
+  display:block!important;padding:2px 11px 7px!important;
+  background:rgba(1,21,39,.80)!important;
+}
+.refMenuBody:not(.open){display:none!important}
+.refMenuItem{
+  position:relative!important;width:100%!important;min-height:34px!important;
+  padding:5px 37px 5px 8px!important;margin:0!important;
+  display:flex!important;align-items:center!important;gap:8px!important;
+  border:0!important;border-radius:5px!important;background:transparent!important;
+  color:#e9f7ff!important;font-family:'Vazirmatn','IRANSans','Tahoma',sans-serif!important;
+  font-size:12px!important;font-weight:500!important;line-height:1.5!important;
+  text-align:right!important;direction:rtl!important;cursor:pointer!important;
+}
+.refMenuItem:hover{background:rgba(9,107,163,.28)!important;color:#fff!important}
+.refItemIcon{
+  position:absolute!important;right:10px!important;width:20px!important;text-align:center!important;
+  color:#bfeaff!important;font-size:18px!important;font-weight:700!important;
+}
+.fileItem{box-sizing:border-box!important}
+.fileItem input{display:none!important}
+
+/* هم‌ترازی با تصویر مرجع */
+#mapToolbar{left:264px!important;top:145px!important;right:354px!important}
+#referenceLayerPanel{right:69px!important;top:145px!important;width:276px!important}
+#layerDashboard{left:263px!important;bottom:67px!important;width:min(805px,calc(100vw - 650px))!important;min-width:650px!important}
+
+.top .iconBtn{
+  border:0!important;border-left:1px solid rgba(78,158,205,.28)!important;
+  border-radius:0!important;background:rgba(1,28,54,.70)!important;
+}
+.top .iconBtn:first-of-type{left:10px!important;top:88px!important;width:45px!important;border-radius:9px 0 0 9px!important}
+.top .iconBtn:nth-of-type(2){left:55px!important;top:88px!important;width:45px!important}
+.top .iconBtn:nth-of-type(3){left:100px!important;top:88px!important;width:45px!important}
+.top .iconBtn:nth-of-type(4){left:145px!important;top:88px!important;width:45px!important}
+.top .logoutBtn{
+  left:190px!important;top:88px!important;height:42px!important;
+  border:0!important;border-radius:0 9px 9px 0!important;
+  background:rgba(1,28,54,.70)!important;font-size:12px!important;
+}
+@media(max-width:850px){
+  #sidebar{top:92px!important;bottom:48px!important;width:min(285px,82vw)!important}
+  #mapToolbar{left:8px!important;right:58px!important}
+  #layerDashboard{left:7px!important;bottom:58px!important;width:calc(100vw - 14px)!important;min-width:0!important}
+  .refMenuTitle{font-size:16px!important}
+}
+
 </style>
 </head>
 
@@ -618,7 +1183,7 @@ body{background:#03182c}
   <button class="mapToolBtn" onclick="toggleSidebar()" title="منوی GIS">☰</button>
   <button class="mapToolBtn" onclick="measureLine()" title="اندازه‌گیری طول">📏</button>
   <button class="mapToolBtn" onclick="measurePolygon()" title="اندازه‌گیری مساحت">⬡</button>
-  <button class="mapToolBtn" onclick="locateUser()" title="موقعیت من">📍</button>
+  <button class="mapToolBtn" onclick="locateUser()" title="موقعیت من">⌖</button>
 </div>
 
 <div id="rightTools">
@@ -663,150 +1228,115 @@ body{background:#03182c}
  </div>
  <div style="position:absolute;left:16px;bottom:6px;z-index:2;color:#d8f5ff;font-size:10px;direction:ltr;text-shadow:0 1px 4px #000">kh.rahimi1402@gmail.com</div>
  <button class="iconBtn" onclick="toggleSidebar()" title="منو">☰</button>
- <button class="iconBtn" onclick="toggleTable()" title="جدول مشخصات">▦</button>
+ <button class="iconBtn" onclick="toggleTable()" title="جدول مشخصات">▤</button>
  <button class="iconBtn" onclick="locateUser()" title="موقعیت من">📍</button>
  <button class="iconBtn" onclick="printMap()" title="چاپ نقشه">🖨</button>
  <button class="logoutBtn" onclick="logout()" title="خروج">خروج</button>
 </div>
 
 
+
 <div id="sidebar">
- <div class="accordionMenu">
+  <div class="refMenu">
 
-  <div class="accordionItem">
-   <button class="accordionHeader open" onclick="toggleAccordion(this)">
-    🗺️ <span>لایه‌ها و نقشه</span><span class="accordionArrow">▼</span>
-   </button>
-   <div class="accordionBody open">
-    <div class="section">
-     <div class="sectionTitle">نقشه پایه</div>
-     <select id="basemap" onchange="setBasemap(this.value)">
-      <option value="esri" selected>Esri Satellite</option>
-      <option value="osm">OpenStreetMap</option>
-      <option value="google">Google Maps</option>
-      <option value="googleSat">Google Satellite</option>
-      <option value="dark">Dark GIS</option>
-     </select>
+    <div class="refMenuGroup">
+      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
+        <span class="refMenuIcon">◫</span>
+        <span class="refMenuTitle">لایه‌ها</span>
+        <span class="refMenuArrow">⌄</span>
+      </button>
+      <div class="refMenuBody open">
+        <button class="refMenuItem" onclick="document.getElementById('referenceLayerPanel').scrollIntoView({behavior:'smooth'});setStatus('نقشه پایه')">
+          <span class="refItemIcon">◈</span><span>نقشه پایه</span>
+        </button>
+        <button class="refMenuItem" onclick="setStatus('لایه‌های شبکه برق')">
+          <span class="refItemIcon">◫</span><span>لایه‌های شبکه برق</span>
+        </button>
+        <button class="refMenuItem" onclick="document.getElementById('searchInput').focus();setStatus('جستجو در عوارض')">
+          <span class="refItemIcon">⌕</span><span>جستجو در عوارض</span>
+        </button>
+      </div>
     </div>
-    <div class="section">
-     <div class="sectionTitle">⚡ لایه‌های اصلی شبکه برق</div>
-     <label class="layer"><input type="checkbox" data-layer="line" checked onchange="setLayerVisible('line',this.checked)">
-     <span class="swatch" style="background:#ef4444"></span>خطوط انتقال و فوق‌توزیع <span id="count-line" class="layerCount"></span></label>
-     <label class="layer"><input type="checkbox" data-layer="post" checked onchange="setLayerVisible('post',this.checked)">
-     <span class="swatch" style="background:#f59e0b"></span>پست‌ها <span id="count-post" class="layerCount"></span></label>
-     <label class="layer"><input type="checkbox" data-layer="county" checked onchange="setLayerVisible('county',this.checked)">
-     <span class="swatch" style="background:#22c55e"></span>شهرستان‌ها <span id="count-county" class="layerCount"></span></label>
-     <label class="layer"><input type="checkbox" data-layer="plant" checked onchange="setLayerVisible('plant',this.checked)">
-     <span class="swatch" style="background:#a855f7"></span>نیروگاه‌ها <span id="count-plant" class="layerCount"></span></label>
-     <label class="layer"><input type="checkbox" data-layer="tower" checked onchange="setLayerVisible('tower',this.checked)">
-     <span class="swatch" style="background:#06b6d4"></span>دکل‌ها <span id="count-tower" class="layerCount"></span></label>
-     <label class="layer"><input type="checkbox" data-layer="dg" checked onchange="setLayerVisible('dg',this.checked)">
-     <span class="swatch" style="background:#84cc16"></span>DG <span id="count-dg" class="layerCount"></span></label>
+
+    <div class="refMenuGroup">
+      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
+        <span class="refMenuIcon">⚒</span>
+        <span class="refMenuTitle">ابزارها</span>
+        <span class="refMenuArrow">⌄</span>
+      </button>
+      <div class="refMenuBody open">
+        <button class="refMenuItem" onclick="measureLine();setStatus('اندازه‌گیری طول')">
+          <span class="refItemIcon">⌁</span><span>اندازه‌گیری</span>
+        </button>
+        <button class="refMenuItem" onclick="openCoordinateTool()">
+          <span class="refItemIcon">⌖</span><span>رفتن به مختصات</span>
+        </button>
+        <button class="refMenuItem" onclick="toggleTable()">
+          <span class="refItemIcon">◉</span><span>ابزارهای سریع</span>
+        </button>
+      </div>
     </div>
-    <div class="section">
-     <div class="sectionTitle">🔎 جستجو در عوارض</div>
-     <div class="row"><input id="searchInput" placeholder="نام، کد، نوع و..."><button class="primary" onclick="searchAll()">جستجو</button></div>
-     <div id="searchResults" class="searchResults"></div>
+
+    <div class="refMenuGroup">
+      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
+        <span class="refMenuIcon">▰</span>
+        <span class="refMenuTitle">ورود و خروجی داده</span>
+        <span class="refMenuArrow">⌄</span>
+      </button>
+      <div class="refMenuBody open">
+        <label class="refMenuItem fileItem">
+          <span class="refItemIcon">⇥</span><span>ورود GeoJSON</span>
+          <input type="file" accept=".geojson,.json" onchange="importGeoJSON(this.files[0]);this.value=''">
+        </label>
+        <label class="refMenuItem fileItem">
+          <span class="refItemIcon">⇥</span><span>ورود KML</span>
+          <input type="file" accept=".kml,.xml" onchange="importKML(this.files[0]);this.value=''">
+        </label>
+        <label class="refMenuItem fileItem">
+          <span class="refItemIcon">⇥</span><span>ورود SHP</span>
+          <input type="file" accept=".zip" onchange="importSHP(this.files[0]);this.value=''">
+        </label>
+        <button class="refMenuItem" onclick="exportGeoJSON()">
+          <span class="refItemIcon">⇥</span><span>خروجی</span>
+        </button>
+      </div>
     </div>
-   </div>
+
+    <div class="refMenuGroup">
+      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
+        <span class="refMenuIcon">▥</span>
+        <span class="refMenuTitle">GIS مدیریت</span>
+        <span class="refMenuArrow">⌄</span>
+      </button>
+      <div class="refMenuBody open">
+        <button class="refMenuItem" onclick="setStatus('داشبورد GIS')">
+          <span class="refItemIcon">▦</span><span>داشبورد</span>
+        </button>
+        <button class="refMenuItem" onclick="document.getElementById('mapQuickSearch').focus();setStatus('جستجوی پیشرفته')">
+          <span class="refItemIcon">⌕</span><span>جستجوی پیشرفته</span>
+        </button>
+        <button class="refMenuItem" onclick="setStatus('مدیریت پروژه‌ها')">
+          <span class="refItemIcon">◫</span><span>پروژه‌ها</span>
+        </button>
+        <button class="refMenuItem" onclick="setStatus('بار و ظرفیت پست')">
+          <span class="refItemIcon">♜</span><span>بار و ظرفیت پست</span>
+        </button>
+        <button class="refMenuItem" onclick="setStatus('مقایسه زمانی')">
+          <span class="refItemIcon">◷</span><span>مقایسه زمانی</span>
+        </button>
+        <button class="refMenuItem" onclick="setStatus('گزارش‌گیری')">
+          <span class="refItemIcon">▤</span><span>گزارش‌گیری</span>
+        </button>
+      </div>
+    </div>
+
   </div>
-
-  <div class="accordionItem">
-   <button class="accordionHeader" onclick="toggleAccordion(this)">
-    🛠️ <span>ابزارهای GIS</span><span class="accordionArrow">▼</span>
-   </button>
-   <div class="accordionBody">
-    <div class="section">
-     <div class="sectionTitle">📏 اندازه‌گیری</div>
-     <div class="grid2"><button onclick="measureLine()">📏 طول</button><button onclick="measurePolygon()">⬡ مساحت</button></div>
-     <button style="width:100%;margin-top:6px" onclick="clearMeasure()">پاک کردن اندازه‌گیری</button>
-     <div id="measureResult" class="measureBox"></div>
-    </div>
-    <div class="section">
-     <div class="sectionTitle">📍 رفتن به مختصات</div>
-     <select id="coordType" onchange="coordMode()">
-      <option value="utm">UTM</option><option value="dms">DMS</option><option value="decimal">Decimal Degree</option>
-     </select>
-     <div id="utmBox" style="margin-top:7px">
-      <div class="grid2"><input id="zone" placeholder="Zone (مثلاً 39)"><select id="hemisphere"><option value="N">شمالی</option><option value="S">جنوبی</option></select></div>
-      <input id="easting" style="margin-top:6px" placeholder="Easting"><input id="northing" style="margin-top:6px" placeholder="Northing">
-     </div>
-     <div id="dmsBox" class="hidden" style="margin-top:7px"><input id="latDms" placeholder="Lat: 29°36'00&quot;N"><input id="lonDms" style="margin-top:6px" placeholder="Lon: 52°32'00&quot;E"></div>
-     <div id="decimalBox" class="hidden" style="margin-top:7px"><input id="latDec" placeholder="Latitude"><input id="lonDec" style="margin-top:6px" placeholder="Longitude"></div>
-     <button class="primary" style="width:100%;margin-top:7px" onclick="goToCoordinate()">📍 نمایش روی نقشه</button>
-     <div id="coordResult" class="small"></div>
-    </div>
-    <div class="section"><div class="sectionTitle">🧭 ابزارهای سریع</div><div class="grid2"><button onclick="zoomFull()">نمای کلی</button><button onclick="clearImported()">پاک کردن ورودی‌ها</button></div></div>
-   </div>
-  </div>
-
-  <div class="accordionItem">
-   <button class="accordionHeader" onclick="toggleAccordion(this)">
-    📂 <span>ورود و خروجی داده</span><span class="accordionArrow">▼</span>
-   </button>
-   <div class="accordionBody">
-    <div class="section">
-     <div class="sectionTitle">📂 ورود داده مکانی</div>
-     <div class="fileRow">
-      <label class="fileLabel">GeoJSON / JSON<input type="file" accept=".geojson,.json" onchange="importGeoJSON(this)"></label>
-      <label class="fileLabel">KML<input type="file" accept=".kml" onchange="importKML(this)"></label>
-      <label class="fileLabel">SHP<input type="file" accept=".shp,.zip" onchange="importSHP(this)"></label>
-     </div>
-     <p class="small">فایل SHP بهتر است به‌صورت ZIP شامل SHP، SHX، DBF و PRJ وارد شود.<br>داده‌های واردشده با رنگ زرد روی نقشه نمایش داده می‌شوند.</p>
-    </div>
-    <div class="section"><div class="sectionTitle">📥 خروجی</div><button style="width:100%" onclick="exportImported()">دانلود داده‌های واردشده به GeoJSON</button></div>
-    <div class="section"><div class="sectionTitle">📁 ساختار لایه‌های اصلی</div><div class="small">برای لایه‌های دائمی، فایل‌ها را در پوشه <b>data</b> کنار index.html قرار دهید:<br>line.geojson<br>post.geojson<br>shahrestan.geojson<br>powerplant.geojson<br>tower.geojson<br>dg.geojson</div></div>
-   </div>
-  </div>
-
-  <div class="accordionItem">
-   <button class="accordionHeader" onclick="toggleAccordion(this)">
-    📊 <span>مدیریت GIS و گزارش‌ها</span><span class="accordionArrow">▼</span>
-   </button>
-   <div class="accordionBody">
-    <div class="section">
-     <div class="sectionTitle">📊 مدیریت و گزارش GIS</div>
-     <div class="grid2">
-      <button onclick="openGisDashboard()">داشبورد</button><button onclick="openAdvancedSearch()">جستجوی پیشرفته</button>
-      <button onclick="openProjectManager()">پروژه‌ها</button><button onclick="openLoadManager()">بار و ظرفیت پست</button>
-      <button onclick="openTimeCompare()">مقایسه زمانی</button><button onclick="openReports()">گزارش‌گیری</button>
-     </div>
-     <p class="small">ماژول‌های «حوادث» و «تحلیل مکانی» در این نسخه وجود ندارند.</p>
-    </div>
-   </div>
-  </div>
-
- </div>
 </div>
-
-
-<div id="infoCard"></div>
-
-<div id="tablePanel">
- <div class="tableHead">
-  <strong id="tableTitle">جدول مشخصات</strong>
-  <button onclick="exportCurrentTable()">خروجی GeoJSON</button>
-  <button onclick="toggleTable()">✕</button>
- </div>
- <div class="tableWrap"><table id="attributeTable"></table></div>
-</div>
-
-<div id="legend" class="legend">
- <div class="legendTitle">راهنمای نقشه</div>
- <div class="legendRow"><span class="swatch" style="background:#ef4444"></span>خط</div>
- <div class="legendRow"><span class="swatch" style="background:#f59e0b"></span>پست</div>
- <div class="legendRow"><span class="swatch" style="background:#22c55e"></span>شهرستان</div>
- <div class="legendRow"><span class="swatch" style="background:#a855f7"></span>نیروگاه</div>
- <div class="legendRow"><span class="swatch" style="background:#06b6d4"></span>دکل</div>
- <div class="legendRow"><span class="swatch" style="background:#84cc16"></span>DG</div>
- <div class="legendRow"><span class="swatch" style="background:#fbbf24"></span>داده واردشده</div>
-</div>
-
 
 <div id="layerDashboard">
   <div class="dashboardHead">
     <div>
-      <div class="dashboardTitle">📊 خلاصه اطلاعات لایه‌های اصلی</div>
+      <div class="dashboardTitle">داشبورد لایه‌های اصلی</div>
       <div class="dashboardSub">تعداد عوارض بارگذاری‌شده در نقشه</div>
     </div>
   </div>
@@ -819,7 +1349,7 @@ body{background:#03182c}
   </div>
 </div>
 
-<div id="coordBar">UTM: -</div>
+<div id="coordBar">UTM Zone 39N   |   X: -   |   Y: -</div>
 <div id="status" class="status">در حال آماده‌سازی WebGIS...</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -829,6 +1359,7 @@ body{background:#03182c}
 
 <script>
 const map=L.map('map',{zoomControl:true}).setView([29.60,52.50],7);
+L.control.scale({imperial:false,metric:true,position:'bottomright',maxWidth:120}).addTo(map);
 
 const base={
  osm:L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}),
@@ -1256,6 +1787,25 @@ if(sessionStorage.getItem('webgisLoggedIn')==='1'){
 }
 
 setTimeout(()=>setStatus('WebGIS آماده است — نقشه پایه: Esri Satellite'),1800);
+
+function toggleRefMenu(btn){
+  const body=btn.nextElementSibling;
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  btn.classList.toggle('open',!open);
+}
+function openCoordinateTool(){
+  const v=prompt('مختصات را به صورت طول،عرض وارد کنید\nمثال: 52.50,29.60');
+  if(!v)return;
+  const p=v.split(',').map(Number);
+  if(p.length===2 && p.every(Number.isFinite)){
+    map.setView([p[1],p[0]],12);
+    setStatus('موقعیت به مختصات واردشده منتقل شد');
+  }else{
+    setStatus('فرمت مختصات صحیح نیست');
+  }
+}
+
 </script>
 </body>
 </html>
