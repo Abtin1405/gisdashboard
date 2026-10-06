@@ -1148,140 +1148,19 @@ button,input,select,textarea,
   .refMenuTitle{font-size:16px!important}
 }
 
-\n/* ===== آخرین اصلاحات رابط کاربری WebGIS ===== */
-/* 1) حذف کامل باکس «لایه‌ها» در سمت راست */
-#referenceLayerPanel{display:none!important;}
-
-/* 2) داشبورد کوچک، مرتب و مدرن */
-#layerDashboard{
-  left:264px!important; bottom:48px!important;
-  width:500px!important; min-width:0!important; max-width:500px!important;
-  padding:6px 8px 7px!important;
-  border-radius:11px!important;
-  background:linear-gradient(135deg,rgba(2,24,44,.94),rgba(4,42,68,.90))!important;
-  border:1px solid rgba(19,139,213,.65)!important;
-  box-shadow:0 7px 24px rgba(0,0,0,.42), inset 0 0 18px rgba(0,142,220,.06)!important;
-}
-#layerDashboard .dashboardHead{margin:0 2px 4px!important;min-height:20px!important;}
-#layerDashboard .dashboardTitle{font-size:13px!important;line-height:18px!important;font-weight:800!important;}
-#layerDashboard .dashboardSub{display:none!important;}
-#layerDashboard .dashboardCards{display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:5px!important;}
-#layerDashboard .dashboardCard{
-  height:58px!important;min-height:58px!important;padding:4px!important;
-  border-radius:8px!important;background:rgba(7,47,72,.74)!important;
-  border:1px solid rgba(55,145,195,.42)!important;box-shadow:none!important;
-  display:grid!important;grid-template-columns:30px 1fr!important;grid-template-rows:1fr 14px!important;
-  align-items:center!important;text-align:right!important;
-}
-#layerDashboard .dashIcon{
-  grid-row:1/3!important;grid-column:1!important;
-  width:27px!important;height:27px!important;margin:0 auto!important;border-radius:50%!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  font-size:15px!important;font-weight:800!important;color:#dff7ff!important;
-  background:linear-gradient(145deg,#0879b8,#053452)!important;
-  border:1px solid rgba(102,203,255,.5)!important;
-  box-shadow:0 2px 7px rgba(0,0,0,.3)!important;
-}
-#layerDashboard .dashValue{grid-column:2!important;grid-row:1!important;font-size:14px!important;line-height:17px!important;font-weight:800!important;margin:0!important;}
-#layerDashboard .dashName{grid-column:2!important;grid-row:2!important;font-size:8px!important;line-height:12px!important;margin:0!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-
-/* آیکون‌های داشبورد با ظاهر مدرن‌تر */
-#layerDashboard .dashboardCard:nth-child(1) .dashIcon{background:linear-gradient(145deg,#d6a500,#664600)!important}
-#layerDashboard .dashboardCard:nth-child(2) .dashIcon{background:linear-gradient(145deg,#00a982,#005e55)!important}
-#layerDashboard .dashboardCard:nth-child(3) .dashIcon{background:linear-gradient(145deg,#2589db,#174f8a)!important}
-#layerDashboard .dashboardCard:nth-child(4) .dashIcon{background:linear-gradient(145deg,#9563dc,#4a2a83)!important}
-#layerDashboard .dashboardCard:nth-child(5) .dashIcon{background:linear-gradient(145deg,#00a8b4,#075b72)!important}
-
-/* 3) هدر کوتاه‌تر، باریک‌تر و با تم GIS */
-.top{
-  top:8px!important;left:10px!important;right:10px!important;
-  height:108px!important;min-height:108px!important;
-  border-radius:14px!important;
-  overflow:hidden!important;
-  background:
-    radial-gradient(circle at 50% 15%,rgba(16,133,206,.18),transparent 42%),
-    linear-gradient(135deg,rgba(1,25,48,.97),rgba(3,55,84,.94) 55%,rgba(1,25,45,.97))!important;
-  border:1px solid rgba(31,151,219,.55)!important;
-  box-shadow:0 5px 22px rgba(0,0,0,.42),inset 0 0 30px rgba(0,126,201,.08)!important;
-}
-/* خطوط شبکه GIS داخل هدر */
-.top:before,.top:after{
-  content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;
-  background-image:linear-gradient(rgba(85,190,235,.28) 1px,transparent 1px),linear-gradient(90deg,rgba(85,190,235,.28) 1px,transparent 1px);
-  background-size:30px 30px;mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);
-}
-.top:after{background-size:90px 90px;opacity:.10;}
-.top .titleNastaliq{position:absolute!important;left:50%!important;top:24px!important;transform:translateX(-50%)!important;font-size:34px!important;z-index:2!important;white-space:nowrap!important;text-shadow:0 2px 8px #001b30!important;}
-.top .logo{z-index:3!important;right:22px!important;top:9px!important;height:88px!important;justify-content:center!important;}
-.top .headerLogoImg{width:54px!important;height:54px!important;object-fit:contain!important;}
-.top .logoText,.top .logo span{font-size:13px!important;font-weight:800!important;}
-
-/* کنترل‌های سمت چپ هدر در نوار جمع‌وجور */
-.top .iconBtn,.top .logoutBtn{z-index:5!important;top:auto!important;bottom:8px!important;}
-.top .iconBtn{height:37px!important;width:40px!important;}
-.top .iconBtn:first-of-type{left:8px!important;}
-.top .iconBtn:nth-of-type(2){left:48px!important;}
-.top .iconBtn:nth-of-type(3){left:88px!important;}
-.top .iconBtn:nth-of-type(4){left:128px!important;}
-.top .logoutBtn{left:168px!important;height:37px!important;}
-
-/* 4) ورود به مختصات: فرم UTM */
-.utmModalBackdrop{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;background:rgba(0,12,25,.68);backdrop-filter:blur(4px);}
-.utmModal{width:340px;max-width:calc(100vw - 30px);padding:18px;border-radius:14px;background:linear-gradient(145deg,#062d4e,#031a31);border:1px solid #0d83c9;box-shadow:0 15px 50px rgba(0,0,0,.6);direction:rtl;color:#fff;font-family:'B Nazanin','Tahoma',sans-serif;}
-.utmModal h3{margin:0 0 13px;font-size:21px;text-align:center;color:#dff5ff;}
-.utmGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-.utmGrid label{font-size:14px;color:#bfe5fa;display:block;}
-.utmGrid input{width:100%;box-sizing:border-box;margin-top:4px;padding:8px 9px;border-radius:7px;border:1px solid #246f99;background:#021a30;color:#fff;font-size:14px;direction:ltr;}
-.utmGrid .full{grid-column:1/-1;}
-.utmActions{display:flex;gap:8px;margin-top:13px;}
-.utmActions button{flex:1;padding:8px;border:0;border-radius:8px;background:#087cc0;color:white;cursor:pointer;font-family:inherit;font-size:15px;}
-.utmActions button.cancel{background:#17364f;}
-
-@media(max-width:850px){
-  .top{top:5px!important;left:5px!important;right:5px!important;height:82px!important;min-height:82px!important;}
-  .top .titleNastaliq{top:12px!important;font-size:20px!important;}
-  .top .logo{right:8px!important;top:3px!important;height:70px!important;}
-  .top .headerLogoImg{width:38px!important;height:38px!important;}
-  .top .logoText,.top .logo span{font-size:10px!important;}
-  #layerDashboard{left:8px!important;bottom:44px!important;width:430px!important;max-width:calc(100vw - 16px)!important;}
-  #layerDashboard .dashboardCard{height:52px!important;min-height:52px!important;}
-}
-@media(max-width:480px){
-  #layerDashboard{width:calc(100vw - 16px)!important;}
-  #layerDashboard .dashboardCards{grid-template-columns:repeat(3,1fr)!important;}
-  #layerDashboard .dashboardCard:nth-child(n+4){display:none!important;}
-}
 </style>
-
-<style id="webgis-user-revisions">
-*{box-sizing:border-box}
-body{overflow:hidden!important}
-.top{position:absolute!important;top:8px!important;left:8px!important;right:8px!important;height:72px!important;min-height:72px!important;margin:0!important;padding:0 175px!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;border-radius:12px!important;z-index:2000!important}
-.top .titleNastaliq{position:static!important;transform:none!important;width:100%!important;margin:0 auto!important;padding:0!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:clamp(22px,2.7vw,34px)!important;z-index:3!important}
-.top .logo{position:absolute!important;right:12px!important;top:50%!important;transform:translateY(-50%)!important;width:150px!important;height:54px!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;z-index:5!important}
-#sidebar{position:absolute!important;top:88px!important;left:8px!important;right:auto!important;bottom:8px!important;width:292px!important;margin:0!important;padding:0!important;overflow:hidden!important;border-radius:13px!important;z-index:1500!important}
-.refMenu{height:100%!important;width:100%!important;overflow-y:auto!important;overflow-x:hidden!important;padding:7px!important;margin:0!important}
-.refMenuGroup{width:100%!important;margin:0 0 7px!important;padding:0!important}
-.refMenuHead{width:100%!important;min-height:42px!important;margin:0!important;padding:7px 9px!important;display:flex!important;align-items:center!important;gap:7px!important;border-radius:8px!important}
-.refMenuBody{width:100%!important;margin:0!important;padding:4px!important;border:0!important}
-.refMenuItem,.networkLayerRow{width:100%!important;min-height:36px!important;margin:2px 0!important;padding:6px 8px!important;display:flex!important;align-items:center!important;gap:7px!important;border-radius:7px!important}
-.refMenuItem .refItemIcon,.refMenuIcon{width:24px!important;min-width:24px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
-.refMenuTitle{flex:1!important;text-align:right!important;font-family:"B Nazanin","BNazanin","Nazanin",Tahoma,sans-serif!important;font-size:16px!important}
-.networkLayerList{width:100%!important;display:flex!important;flex-direction:column!important;gap:3px!important;margin:0!important;padding:0!important}
-.networkLayerRow{cursor:pointer!important;font-family:"B Nazanin","BNazanin","Nazanin",Tahoma,sans-serif!important;font-size:14px!important}
-.networkLayerRow input{width:16px!important;height:16px!important;margin:0!important;flex:0 0 16px!important}
-.networkLayerRow b{margin-right:auto!important;font:10px Tahoma,sans-serif!important}
-.networkLayerActions,.baseMapGrid{width:100%!important;margin:4px 0 0!important;padding:0!important}
-.networkLayerActions button,.baseMapGrid button{min-height:31px!important;margin:0!important;padding:4px 5px!important;font:12px "B Nazanin","BNazanin","Nazanin",Tahoma,sans-serif!important}
-#map{position:absolute!important;z-index:1!important}
-.leaflet-control-container,.leaflet-top,.leaflet-bottom{z-index:1200!important;pointer-events:auto!important}
-#layerDashboard{position:absolute!important;left:315px!important;right:10px!important;bottom:9px!important;width:auto!important;min-width:0!important;max-width:none!important;margin:0!important;z-index:1300!important}
-#layerDashboard .dashboardCards{width:100%!important;display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:5px!important}
-#layerDashboard .dashboardCard{min-width:0!important;min-height:56px!important;margin:0!important;padding:4px!important;overflow:hidden!important}
-#layerDashboard .dashName,#layerDashboard .dashStatus{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-@media(max-width:900px){.top{top:5px!important;left:5px!important;right:5px!important;height:62px!important;min-height:62px!important;padding:0 78px!important}.top .titleNastaliq{font-size:clamp(16px,4.8vw,25px)!important}.top .logo{right:6px!important;width:67px!important;height:44px!important}#sidebar{top:72px!important;left:5px!important;width:min(300px,calc(100vw - 10px))!important;bottom:5px!important}#layerDashboard{left:5px!important;right:5px!important;bottom:5px!important}#layerDashboard .dashboardCards{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
-@media(max-width:480px){#layerDashboard .dashboardCards{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-</style></head>
+<style id="webgis-final-fix">
+*{box-sizing:border-box} body{overflow:hidden!important} #referenceLayerPanel{display:none!important}
+.top{height:82px!important;min-height:82px!important;z-index:3000!important}.titleNastaliq{font-size:28px!important}.logo{top:6px!important;right:18px!important;height:70px!important}.headerLogoImg{width:56px!important;height:56px!important}
+#sidebar{position:absolute!important;left:8px!important;right:auto!important;top:92px!important;bottom:64px!important;width:292px!important;z-index:2600!important;display:block!important;overflow:hidden!important;direction:rtl!important}
+.mainMenu{height:100%;overflow:auto;background:rgba(3,20,37,.96);border:1px solid #1b5d87;border-radius:0 12px 12px 0;box-shadow:0 12px 30px rgba(0,0,0,.45);padding:7px}.menuTitle{padding:8px 10px;color:#bfefff;font-size:17px;font-weight:900;border-bottom:1px solid #21445d;margin-bottom:5px}.menuSection{margin-bottom:5px}.menuHead{width:100%;border:1px solid #185b84;background:linear-gradient(90deg,#075985,#063b60);color:#fff;border-radius:8px;padding:10px 9px;display:grid;grid-template-columns:24px 1fr 18px;align-items:center;text-align:right;cursor:pointer;font-family:'B Nazanin','Vazirmatn',Tahoma,sans-serif;font-size:16px}.menuHead .arrow{transition:.2s}.menuHead:not(.open) .arrow{transform:rotate(180deg)}.menuBody{display:none;padding:4px 0}.menuBody.open{display:block}.layerRow{display:grid;grid-template-columns:20px 9px 1fr auto;align-items:center;gap:7px;color:#e8f7ff;padding:8px 7px;border-bottom:1px solid rgba(74,126,158,.22);font-family:'B Nazanin','Vazirmatn',Tahoma,sans-serif;font-size:15px;cursor:pointer}.layerRow input{width:16px;height:16px;accent-color:#10b7ff}.layerRow em{font-style:normal;color:#8dc4df;font-size:11px;direction:ltr}.swatch{width:9px;height:9px;border-radius:50%;display:block}.layerActions{display:flex;gap:5px;padding:5px}.layerActions button,.menuItem,.searchBox button{border:1px solid #245e80;background:#0b304b;color:#eaf8ff;border-radius:7px;padding:7px 8px;cursor:pointer;font-family:'B Nazanin','Vazirmatn',Tahoma,sans-serif}.layerActions button{flex:1}.menuItem{display:block;width:100%;text-align:right;margin:3px 0;font-size:14px}.menuItem:hover,.layerActions button:hover,.menuHead:hover{background:#0b5c86}.fileItem{position:relative;overflow:hidden}.fileItem input{position:absolute;inset:0;opacity:0;cursor:pointer}.searchBox{display:flex;gap:4px;padding:3px}.searchBox input{min-width:0;flex:1;background:#061b2c;border:1px solid #2c6686;color:#fff;border-radius:7px;padding:8px;font-family:inherit}.searchResults{max-height:150px;overflow:auto}.result{padding:7px;border-bottom:1px solid #21445d;color:#cdefff;cursor:pointer;font-size:12px}.result:hover{background:#123f5d}
+#layerDashboard{left:315px!important;right:10px!important;bottom:10px!important;width:auto!important;min-width:0!important;z-index:2400!important}.dashboardCards{grid-template-columns:repeat(6,1fr)!important}.dashboardFlash{outline:2px solid #23b9ff;box-shadow:0 0 25px rgba(35,185,255,.35)!important}
+#mapToolbar{z-index:2500!important;left:315px!important;right:105px!important;top:92px!important}.floatingResult{position:fixed;left:325px;bottom:150px;z-index:2800;color:#fff;background:rgba(4,28,48,.94);padding:8px 12px;border:1px solid #2579a4;border-radius:8px;font-size:12px}.modalOverlay{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center}.modalOverlay.hidden{display:none}.modalCard{width:min(440px,92vw);background:#071d30;color:#eefaff;border:1px solid #2877a2;border-radius:14px;box-shadow:0 20px 60px #000;padding:14px;direction:rtl}.modalHead{display:flex;justify-content:space-between;align-items:center;font-size:18px;border-bottom:1px solid #21445d;padding-bottom:8px}.modalHead button{background:none;border:0;color:#fff;font-size:24px;cursor:pointer}.coordGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.coordGrid label{font-size:12px;color:#9fc6db}.coordGrid input,.coordGrid select{width:100%;margin-top:4px;background:#061827;border:1px solid #2a607f;color:#fff;border-radius:7px;padding:9px}.coordResult{margin:10px 0;padding:8px;background:#0b2c44;border-radius:7px;direction:ltr;text-align:center}.modalActions{display:flex;gap:7px}.modalActions button{flex:1;padding:9px;border:0;border-radius:7px;background:#078be4;color:#fff;cursor:pointer}.modalActions .secondary{background:#304a5c}.tablePanel{display:none;position:fixed;right:12px;top:150px;width:min(520px,55vw);max-height:55vh;z-index:4500;background:#071d30;color:#eaf8ff;border:1px solid #2877a2;border-radius:12px;box-shadow:0 15px 45px #000;overflow:hidden;direction:rtl}.tableHead{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;background:#0b3653}.tableHead button{background:#124d6e;color:#fff;border:1px solid #347b9e;border-radius:5px;margin-right:4px;cursor:pointer}.tableScroll{overflow:auto;max-height:calc(55vh - 45px)}#attributeTable{width:100%;border-collapse:collapse;font-size:12px}#attributeTable th,#attributeTable td{border:1px solid #23485e;padding:7px;text-align:right}#attributeTable th{background:#123650;color:#9edff8}
+@media(max-width:850px){#sidebar{top:88px!important;bottom:54px!important;width:min(292px,84vw)!important}#mapToolbar{left:8px!important;right:8px!important;top:88px!important}.floatingResult{left:10px;bottom:105px}.dashboardCards{grid-template-columns:repeat(3,1fr)!important}#layerDashboard{left:7px!important;right:7px!important;bottom:7px!important}.tablePanel{right:7px;width:calc(100vw - 14px)}}
+@media(max-width:480px){.titleNastaliq{font-size:20px!important}.dashboardCards{grid-template-columns:repeat(2,1fr)!important}.coordGrid{grid-template-columns:1fr}.top{height:70px!important;min-height:70px!important}}
+@media print{#sidebar,#mapToolbar,#rightTools,#layerDashboard,#coordBar,#status,#tablePanel,#coordinateModal,#measureResult,.top{display:none!important}#map{position:absolute!important;inset:0!important}}
+</style>
+</head>
 
 <body>
 
@@ -1304,18 +1183,6 @@ body{overflow:hidden!important}
  </div>
 </div>
 
-<div class="utmModalBackdrop" id="utmModalBackdrop">
-  <div class="utmModal">
-    <h3>رفتن به مختصات UTM</h3>
-    <div class="utmGrid">
-      <label>Zone<input id="utmZone" type="number" min="1" max="60" value="39"></label>
-      <label>نیم‌کره<select id="utmHemisphere" style="width:100%;margin-top:4px;padding:8px;border-radius:7px;border:1px solid #246f99;background:#021a30;color:#fff;font-size:14px"><option value="N">شمالی (N)</option><option value="S">جنوبی (S)</option></select></label>
-      <label>Easting (X)<input id="utmEasting" type="number" step="0.01" placeholder="634287.12"></label>
-      <label>Northing (Y)<input id="utmNorthing" type="number" step="0.01" placeholder="3612554.87"></label>
-    </div>
-    <div class="utmActions"><button onclick="goToUTM()">نمایش روی نقشه</button><button class="cancel" onclick="closeUTM()">انصراف</button></div>
-  </div>
-</div>
 <div id="map"></div>
 
 <div id="mapToolbar">
@@ -1338,29 +1205,7 @@ body{overflow:hidden!important}
   <button class="rightTool" onclick="window.print()" title="چاپ نقشه">🖨</button>
 </div>
 
-<div class="refSection">
-    <div class="refSectionTitle">نقشه پایه</div>
-    <label class="refLayer"><input class="refRadio" type="radio" name="refBase" checked onclick="setBasemap('esri')"> ESRI Satellite</label>
-    <label class="refLayer"><input class="refRadio" type="radio" name="refBase" onclick="setBasemap('osm')"> OpenStreetMap</label>
-    <label class="refLayer"><input class="refRadio" type="radio" name="refBase" onclick="setBasemap('googleSat')"> Google Satellite</label>
-    <label class="refLayer"><input class="refRadio" type="radio" name="refBase" onclick="setBasemap('dark')"> توپوگرافی / Dark GIS</label>
-  </div>
-  <div class="refSection">
-    <div class="refSectionTitle">⚡ شبکه برق</div>
-    <label class="refLayer"><input class="refCheck" type="checkbox" checked onchange="setLayerVisible('line',this.checked)"><span class="refSwatch" style="background:#ef4444"></span>خطوط انتقال <span id="ref-count-line" class="refCount">—</span></label>
-    <label class="refLayer"><input class="refCheck" type="checkbox" checked onchange="setLayerVisible('post',this.checked)"><span class="refSwatch" style="background:#f59e0b"></span>پست‌های برق <span id="ref-count-post" class="refCount">—</span></label>
-    <label class="refLayer"><input class="refCheck" type="checkbox" checked onchange="setLayerVisible('tower',this.checked)"><span class="refSwatch" style="background:#06b6d4"></span>دکل‌ها <span id="ref-count-tower" class="refCount">—</span></label>
-    <label class="refLayer"><input class="refCheck" type="checkbox" checked onchange="setLayerVisible('plant',this.checked)"><span class="refSwatch" style="background:#a855f7"></span>نیروگاه‌ها <span id="ref-count-plant" class="refCount">—</span></label>
-    <label class="refLayer"><input class="refCheck" type="checkbox" checked onchange="setLayerVisible('county',this.checked)"><span class="refSwatch" style="background:#22c55e"></span>شهرستان‌ها <span id="ref-count-county" class="refCount">—</span></label>
-    <label class="refLayer"><input class="refCheck" type="checkbox" checked onchange="setLayerVisible('dg',this.checked)"><span class="refSwatch" style="background:#84cc16"></span>DG <span id="ref-count-dg" class="refCount">—</span></label>
-  </div>
-  <div class="refSection">
-    <div class="refSectionTitle">لایه‌های اطلاعاتی</div>
-    <button class="refTool" onclick="document.getElementById('sidebar').style.display='flex'">▣ &nbsp;حدود مرزها</button>
-    <button class="refTool" onclick="document.getElementById('sidebar').style.display='flex'">◈ &nbsp;کاربری اراضی</button>
-    <button class="refTool" onclick="document.getElementById('sidebar').style.display='flex'">◇ &nbsp;عوارض طبیعی</button>
-  </div>
-</div>
+
 
 
 <div class="top">
@@ -1378,147 +1223,99 @@ body{overflow:hidden!important}
 
 
 
-<div id="sidebar">
-  <div class="refMenu">
-
-    <div class="refMenuGroup">
-      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
-        <span class="refMenuIcon">◫</span>
-        <span class="refMenuTitle">لایه‌های شبکه</span>
-        <span class="refMenuArrow">⌄</span>
-      </button>
-      <div class="refMenuBody open">
-        <div class="networkLayerList">
-          <label class="networkLayerRow"><input type="checkbox" checked onchange="toggleNetworkLayer('tower',this.checked)"><span class="layerDot towerDot"></span><span>دکل</span><b id="menu-count-tower">—</b></label>
-          <label class="networkLayerRow"><input type="checkbox" checked onchange="toggleNetworkLayer('post',this.checked)"><span class="layerDot postDot"></span><span>پست</span><b id="menu-count-post">—</b></label>
-          <label class="networkLayerRow"><input type="checkbox" checked onchange="toggleNetworkLayer('line',this.checked)"><span class="layerDot lineDot"></span><span>مدار</span><b id="menu-count-line">—</b></label>
-          <label class="networkLayerRow"><input type="checkbox" checked onchange="toggleNetworkLayer('plant',this.checked)"><span class="layerDot plantDot"></span><span>نیروگاه</span><b id="menu-count-plant">—</b></label>
-          <label class="networkLayerRow"><input type="checkbox" checked onchange="toggleNetworkLayer('dg',this.checked)"><span class="layerDot dgDot"></span><span>تولیدات پراکنده</span><b id="menu-count-dg">—</b></label>
-          <label class="networkLayerRow"><input type="checkbox" checked onchange="toggleNetworkLayer('county',this.checked)"><span class="layerDot countyDot"></span><span>شهرستان</span><b id="menu-count-county">—</b></label>
-        </div>
-        <div class="networkLayerActions">
-          <button onclick="setAllNetworkLayers(true)">نمایش همه</button>
-          <button onclick="setAllNetworkLayers(false)">مخفی کردن همه</button>
-        </div>
+<div id="sidebar" aria-label="منوی اصلی GIS">
+  <div class="mainMenu">
+    <div class="menuTitle">منوی سامانه GIS</div>
+    <div class="menuSection">
+      <button class="menuHead open" onclick="toggleMenuSection(this)"><span>◈</span><b>لایه‌های شبکه برق</b><span class="arrow">⌄</span></button>
+      <div class="menuBody open">
+        <label class="layerRow"><input type="checkbox" checked onchange="setLayerVisible('line',this.checked)"><span class="swatch" style="background:#ef4444"></span><span>مدار / خطوط انتقال</span><em id="count-line">—</em></label>
+        <label class="layerRow"><input type="checkbox" checked onchange="setLayerVisible('post',this.checked)"><span class="swatch" style="background:#f59e0b"></span><span>پست</span><em id="count-post">—</em></label>
+        <label class="layerRow"><input type="checkbox" checked onchange="setLayerVisible('tower',this.checked)"><span class="swatch" style="background:#06b6d4"></span><span>دکل</span><em id="count-tower">—</em></label>
+        <label class="layerRow"><input type="checkbox" checked onchange="setLayerVisible('plant',this.checked)"><span class="swatch" style="background:#a855f7"></span><span>نیروگاه</span><em id="count-plant">—</em></label>
+        <label class="layerRow"><input type="checkbox" checked onchange="setLayerVisible('dg',this.checked)"><span class="swatch" style="background:#84cc16"></span><span>تولیدات پراکنده</span><em id="count-dg">—</em></label>
+        <label class="layerRow"><input type="checkbox" checked onchange="setLayerVisible('county',this.checked)"><span class="swatch" style="background:#22c55e"></span><span>شهرستان</span><em id="count-county">—</em></label>
+        <div class="layerActions"><button onclick="setAllLayers(true)">همه روشن</button><button onclick="setAllLayers(false)">همه خاموش</button></div>
       </div>
     </div>
-
-    <div class="refMenuGroup">
-      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
-        <span class="refMenuIcon">◈</span>
-        <span class="refMenuTitle">نقشه پایه</span>
-        <span class="refMenuArrow">⌄</span>
-      </button>
-      <div class="refMenuBody open">
-        <div class="baseMapGrid">
-          <button onclick="setBasemap('esri')">ماهواره‌ای ESRI</button>
-          <button onclick="setBasemap('osm')">OpenStreetMap</button>
-          <button onclick="setBasemap('googleSat')">ماهواره‌ای Google</button>
-          <button onclick="setBasemap('google')">Google نقشه</button>
-          <button onclick="setBasemap('dark')">Dark GIS</button>
-        </div>
+    <div class="menuSection">
+      <button class="menuHead" onclick="toggleMenuSection(this)"><span>▣</span><b>نقشه پایه</b><span class="arrow">⌄</span></button>
+      <div class="menuBody">
+        <button class="menuItem" onclick="setBasemap('esri')">🛰 ESRI Satellite</button>
+        <button class="menuItem" onclick="setBasemap('osm')">🌍 OpenStreetMap</button>
+        <button class="menuItem" onclick="setBasemap('googleSat')">🛰 Google Satellite</button>
+        <button class="menuItem" onclick="setBasemap('google')">🗺 Google Map</button>
+        <button class="menuItem" onclick="setBasemap('dark')">◐ Dark GIS</button>
       </div>
     </div>
-
-    <div class="refMenuGroup">
-      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
-        <span class="refMenuIcon">⚒</span>
-        <span class="refMenuTitle">ابزارها</span>
-        <span class="refMenuArrow">⌄</span>
-      </button>
-      <div class="refMenuBody open">
-        <button class="refMenuItem" onclick="measureLine();setStatus('اندازه‌گیری طول — روی نقشه رسم کنید')">
-          <span class="refItemIcon">⌁</span><span>اندازه‌گیری طول</span>
-        </button>
-        <button class="refMenuItem" onclick="measurePolygon();setStatus('اندازه‌گیری مساحت — روی نقشه رسم کنید')">
-          <span class="refItemIcon">⬡</span><span>اندازه‌گیری مساحت</span>
-        </button>
-        <button class="refMenuItem" onclick="clearMeasure();setStatus('اندازه‌گیری‌ها پاک شد')">
-          <span class="refItemIcon">⌫</span><span>پاک کردن اندازه‌گیری</span>
-        </button>
-        <button class="refMenuItem" onclick="openCoordinateTool()">
-          <span class="refItemIcon">⌖</span><span>رفتن به مختصات UTM</span>
-        </button>
-        <button class="refMenuItem" onclick="toggleTable()">
-          <span class="refItemIcon">▤</span><span>جدول اطلاعات</span>
-        </button>
-        <button class="refMenuItem" onclick="locateUser()">
-          <span class="refItemIcon">⌾</span><span>موقعیت من</span>
-        </button>
-        <button class="refMenuItem" onclick="zoomFull()">
-          <span class="refItemIcon">⌗</span><span>نمای کلی شبکه</span>
-        </button>
+    <div class="menuSection">
+      <button class="menuHead" onclick="toggleMenuSection(this)"><span>⚒</span><b>ابزارهای GIS</b><span class="arrow">⌄</span></button>
+      <div class="menuBody">
+        <button class="menuItem" onclick="measureLine()">📏 اندازه‌گیری طول</button>
+        <button class="menuItem" onclick="measurePolygon()">⬡ اندازه‌گیری مساحت</button>
+        <button class="menuItem" onclick="clearMeasure()">✕ پاک کردن اندازه‌گیری</button>
+        <button class="menuItem" onclick="openCoordinateTool()">⌖ رفتن به مختصات UTM</button>
+        <button class="menuItem" onclick="locateUser()">📍 موقعیت فعلی</button>
+        <button class="menuItem" onclick="zoomFull()">⌂ نمای کامل لایه‌ها</button>
       </div>
     </div>
-
-    <div class="refMenuGroup">
-      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
-        <span class="refMenuIcon">⇅</span>
-        <span class="refMenuTitle">ورود و خروجی داده</span>
-        <span class="refMenuArrow">⌄</span>
-      </button>
-      <div class="refMenuBody open">
-        <label class="refMenuItem fileItem">
-          <span class="refItemIcon">⇥</span><span>ورود GeoJSON</span>
-          <input type="file" accept=".geojson,.json" onchange="importGeoJSON(this.files[0]);this.value=''">
-        </label>
-        <label class="refMenuItem fileItem">
-          <span class="refItemIcon">⇥</span><span>ورود KML</span>
-          <input type="file" accept=".kml,.xml" onchange="importKML(this.files[0]);this.value=''">
-        </label>
-        <label class="refMenuItem fileItem">
-          <span class="refItemIcon">⇥</span><span>ورود SHP/ZIP</span>
-          <input type="file" accept=".zip" onchange="importSHP(this.files[0]);this.value=''">
-        </label>
-        <button class="refMenuItem" onclick="exportGeoJSON()">
-          <span class="refItemIcon">⇥</span><span>خروجی داده واردشده</span>
-        </button>
-        <button class="refMenuItem" onclick="exportCurrentTable()">
-          <span class="refItemIcon">⇥</span><span>خروجی عارضه انتخاب‌شده</span>
-        </button>
+    <div class="menuSection">
+      <button class="menuHead" onclick="toggleMenuSection(this)"><span>⇄</span><b>ورود و خروجی داده</b><span class="arrow">⌄</span></button>
+      <div class="menuBody">
+        <label class="menuItem fileItem">⇥ ورود GeoJSON<input type="file" accept=".geojson,.json,application/geo+json" onchange="importGeoJSON(this)"></label>
+        <label class="menuItem fileItem">⇥ ورود KML<input type="file" accept=".kml,.xml" onchange="importKML(this)"></label>
+        <label class="menuItem fileItem">⇥ ورود SHP (ZIP)<input type="file" accept=".zip" onchange="importSHP(this)"></label>
+        <button class="menuItem" onclick="exportImported()">⇥ خروجی داده‌های واردشده</button>
+        <button class="menuItem" onclick="exportCurrentTable()">⇥ خروجی عارضه انتخاب‌شده</button>
+        <button class="menuItem" onclick="clearImported()">✕ حذف داده‌های واردشده</button>
       </div>
     </div>
-
-    <div class="refMenuGroup">
-      <button class="refMenuHead open" onclick="toggleRefMenu(this)">
-        <span class="refMenuIcon">▥</span>
-        <span class="refMenuTitle">گزارش و مدیریت</span>
-        <span class="refMenuArrow">⌄</span>
-      </button>
-      <div class="refMenuBody open">
-        <button class="refMenuItem" onclick="openLayerReport()">
-          <span class="refItemIcon">▦</span><span>گزارش لایه‌های اصلی</span>
-        </button>
-        <button class="refMenuItem" onclick="focusSearch()">
-          <span class="refItemIcon">⌕</span><span>جستجوی عوارض</span>
-        </button>
-        <button class="refMenuItem" onclick="showAllLoadedLayers()">
-          <span class="refItemIcon">◉</span><span>نمایش همه لایه‌های موجود</span>
-        </button>
-        <button class="refMenuItem" onclick="hideAllLoadedLayers()">
-          <span class="refItemIcon">○</span><span>مخفی کردن همه لایه‌ها</span>
-        </button>
+    <div class="menuSection">
+      <button class="menuHead" onclick="toggleMenuSection(this)"><span>⌕</span><b>جستجو و اطلاعات</b><span class="arrow">⌄</span></button>
+      <div class="menuBody">
+        <div class="searchBox"><input id="searchInput" placeholder="جستجو در اطلاعات لایه‌ها"><button onclick="searchAll()">🔍</button></div>
+        <div id="searchResults" class="searchResults"></div>
+        <button class="menuItem" onclick="toggleTable()">▤ جدول اطلاعات عارضه</button>
+        <button class="menuItem" onclick="showDashboard()">▦ داشبورد لایه‌ها</button>
+        <button class="menuItem" onclick="showReport()">▤ گزارش وضعیت لایه‌ها</button>
       </div>
     </div>
-
   </div>
 </div>
 
+<div id="measureResult" class="floatingResult"></div>
+<div id="coordinateModal" class="modalOverlay hidden">
+  <div class="modalCard">
+    <div class="modalHead"><b>رفتن به مختصات</b><button onclick="closeCoordinateTool()">×</button></div>
+    <div class="coordGrid">
+      <label>Zone<input id="zone" type="number" min="1" max="60" value="39"></label>
+      <label>نیم‌کره<select id="hemisphere"><option value="N">N</option><option value="S">S</option></select></label>
+      <label>X / Easting<input id="easting" type="number" placeholder="مثلاً 500000"></label>
+      <label>Y / Northing<input id="northing" type="number" placeholder="مثلاً 3270000"></label>
+    </div>
+    <div id="coordResult" class="coordResult">مختصات UTM را وارد کنید.</div>
+    <div class="modalActions"><button onclick="goToCoordinate()">انتقال روی نقشه</button><button class="secondary" onclick="closeCoordinateTool()">بستن</button></div>
+  </div>
+</div>
+<div id="tablePanel" class="tablePanel">
+  <div class="tableHead"><b id="tableTitle">جدول مشخصات عارضه</b><div><button onclick="exportCurrentTable()">خروجی</button><button onclick="toggleTable()">×</button></div></div>
+  <div class="tableScroll"><table id="attributeTable"></table></div>
+</div>
+<div id="infoCard" style="display:none"></div>
 <div id="layerDashboard">
   <div class="dashboardHead">
     <div>
-      <div class="dashboardTitle">گزارش لایه‌های اصلی</div>
-      <div class="dashboardSub" id="dashboardSummary">در حال شمارش عوارض و وضعیت لایه‌ها...</div>
+      <div class="dashboardTitle">داشبورد لایه‌های اصلی</div>
+      <div class="dashboardSub">تعداد عوارض بارگذاری‌شده در نقشه</div>
     </div>
-    <button class="dashboardRefresh" onclick="updateLayerDashboard()">↻ بروزرسانی</button>
   </div>
   <div class="dashboardCards">
-    <div class="dashboardCard"><div class="dashIcon">⌁</div><div id="dash-line" class="dashValue">—</div><div class="dashName">مدار</div><div id="dash-status-line" class="dashStatus">در حال بارگذاری</div></div>
-    <div class="dashboardCard"><div class="dashIcon">▥</div><div id="dash-post" class="dashValue">—</div><div class="dashName">پست</div><div id="dash-status-post" class="dashStatus">در حال بارگذاری</div></div>
-    <div class="dashboardCard"><div class="dashIcon">⌂</div><div id="dash-county" class="dashValue">—</div><div class="dashName">شهرستان</div><div id="dash-status-county" class="dashStatus">در حال بارگذاری</div></div>
-    <div class="dashboardCard"><div class="dashIcon">◈</div><div id="dash-plant" class="dashValue">—</div><div class="dashName">نیروگاه</div><div id="dash-status-plant" class="dashStatus">در حال بارگذاری</div></div>
-    <div class="dashboardCard"><div class="dashIcon">⌁</div><div id="dash-tower" class="dashValue">—</div><div class="dashName">دکل</div><div id="dash-status-tower" class="dashStatus">در حال بارگذاری</div></div>
-    <div class="dashboardCard"><div class="dashIcon">◉</div><div id="dash-dg" class="dashValue">—</div><div class="dashName">تولیدات پراکنده</div><div id="dash-status-dg" class="dashStatus">در حال بارگذاری</div></div>
+    <div class="dashboardCard"><div class="dashIcon">⚡</div><div id="dash-line" class="dashValue">—</div><div class="dashName">خطوط انتقال</div></div>
+    <div class="dashboardCard"><div class="dashIcon">🏢</div><div id="dash-post" class="dashValue">—</div><div class="dashName">پست‌ها</div></div>
+    <div class="dashboardCard"><div class="dashIcon">🏙️</div><div id="dash-county" class="dashValue">—</div><div class="dashName">شهرستان‌ها</div></div>
+    <div class="dashboardCard"><div class="dashIcon">🏭</div><div id="dash-plant" class="dashValue">—</div><div class="dashName">نیروگاه‌ها</div></div>
+    <div class="dashboardCard"><div class="dashIcon">🗼</div><div id="dash-tower" class="dashValue">—</div><div class="dashName">دکل‌ها</div></div>
+    <div class="dashboardCard"><div class="dashIcon">🔋</div><div id="dash-dg" class="dashValue">—</div><div class="dashName">تولیدات پراکنده</div></div>
   </div>
 </div>
 
@@ -1544,12 +1341,12 @@ const base={
 base.esri.addTo(map);
 
 const config={
- line:{file:'data/line.geojson',color:'#ef4444',type:'line',name:'مدار'},
- post:{file:'data/post.geojson',color:'#f59e0b',type:'point',name:'پست'},
- county:{file:'data/shahrestan.geojson',color:'#22c55e',type:'polygon',name:'شهرستان'},
- plant:{file:'data/powerplant.geojson',color:'#a855f7',type:'point',name:'نیروگاه'},
- tower:{file:'data/tower.geojson',color:'#06b6d4',type:'point',name:'دکل'},
- dg:{file:'data/dg.geojson',color:'#84cc16',type:'point',name:'تولیدات پراکنده'}
+ line:{file:'data/line.geojson',color:'#ef4444',type:'line',name:'خطوط انتقال و فوق‌توزیع'},
+ post:{file:'data/post.geojson',color:'#f59e0b',type:'point',name:'پست‌ها'},
+ county:{file:'data/shahrestan.geojson',color:'#22c55e',type:'polygon',name:'شهرستان‌ها'},
+ plant:{file:'data/powerplant.geojson',color:'#a855f7',type:'point',name:'نیروگاه‌ها'},
+ tower:{file:'data/tower.geojson',color:'#06b6d4',type:'point',name:'دکل‌ها'},
+ dg:{file:'data/dg.geojson',color:'#84cc16',type:'point',name:'DG'}
 };
 
 const layerGroups={};
@@ -1637,14 +1434,14 @@ function setBasemap(v){
  base[v].addTo(map);
 }
 
-function setStatus(s){document.getElementById('status').innerText=s}
+function setStatus(s){const el=document.getElementById('status');if(el)el.innerText=s}
 function toggleSidebar(){
  const x=document.getElementById('sidebar');
  x.style.display=x.style.display==='none'?'flex':'none';
 }
 function toggleTable(){
  const x=document.getElementById('tablePanel');
- x.style.display=x.style.display==='none'?'block':'none';
+ if(!x)return; x.style.display=x.style.display==='none'?'block':'none';
 }
 function showTab(tab,el){
  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
@@ -1834,12 +1631,12 @@ function showImported(f,l,name){
  openAttributeTable('جدول مشخصات - '+name);
 }
 async function importGeoJSON(input){
- const f=input.files[0];if(!f)return;
+ const f=input?.files?.[0];if(!f)return;
  try{addImported(JSON.parse(await f.text()),f.name)}catch(e){alert('GeoJSON معتبر نیست.')}
  input.value='';
 }
 async function importKML(input){
- const f=input.files[0];if(!f)return;
+ const f=input?.files?.[0];if(!f)return;
  try{
   const xml=new DOMParser().parseFromString(await f.text(),'text/xml');
   addImported(toGeoJSON.kml(xml),f.name);
@@ -1847,7 +1644,7 @@ async function importKML(input){
  input.value='';
 }
 async function importSHP(input){
- const f=input.files[0];if(!f)return;
+ const f=input?.files?.[0];if(!f)return;
  try{
   let geo;
   if(f.name.toLowerCase().endsWith('.zip'))geo=await shp(await f.arrayBuffer());
@@ -1961,6 +1758,33 @@ if(sessionStorage.getItem('webgisLoggedIn')==='1'){
 
 setTimeout(()=>setStatus('WebGIS آماده است — نقشه پایه: Esri Satellite'),1800);
 
+function toggleMenuSection(btn){
+ const body=btn.nextElementSibling;
+ const open=body.classList.contains('open');
+ body.classList.toggle('open',!open);
+ btn.classList.toggle('open',!open);
+}
+function setAllLayers(on){
+ Object.keys(config).forEach(type=>{
+  const g=layerGroups[type];
+  if(g){if(on)g.addTo(map);else map.removeLayer(g);}
+  const cb=document.querySelector(`.layerRow input[onchange*="'${type}'"]`);
+  if(cb)cb.checked=on;
+ });
+ setStatus(on?'همه لایه‌ها روشن شدند':'همه لایه‌ها خاموش شدند');
+}
+function showDashboard(){
+ const d=document.getElementById('layerDashboard');
+ d.classList.add('dashboardFlash');
+ setTimeout(()=>d.classList.remove('dashboardFlash'),900);
+}
+function showReport(){
+ const rows=Object.entries(config).map(([k,c])=>{const g=layerGroups[k];return `<tr><td>${escapeHtml(c.name)}</td><td>${g?g.getLayers().length:0}</td><td>${g&&map.hasLayer(g)?'روشن':'خاموش'}</td></tr>`}).join('');
+ document.getElementById('tableTitle').innerText='گزارش وضعیت لایه‌ها';
+ document.getElementById('attributeTable').innerHTML='<thead><tr><th>لایه</th><th>تعداد</th><th>وضعیت</th></tr></thead><tbody>'+rows+'</tbody>';
+ document.getElementById('tablePanel').style.display='block';
+}
+
 function toggleRefMenu(btn){
   const body=btn.nextElementSibling;
   const open=body.classList.contains('open');
@@ -1968,178 +1792,16 @@ function toggleRefMenu(btn){
   btn.classList.toggle('open',!open);
 }
 function openCoordinateTool(){
-  document.getElementById('utmModalBackdrop').style.display='flex';
-  setTimeout(()=>document.getElementById('utmEasting').focus(),50);
-}
-function closeUTM(){document.getElementById('utmModalBackdrop').style.display='none';}
-function utmToLatLon(zone,easting,northing,hemisphere){
-  const a=6378137.0, eccSquared=0.00669438, k0=0.9996;
-  const e1=(1-Math.sqrt(1-eccSquared))/(1+Math.sqrt(1-eccSquared));
-  const x=easting-500000.0;
-  let y=northing;
-  if(hemisphere==='S') y-=10000000.0;
-  const longOrigin=(zone-1)*6-180+3;
-  const eccPrimeSquared=eccSquared/(1-eccSquared);
-  const M=y/k0;
-  const mu=M/(a*(1-eccSquared/4-3*eccSquared*eccSquared/64-5*Math.pow(eccSquared,3)/256));
-  const phi1Rad=mu+(3*e1/2-27*Math.pow(e1,3)/32)*Math.sin(2*mu)+(21*e1*e1/16-55*Math.pow(e1,4)/32)*Math.sin(4*mu)+(151*Math.pow(e1,3)/96)*Math.sin(6*mu)+(1097*Math.pow(e1,4)/512)*Math.sin(8*mu);
-  const N1=a/Math.sqrt(1-eccSquared*Math.sin(phi1Rad)**2);
-  const T1=Math.tan(phi1Rad)**2;
-  const C1=eccPrimeSquared*Math.cos(phi1Rad)**2;
-  const R1=a*(1-eccSquared)/Math.pow(1-eccSquared*Math.sin(phi1Rad)**2,1.5);
-  const D=x/(N1*k0);
-  const lat=phi1Rad-(N1*Math.tan(phi1Rad)/R1)*(D*D/2-(5+3*T1+10*C1-4*C1*C1-9*eccPrimeSquared)*D**4/24+(61+90*T1+298*C1+45*T1*T1-252*eccPrimeSquared-3*C1*C1)*D**6/720);
-  const lon=(D-(1+2*T1+C1)*D**3/6+(5-2*C1+28*T1-3*C1*C1+8*eccPrimeSquared+24*T1*T1)*D**5/120)/Math.cos(phi1Rad);
-  return {lat:lat*180/Math.PI,lon:longOrigin+lon*180/Math.PI};
-}
-function goToUTM(){
-  const zone=Number(document.getElementById('utmZone').value), e=Number(document.getElementById('utmEasting').value), n=Number(document.getElementById('utmNorthing').value), h=document.getElementById('utmHemisphere').value;
-  if(!Number.isInteger(zone)||zone<1||zone>60||!Number.isFinite(e)||!Number.isFinite(n)){setStatus('مقادیر UTM صحیح نیست');return;}
-  const p=utmToLatLon(zone,e,n,h); map.setView([p.lat,p.lon],14); closeUTM();
-  setStatus(`UTM Zone ${zone}${h} — X: ${e.toFixed(2)} | Y: ${n.toFixed(2)}`);
-}
-
-
-/* ===== Functional network layer controls and reporting ===== */
-const networkLayerLabels = {
-  line:'مدار', post:'پست', tower:'دکل', plant:'نیروگاه', dg:'تولیدات پراکنده', county:'شهرستان'
-};
-const networkLayerIds = ['tower','post','line','plant','dg','county'];
-
-function toggleNetworkLayer(type,on){
-  const g=layerGroups[type];
-  if(g){
-    if(on) g.addTo(map); else map.removeLayer(g);
-    setStatus((on?'نمایش ':'مخفی کردن ')+networkLayerLabels[type]);
+  const v=prompt('مختصات را به صورت طول،عرض وارد کنید\nمثال: 52.50,29.60');
+  if(!v)return;
+  const p=v.split(',').map(Number);
+  if(p.length===2 && p.every(Number.isFinite)){
+    map.setView([p[1],p[0]],12);
+    setStatus('موقعیت به مختصات واردشده منتقل شد');
   }else{
-    setStatus(networkLayerLabels[type]+' هنوز بارگذاری نشده است');
-  }
-  updateLayerDashboard();
-}
-function setAllNetworkLayers(on){
-  networkLayerIds.forEach(type=>{
-    const g=layerGroups[type];
-    if(g){
-      if(on) g.addTo(map); else map.removeLayer(g);
-    }
-    const row=document.querySelector('.networkLayerRow input[onchange*="' + type + '"]');
-    if(row) row.checked=on;
-  });
-  setStatus(on?'همه لایه‌های شبکه نمایش داده شدند':'همه لایه‌های شبکه مخفی شدند');
-  updateLayerDashboard();
-}
-function showAllLoadedLayers(){
-  networkLayerIds.forEach(type=>{
-    if(layerGroups[type]) layerGroups[type].addTo(map);
-    const row=document.querySelector('.networkLayerRow input[onchange*="' + type + '"]');
-    if(row) row.checked=true;
-  });
-  zoomFull();
-  setStatus('همه لایه‌های موجود نمایش داده شدند');
-}
-function hideAllLoadedLayers(){
-  networkLayerIds.forEach(type=>{
-    if(layerGroups[type]) map.removeLayer(layerGroups[type]);
-    const row=document.querySelector('.networkLayerRow input[onchange*="' + type + '"]');
-    if(row) row.checked=false;
-  });
-  setStatus('همه لایه‌های شبکه مخفی شدند');
-  updateLayerDashboard();
-}
-function focusSearch(){
-  const input=document.getElementById('searchInput');
-  if(input){
-    input.focus();
-    input.scrollIntoView({behavior:'smooth',block:'center'});
-    setStatus('جستجوی عوارض فعال شد');
-  }else{
-    setStatus('بخش جستجو در نسخه فعلی وجود ندارد');
+    setStatus('فرمت مختصات صحیح نیست');
   }
 }
-function layerStatus(type){
-  const g=layerGroups[type];
-  return g ? (map.hasLayer(g) ? 'نمایش' : 'مخفی') : 'خطا/در انتظار';
-}
-function updateLayerDashboard(){
-  networkLayerIds.forEach(type=>{
-    const g=layerGroups[type];
-    const countEl=document.getElementById('count-'+type);
-    const menuEl=document.getElementById('menu-count-'+type);
-    const dashEl=document.getElementById('dash-'+type);
-    const statusEl=document.getElementById('dash-status-'+type);
-    let count='—';
-    let status='در حال بارگذاری';
-    if(g){
-      count=String(g.getLayers().length);
-      status=map.hasLayer(g)?'نمایش':'مخفی';
-    }else if(countEl && countEl.innerText && countEl.innerText!=='—'){
-      count=countEl.innerText;
-    }
-    if(countEl) countEl.innerText=count;
-    if(menuEl) menuEl.innerText=count;
-    if(dashEl) dashEl.innerText=count;
-    if(statusEl){
-      statusEl.innerText=status;
-      statusEl.style.color=status==='نمایش'?'#7fd6b2':(status==='مخفی'?'#f6c56b':'#ff9b9b');
-    }
-  });
-  const nums=networkLayerIds.map(t=>{
-    const g=layerGroups[t]; return g?g.getLayers().length:0;
-  });
-  const total=nums.reduce((a,b)=>a+b,0);
-  const loaded=networkLayerIds.filter(t=>!!layerGroups[t]).length;
-  const summary=document.getElementById('dashboardSummary');
-  if(summary) summary.innerText='۶ لایه اصلی | '+loaded+' لایه بارگذاری‌شده | مجموع عوارض: '+total.toLocaleString('fa-IR');
-}
-function openLayerReport(){
-  updateLayerDashboard();
-  const d=document.getElementById('layerDashboard');
-  if(d){
-    d.scrollIntoView({behavior:'smooth',block:'center'});
-    d.style.boxShadow='0 0 0 2px rgba(24,169,232,.7), 0 10px 35px rgba(0,0,0,.55)';
-    setTimeout(()=>d.style.boxShadow='',1200);
-  }
-  setStatus('گزارش لایه‌های اصلی نمایش داده شد');
-}
-
-/* Make the existing layer loader update the new report as soon as each layer arrives. */
-const _originalBuildLayer = buildLayer;
-buildLayer = function(type){
-  const c=config[type];
-  fetch(c.file).then(r=>{
-    if(!r.ok) throw new Error('not found: '+c.file);
-    return r.json();
-  }).then(geo=>{
-    const group=L.geoJSON(geo,{
-      style:()=>featureStyle(c.color),
-      pointToLayer:(f,ll)=>L.circleMarker(ll,pointStyle(c.color)),
-      onEachFeature:(f,l)=>l.on('click',()=>showFeature(type,f,l))
-    }).addTo(map);
-    layerGroups[type]=group;
-    const count=document.getElementById('count-'+type);
-    if(count) count.innerText=group.getLayers().length;
-    updateLayerDashboard();
-    setStatus(networkLayerLabels[type]+' با '+group.getLayers().length.toLocaleString('fa-IR')+' عارضه بارگذاری شد');
-  }).catch(err=>{
-    const count=document.getElementById('count-'+type);
-    if(count) count.innerText='خطا';
-    const menu=document.getElementById('menu-count-'+type);
-    if(menu) menu.innerText='خطا';
-    const dash=document.getElementById('dash-'+type);
-    const ds=document.getElementById('dash-status-'+type);
-    if(dash) dash.innerText='خطا';
-    if(ds){ds.innerText='فایل یافت نشد';ds.style.color='#ff9b9b';}
-    console.warn('WebGIS layer load failed:',type,c.file,err);
-  });
-};
-
-/* Reload all six layers through the reliable loader after the original page setup. */
-networkLayerIds.forEach(type=>{
-  layerGroups[type]=null;
-  buildLayer(type);
-});
-setTimeout(updateLayerDashboard,700);
-setTimeout(updateLayerDashboard,1800);
 
 </script>
 </body>
