@@ -1253,146 +1253,35 @@ button,input,select,textarea,
 }
 </style>
 
-<style id="webgis-functional-layout">
-/* ===== Stable WebGIS frame ===== */
-.top{
-  top:8px!important;left:8px!important;right:8px!important;
-  height:78px!important;min-height:78px!important;
-  padding:0 190px 0 185px!important;
-  border-radius:14px!important;
-  display:flex!important;align-items:center!important;justify-content:center!important;
-  overflow:hidden!important;
-}
-.top .titleNastaliq{
-  position:relative!important;left:auto!important;top:auto!important;
-  transform:none!important;margin:0 auto!important;
-  max-width:100%!important;
-  font-size:clamp(23px,2.7vw,35px)!important;
-  white-space:nowrap!important;z-index:4!important;
-}
-.top .logo{
-  position:absolute!important;right:15px!important;top:50%!important;
-  transform:translateY(-50%)!important;width:155px!important;height:58px!important;
-  margin:0!important;display:flex!important;align-items:center!important;
-  justify-content:center!important;z-index:5!important;
-}
-.top .headerLogoImg{width:45px!important;height:45px!important}
-.top .logoText,.top .logo span{font-size:12px!important}
-.top .iconBtn,.top .logoutBtn{
-  position:absolute!important;bottom:9px!important;top:auto!important;
-  z-index:6!important;height:34px!important;
-}
-.top .iconBtn:first-of-type{left:9px!important}
-.top .iconBtn:nth-of-type(2){left:48px!important}
-.top .iconBtn:nth-of-type(3){left:87px!important}
-.top .iconBtn:nth-of-type(4){left:126px!important}
-.top .logoutBtn{left:168px!important}
-
-/* Left menu: neat, readable and scrollable */
-#sidebar{
-  left:9px!important;right:auto!important;top:94px!important;
-  width:300px!important;bottom:9px!important;
-  overflow:hidden!important;
-  border-radius:14px!important;
-}
-.refMenu{height:100%!important;overflow:auto!important;padding:7px!important}
-.refMenuGroup{margin-bottom:7px!important}
-.refMenuHead{
-  min-height:43px!important;padding:9px 11px!important;
-  border-radius:9px!important;
-}
-.refMenuTitle{font-size:16px!important;font-weight:800!important}
-.refMenuBody{padding:4px!important}
-.refMenuItem{
-  min-height:37px!important;padding:7px 9px!important;
-  border-radius:7px!important;font-size:14px!important;
-}
-.refMenuItem span:last-child{line-height:1.4!important}
-.fileItem{cursor:pointer!important}
-.fileItem input{display:none!important}
-
-.networkLayerList{
-  display:flex!important;flex-direction:column!important;gap:4px!important;
-}
-.networkLayerRow{
-  min-height:38px!important;padding:5px 8px!important;
-  display:flex!important;align-items:center!important;gap:7px!important;
-  border:1px solid rgba(60,105,135,.55)!important;
-  border-radius:8px!important;background:rgba(8,27,45,.72)!important;
-  cursor:pointer!important;font-size:14px!important;
-}
-.networkLayerRow:hover{background:rgba(14,52,78,.92)!important}
-.networkLayerRow input{width:16px!important;height:16px!important;flex:0 0 auto!important}
-.networkLayerRow b{margin-right:auto!important;font-size:11px!important;color:#8edbfa!important}
-.layerDot{width:10px!important;height:10px!important;border-radius:50%!important;display:inline-block!important}
-.towerDot{background:#06b6d4}.postDot{background:#f59e0b}.lineDot{background:#ef4444}
-.plantDot{background:#a855f7}.dgDot{background:#84cc16}.countyDot{background:#22c55e}
-.networkLayerActions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important;margin-top:6px!important}
-.networkLayerActions button,.baseMapGrid button{
-  padding:7px 5px!important;font-size:11px!important;
-}
-.baseMapGrid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important}
-
-/* Dashboard: report, but compact */
-#layerDashboard{
-  left:325px!important;right:auto!important;bottom:10px!important;
-  width:min(700px,calc(100vw - 350px))!important;min-width:520px!important;
-  max-width:700px!important;
-  padding:8px 10px!important;border-radius:13px!important;
-  z-index:1000!important;
-}
-#layerDashboard .dashboardHead{
-  min-height:23px!important;margin-bottom:5px!important;
-}
-#layerDashboard .dashboardTitle{font-size:14px!important;font-weight:900!important}
-#layerDashboard .dashboardSub{font-size:9px!important}
-.dashboardRefresh{
-  width:auto!important;padding:4px 8px!important;font-size:10px!important;
-}
-#layerDashboard .dashboardCards{
-  display:grid!important;grid-template-columns:repeat(6,1fr)!important;gap:5px!important;
-}
-#layerDashboard .dashboardCard{
-  min-height:58px!important;padding:5px 4px!important;border-radius:9px!important;
-}
-#layerDashboard .dashIcon{font-size:15px!important;margin-bottom:2px!important}
-#layerDashboard .dashValue{font-size:15px!important;line-height:16px!important}
-#layerDashboard .dashName{font-size:9px!important;margin-top:1px!important}
-#layerDashboard .dashStatus{font-size:8px!important;color:#7fd6b2!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-
-/* Keep map controls clickable and above the map */
-.leaflet-control-container{z-index:1200!important}
-.leaflet-top,.leaflet-bottom{z-index:1200!important}
-.mapToolBtn,.rightTool{pointer-events:auto!important}
-
-/* Mobile */
-@media(max-width:900px){
-  .top{height:66px!important;min-height:66px!important;padding:0 90px 0 100px!important}
-  .top .titleNastaliq{font-size:clamp(17px,4.8vw,26px)!important}
-  .top .logo{right:7px!important;width:72px!important;height:48px!important}
-  .top .headerLogoImg{width:32px!important;height:32px!important}
-  .top .logoText,.top .logo span{font-size:9px!important}
-  .top .iconBtn{bottom:7px!important;width:34px!important;height:30px!important}
-  .top .iconBtn:first-of-type{left:6px!important}
-  .top .iconBtn:nth-of-type(2){left:40px!important}
-  .top .iconBtn:nth-of-type(3){left:74px!important}
-  .top .iconBtn:nth-of-type(4){left:108px!important}
-  .top .logoutBtn{left:142px!important;height:30px!important}
-  #sidebar{left:6px!important;top:78px!important;width:min(310px,calc(100vw - 12px))!important;bottom:6px!important}
-  #layerDashboard{left:6px!important;bottom:8px!important;width:calc(100vw - 12px)!important;min-width:0!important;max-width:none!important}
-  #layerDashboard .dashboardCards{grid-template-columns:repeat(3,1fr)!important}
-}
-@media(max-width:480px){
-  .top{padding:0 78px 0 78px!important}
-  .top .titleNastaliq{font-size:16px!important}
-  #layerDashboard .dashboardCards{grid-template-columns:repeat(2,1fr)!important}
-}
-@media print{
-  .top,#sidebar,#layerDashboard,#coordBar,#status,#mapToolbar,#rightTools{display:none!important}
-}
-</style>
-
-</head>
+<style id="webgis-user-revisions">
+*{box-sizing:border-box}
+body{overflow:hidden!important}
+.top{position:absolute!important;top:8px!important;left:8px!important;right:8px!important;height:72px!important;min-height:72px!important;margin:0!important;padding:0 175px!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;border-radius:12px!important;z-index:2000!important}
+.top .titleNastaliq{position:static!important;transform:none!important;width:100%!important;margin:0 auto!important;padding:0!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:clamp(22px,2.7vw,34px)!important;z-index:3!important}
+.top .logo{position:absolute!important;right:12px!important;top:50%!important;transform:translateY(-50%)!important;width:150px!important;height:54px!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;z-index:5!important}
+#sidebar{position:absolute!important;top:88px!important;left:8px!important;right:auto!important;bottom:8px!important;width:292px!important;margin:0!important;padding:0!important;overflow:hidden!important;border-radius:13px!important;z-index:1500!important}
+.refMenu{height:100%!important;width:100%!important;overflow-y:auto!important;overflow-x:hidden!important;padding:7px!important;margin:0!important}
+.refMenuGroup{width:100%!important;margin:0 0 7px!important;padding:0!important}
+.refMenuHead{width:100%!important;min-height:42px!important;margin:0!important;padding:7px 9px!important;display:flex!important;align-items:center!important;gap:7px!important;border-radius:8px!important}
+.refMenuBody{width:100%!important;margin:0!important;padding:4px!important;border:0!important}
+.refMenuItem,.networkLayerRow{width:100%!important;min-height:36px!important;margin:2px 0!important;padding:6px 8px!important;display:flex!important;align-items:center!important;gap:7px!important;border-radius:7px!important}
+.refMenuItem .refItemIcon,.refMenuIcon{width:24px!important;min-width:24px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+.refMenuTitle{flex:1!important;text-align:right!important;font-family:"B Nazanin","BNazanin","Nazanin",Tahoma,sans-serif!important;font-size:16px!important}
+.networkLayerList{width:100%!important;display:flex!important;flex-direction:column!important;gap:3px!important;margin:0!important;padding:0!important}
+.networkLayerRow{cursor:pointer!important;font-family:"B Nazanin","BNazanin","Nazanin",Tahoma,sans-serif!important;font-size:14px!important}
+.networkLayerRow input{width:16px!important;height:16px!important;margin:0!important;flex:0 0 16px!important}
+.networkLayerRow b{margin-right:auto!important;font:10px Tahoma,sans-serif!important}
+.networkLayerActions,.baseMapGrid{width:100%!important;margin:4px 0 0!important;padding:0!important}
+.networkLayerActions button,.baseMapGrid button{min-height:31px!important;margin:0!important;padding:4px 5px!important;font:12px "B Nazanin","BNazanin","Nazanin",Tahoma,sans-serif!important}
+#map{position:absolute!important;z-index:1!important}
+.leaflet-control-container,.leaflet-top,.leaflet-bottom{z-index:1200!important;pointer-events:auto!important}
+#layerDashboard{position:absolute!important;left:315px!important;right:10px!important;bottom:9px!important;width:auto!important;min-width:0!important;max-width:none!important;margin:0!important;z-index:1300!important}
+#layerDashboard .dashboardCards{width:100%!important;display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:5px!important}
+#layerDashboard .dashboardCard{min-width:0!important;min-height:56px!important;margin:0!important;padding:4px!important;overflow:hidden!important}
+#layerDashboard .dashName,#layerDashboard .dashStatus{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+@media(max-width:900px){.top{top:5px!important;left:5px!important;right:5px!important;height:62px!important;min-height:62px!important;padding:0 78px!important}.top .titleNastaliq{font-size:clamp(16px,4.8vw,25px)!important}.top .logo{right:6px!important;width:67px!important;height:44px!important}#sidebar{top:72px!important;left:5px!important;width:min(300px,calc(100vw - 10px))!important;bottom:5px!important}#layerDashboard{left:5px!important;right:5px!important;bottom:5px!important}#layerDashboard .dashboardCards{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:480px){#layerDashboard .dashboardCards{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style></head>
 
 <body>
 
@@ -1449,9 +1338,7 @@ button,input,select,textarea,
   <button class="rightTool" onclick="window.print()" title="چاپ نقشه">🖨</button>
 </div>
 
-<div id="referenceLayerPanel">
-  <div class="refHead"><span>لایه‌ها</span><span>▱</span></div>
-  <div class="refSection">
+<div class="refSection">
     <div class="refSectionTitle">نقشه پایه</div>
     <label class="refLayer"><input class="refRadio" type="radio" name="refBase" checked onclick="setBasemap('esri')"> ESRI Satellite</label>
     <label class="refLayer"><input class="refRadio" type="radio" name="refBase" onclick="setBasemap('osm')"> OpenStreetMap</label>
