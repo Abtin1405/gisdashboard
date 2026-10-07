@@ -1857,27 +1857,125 @@ function toggleRefMenu(btn){
   btn.classList.toggle('open',!open);
 }
 function openCoordinateTool(){
-  const v=prompt('مختصات را به صورت طول،عرض وارد کنید\nمثال: 52.50,29.60');
-  if(!v)return;
-  const p=v.split(',').map(Number);
-  if(p.length===2 && p.every(Number.isFinite)){
-    map.setView([p[1],p[0]],12);
-    setStatus('موقعیت به مختصات واردشده منتقل شد');
-  }else{
-    setStatus('فرمت مختصات صحیح نیست');
-  }
+  const modal=document.getElementById('coordinateModal');
+  if(!modal)return;
+  modal.classList.remove('hidden');
+  const zone=document.getElementById('zone');
+  if(zone && !zone.value) zone.value='39';
+  setTimeout(()=>document.getElementById('easting')?.focus(),50);
+}
+function closeCoordinateTool(){
+  document.getElementById('coordinateModal')?.classList.add('hidden');
 }
 
 </script>
 <script>
+/* ابزارهای مختصات: UTM <-> جغرافیایی */
 window.toggleFullscreen=function(){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}else{document.exitFullscreen&&document.exitFullscreen()}};
 window.openCoordinateConverter=function(){const p=document.getElementById("coordinateConvertPanel");if(p){p.style.display=(p.style.display==="none"||!p.style.display)?"flex":"none";}};
 window.closeCoordinateConverter=function(){const p=document.getElementById("coordinateConvertPanel");if(p)p.style.display="none"};
-function dr(x){return x*Math.PI/180} function rd(x){return x*180/Math.PI}
-window.utmToLatLon=function(E,N,z,h){const a=6378137,e=.00669438,k=.9996;let x=E-500000,y=N;if(h==="S")y-=1e7;let ep=e/(1-e),M=y/k,mu=M/(a*(1-e/4-3*e*e/64-5*e**3/256)),e1=(1-Math.sqrt(1-e))/(1+Math.sqrt(1-e)),fp=mu+(3*e1/2-27*e1**3/32)*Math.sin(2*mu)+(21*e1*e1/16-55*e1**4/32)*Math.sin(4*mu)+(151*e1**3/96)*Math.sin(6*mu)+(1097*e1**4/512)*Math.sin(8*mu),C=ep*Math.cos(fp)**2,T=Math.tan(fp)**2,NN=a/Math.sqrt(1-e*Math.sin(fp)**2),R=a*(1-e)/Math.pow(1-e*Math.sin(fp)**2,1.5),D=x/(NN*k),lat=fp-(NN*Math.tan(fp)/R)*(D*D/2-(5+3*T+10*C-4*C*C-9*ep)*D**4/24+(61+90*T+298*C+45*T*T-252*ep-3*C*C)*D**6/720),lon=dr((z-1)*6-180+3)+(D-(1+2*T+C)*D**3/6+(5-2*C+28*T-3*C*C+8*ep+24*T*T)*D**5/120)/Math.cos(fp);return{lat:rd(lat),lon:rd(lon)}};
-window.convertUTMToLatLon=function(){let z=+convZone.value,x=+convX.value,y=+convY.value,h=convHem.value;if(!z||!x||!y)return convGeoResult.textContent="مقادیر UTM را کامل وارد کنید.";let p=utmToLatLon(x,y,z,h);convGeoResult.textContent="Latitude: "+p.lat.toFixed(7)+" | Longitude: "+p.lon.toFixed(7)};
-window.latLonToUTM=function(lat,lon){const a=6378137,e=.00669438,k=.9996,z=Math.floor((lon+180)/6)+1,o=(z-1)*6-177,lr=dr(lat),lo=dr(lon),or=dr(o),ep=e/(1-e),N=a/Math.sqrt(1-e*Math.sin(lr)**2),T=Math.tan(lr)**2,C=ep*Math.cos(lr)**2,A=Math.cos(lr)*(lo-or),M=a*((1-e/4-3*e**2/64-5*e**3/256)*lr-(3*e/8+3*e**2/32+45*e**3/1024)*Math.sin(2*lr)+(15*e**2/256+45*e**3/1024)*Math.sin(4*lr)-(35*e**3/3072)*Math.sin(6*lr));let Y=k*(M+N*Math.tan(lr)*(A*A/2+(5-T+9*C+4*C*C)*A**4/24+(61-58*T+T*T+600*C-330*ep)*A**6/720));if(lat<0)Y+=1e7;return{zone:z,hemisphere:lat>=0?"N":"S",easting:k*N*(A+(1-T+C)*A**3/6+(5-18*T+T*T+72*C-58*ep)*A**5/120)+5e5,northing:Y}};
-window.convertLatLonToUTM=function(){let lat=+convLat.value,lon=+convLon.value;if(!Number.isFinite(lat)||!Number.isFinite(lon))return convUTMResult.textContent="مختصات را وارد کنید.";let p=latLonToUTM(lat,lon);convUTMResult.textContent="Zone "+p.zone+p.hemisphere+" | X: "+p.easting.toFixed(2)+" | Y: "+p.northing.toFixed(2)};
+
+function normalizeDigits(v){
+  return String(v??'').replace(/[۰-۹]/g,d=>String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)))
+                       .replace(/[٠-٩]/g,d=>String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
+}
+function dr(x){return x*Math.PI/180}
+function rd(x){return x*180/Math.PI}
+
+function utmToLatLon(E,N,z,h){
+  E=Number(E); N=Number(N); z=Number(z); h=String(h||'N').toUpperCase();
+  if(!Number.isFinite(E)||!Number.isFinite(N)||!Number.isInteger(z)||z<1||z>60) throw new Error('UTM_INVALID');
+  if(E<100000||E>900000||N<0||N>10000000) throw new Error('UTM_RANGE');
+  const a=6378137, ecc=0.00669437999014, k0=0.9996;
+  let x=E-500000, y=N;
+  if(h==='S') y-=10000000;
+  const ep=ecc/(1-ecc), M=y/k0;
+  const mu=M/(a*(1-ecc/4-3*ecc**2/64-5*ecc**3/256));
+  const e1=(1-Math.sqrt(1-ecc))/(1+Math.sqrt(1-ecc));
+  const fp=mu+(3*e1/2-27*e1**3/32)*Math.sin(2*mu)
+    +(21*e1**2/16-55*e1**4/32)*Math.sin(4*mu)
+    +(151*e1**3/96)*Math.sin(6*mu)
+    +(1097*e1**4/512)*Math.sin(8*mu);
+  const C=ep*Math.cos(fp)**2, T=Math.tan(fp)**2;
+  const NN=a/Math.sqrt(1-ecc*Math.sin(fp)**2);
+  const R=a*(1-ecc)/Math.pow(1-ecc*Math.sin(fp)**2,1.5);
+  const D=x/(NN*k0);
+  let lat=fp-(NN*Math.tan(fp)/R)*(D**2/2-(5+3*T+10*C-4*C*C-9*ep)*D**4/24
+    +(61+90*T+298*C+45*T*T-252*ep-3*C*C)*D**6/720);
+  let lon=dr((z-1)*6-180+3)+(D-(1+2*T+C)*D**3/6
+    +(5-2*C+28*T-3*C*C+8*ep+24*T*T)*D**5/120)/Math.cos(fp);
+  lat=rd(lat); lon=rd(lon);
+  if(h==='S' && lat>0) lat=-lat;
+  return {lat,lon};
+}
+
+function latLonToUTM(lat,lon){
+  lat=Number(lat); lon=Number(lon);
+  if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<-80||lat>84||lon<-180||lon>180) throw new Error('GEO_RANGE');
+  const a=6378137, ecc=0.00669437999014, k0=0.9996;
+  const z=Math.min(60,Math.max(1,Math.floor((lon+180)/6)+1));
+  const lonOrigin=(z-1)*6-180+3;
+  const lr=dr(lat), lo=dr(lon), or=dr(lonOrigin);
+  const ep=ecc/(1-ecc);
+  const sin=Math.sin(lr), cos=Math.cos(lr), tan=Math.tan(lr);
+  const N=a/Math.sqrt(1-ecc*sin*sin), T=tan*tan, C=ep*cos*cos, A=cos*(lo-or);
+  const M=a*((1-ecc/4-3*ecc**2/64-5*ecc**3/256)*lr
+    -(3*ecc/8+3*ecc**2/32+45*ecc**3/1024)*Math.sin(2*lr)
+    +(15*ecc**2/256+45*ecc**3/1024)*Math.sin(4*lr)
+    -(35*ecc**3/3072)*Math.sin(6*lr));
+  const easting=k0*N*(A+(1-T+C)*A**3/6+(5-18*T+T*T+72*C-58*ep)*A**5/120)+500000;
+  let northing=k0*(M+N*tan*(A*A/2+(5-T+9*C+4*C*C)*A**4/24
+    +(61-58*T+T*T+600*C-330*ep)*A**6/720));
+  const hemisphere=lat>=0?'N':'S';
+  if(lat<0) northing+=10000000;
+  return {zone:z,hemisphere,easting,northing};
+}
+window.utmToLatLon=utmToLatLon;
+window.latLonToUTM=latLonToUTM;
+
+window.goToCoordinate=function(){
+  const msg=document.getElementById('coordResult');
+  try{
+    const z=Number(normalizeDigits(document.getElementById('zone').value));
+    const e=Number(normalizeDigits(document.getElementById('easting').value));
+    const n=Number(normalizeDigits(document.getElementById('northing').value));
+    const h=document.getElementById('hemisphere').value;
+    if(!Number.isInteger(z)||z<1||z>60) throw new Error('ZONE');
+    if(!Number.isFinite(e)||!Number.isFinite(n)) throw new Error('EMPTY');
+    const p=utmToLatLon(e,n,z,h);
+    if(p.lon<-180||p.lon>180||p.lat<-90||p.lat>90) throw new Error('RESULT');
+    map.setView([p.lat,p.lon],16);
+    if(window.userMarker && map.hasLayer(userMarker)) map.removeLayer(userMarker);
+    window.userMarker=L.marker([p.lat,p.lon]).addTo(map)
+      .bindPopup(`<b>موقعیت UTM</b><br>Zone: ${z}${h}<br>X: ${e.toFixed(2)}<br>Y: ${n.toFixed(2)}<br>Lat: ${p.lat.toFixed(7)}<br>Lon: ${p.lon.toFixed(7)}`).openPopup();
+    msg.innerHTML=`<b>مختصات جغرافیایی:</b> Latitude: ${p.lat.toFixed(7)} | Longitude: ${p.lon.toFixed(7)}`;
+    setStatus(`انتقال به UTM Zone ${z}${h} انجام شد`);
+  }catch(err){
+    msg.textContent='مقادیر UTM صحیح نیستند. Zone بین 1 تا 60 و X/Y را به متر وارد کنید.';
+  }
+};
+
+window.convertUTMToLatLon=function(){
+  const out=document.getElementById('convGeoResult');
+  try{
+    const z=Number(normalizeDigits(document.getElementById('convZone').value));
+    const x=Number(normalizeDigits(document.getElementById('convX').value));
+    const y=Number(normalizeDigits(document.getElementById('convY').value));
+    const h=document.getElementById('convHem').value;
+    const p=utmToLatLon(x,y,z,h);
+    out.innerHTML=`Latitude: <b>${p.lat.toFixed(7)}</b> &nbsp; | &nbsp; Longitude: <b>${p.lon.toFixed(7)}</b>`;
+  }catch(e){out.textContent='مقادیر UTM را کامل و صحیح وارد کنید.';}
+};
+
+window.convertLatLonToUTM=function(){
+  const out=document.getElementById('convUTMResult');
+  try{
+    const lat=Number(normalizeDigits(document.getElementById('convLat').value));
+    const lon=Number(normalizeDigits(document.getElementById('convLon').value));
+    const p=latLonToUTM(lat,lon);
+    out.innerHTML=`Zone <b>${p.zone}${p.hemisphere}</b> &nbsp; | &nbsp; X / Easting: <b>${p.easting.toFixed(2)}</b> &nbsp; | &nbsp; Y / Northing: <b>${p.northing.toFixed(2)}</b>`;
+  }catch(e){out.textContent='Latitude و Longitude را صحیح وارد کنید (Latitude: -80 تا 84).';}
+};
 </script><style id="table-dashboard-final">
 /* داشبورد لایه‌های اصلی به‌طور کامل حذف شده است */
 #layerDashboard{display:none!important}
