@@ -1190,6 +1190,24 @@ a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:20px!important;font-w
 .top > div[style*="kh.rahimi1402@gmail.com"], a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:22px!important;font-weight:900!important}
 #tablePanel{font-family:Tahoma,"Segoe UI",sans-serif!important}
 </style>
+
+<style id="wordRequirementsCSS">
+/* === امکانات درخواستی Word: جستجوی هوشمند و داشبورد مدیریتی === */
+.smartSearchPanel{margin-top:10px;padding:10px;border:1px solid #28516c;border-radius:10px;background:rgba(5,25,42,.72)}
+.smartSearchPanel .smartTitle{font-size:13px;font-weight:900;color:#bfeeff;margin-bottom:6px}
+.smartSearchPanel .smartHint{font-size:10px;line-height:1.8;color:#91aec2;margin-bottom:7px}
+.smartSearchRow{display:flex;gap:6px}.smartSearchRow input{flex:1}.smartSearchRow button{white-space:nowrap}
+.smartQueryExamples{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}.smartQueryExamples button{font-size:10px;padding:5px 7px}
+.smartSearchResult{margin-top:8px;max-height:260px;overflow:auto}.smartResult{padding:9px;margin:5px 0;border:1px solid #294b63;border-radius:8px;background:#0b1d2d;cursor:pointer}.smartResult:hover{background:#12314a}
+.smartResultHead{display:flex;justify-content:space-between;gap:8px;font-weight:900;color:#d9f6ff}.smartResultMeta{font-size:10px;color:#9bb5c7;margin-top:4px;line-height:1.8}.smartEmpty{padding:9px;color:#9bb5c7;font-size:11px}
+#managementDashboard{position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,.64);display:none;align-items:center;justify-content:center;padding:18px;direction:rtl}
+#managementDashboard.open{display:flex}
+.managementDashCard{width:min(1050px,96vw);max-height:90vh;overflow:auto;background:linear-gradient(145deg,#081a2b,#0c253a);border:1px solid #2c688c;border-radius:16px;box-shadow:0 20px 70px rgba(0,0,0,.7);padding:16px}
+.managementDashHead{display:flex;align-items:center;gap:12px;margin-bottom:12px}.managementDashHead b{font-size:20px;color:#e7f8ff}.managementDashHead span{font-size:10px;color:#8faec2}.managementDashClose{margin-right:auto!important;font-size:20px!important;padding:4px 10px!important}
+.managementDashGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.managementMetric{min-height:105px;border:1px solid #285674;border-radius:12px;background:rgba(9,39,60,.86);padding:12px;display:flex;flex-direction:column;justify-content:center}.managementMetric .metricIcon{font-size:22px}.managementMetric .metricValue{font-size:25px;font-weight:900;color:#fff;margin-top:5px}.managementMetric .metricName{font-size:11px;color:#a9c8da;margin-top:3px}.managementMetric button{margin-top:8px;font-size:10px}
+.managementDashNote{margin-top:12px;font-size:10px;line-height:1.9;color:#91aec2;border-top:1px solid #21445c;padding-top:10px}
+@media(max-width:700px){.managementDashGrid{grid-template-columns:repeat(2,1fr)}.managementDashCard{padding:10px}.managementDashHead b{font-size:16px}}
+</style>
 </head>
 
 <body><button id="fullscreenBtn" type="button" onclick="toggleFullscreen()" title="تمام صفحه">⛶</button>
@@ -1304,7 +1322,14 @@ a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:20px!important;font-w
       <button class="menuHead" onclick="toggleMenuSection(this)"><span>⌕</span><b>جستجو و اطلاعات</b><span class="arrow">⌄</span></button>
       <div class="menuBody">
         <div class="searchBox"><input id="searchInput" placeholder="جستجو در اطلاعات لایه‌ها"><button onclick="searchAll()">🔍</button></div>
-        <div id="searchResults" class="searchResults"></div>
+        <div id="searchResults" class="searchResults"></div><div class="smartSearchPanel">
+ <div class="smartTitle">🔎 جستجو و استعلام هوشمند</div>
+ <div class="smartHint">عبارت طبیعی وارد کنید؛ مانند «دکل شماره 125» یا «تمام دکل‌های یک خط در شهرستان شیراز که در ۲ سال اخیر بازدید نشده‌اند»</div>
+ <div class="smartSearchRow"><input id="smartSearchInput" placeholder="عبارت مورد نظر را وارد کنید" onkeydown="if(event.key==='Enter')smartSearch()"><button class="primary" onclick="smartSearch()">جستجو</button></div>
+ <div class="smartQueryExamples"><button onclick="smartExample('دکل شماره 125')">دکل شماره 125</button><button onclick="smartExample('دکل‌های شهرستان شیراز')">دکل‌های شیراز</button></div>
+ <div id="smartSearchResult" class="smartSearchResult"></div>
+</div>
+
         <button class="menuItem" onclick="toggleTable()">▤ جدول اطلاعات عارضه</button>
         <button class="menuItem" onclick="showDashboard()">▦ واحدGIS</button>
         <button class="menuItem" onclick="showReport()">▤ گزارش وضعیت لایه‌ها</button>
@@ -1349,6 +1374,23 @@ a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:20px!important;font-w
 <div id="coordBar">UTM Zone 39N   |   X: -   |   Y: -</div>
 <div id="status" class="status">در حال آماده‌سازی WebGIS...</div>
 
+
+<div id="managementDashboard" aria-hidden="true">
+ <div class="managementDashCard">
+  <div class="managementDashHead"><div><b>داشبورد مدیریتی شبکه انتقال فارس</b><span> شاخص‌ها بر اساس لایه‌ها و اطلاعات توصیفی بارگذاری‌شده</span></div><button class="managementDashClose" onclick="closeManagementDashboard()">×</button></div>
+  <div class="managementDashGrid">
+   <div class="managementMetric"><div class="metricIcon">▣</div><div id="md-posts" class="metricValue">—</div><div class="metricName">تعداد پست‌ها</div><button onclick="filterDashboard('post')">نمایش روی نقشه</button></div>
+   <div class="managementMetric"><div class="metricIcon">⚡</div><div id="md-towers" class="metricValue">—</div><div class="metricName">تعداد دکل‌ها</div><button onclick="filterDashboard('tower')">نمایش روی نقشه</button></div>
+   <div class="managementMetric"><div class="metricIcon">⌁</div><div id="md-lines" class="metricValue">—</div><div class="metricName">طول خطوط (km)</div><button onclick="filterDashboard('line')">نمایش روی نقشه</button></div>
+   <div class="managementMetric"><div class="metricIcon">♜</div><div id="md-plants" class="metricValue">—</div><div class="metricName">تعداد نیروگاه‌ها</div><button onclick="filterDashboard('plant')">نمایش روی نقشه</button></div>
+   <div class="managementMetric"><div class="metricIcon">◈</div><div id="md-projects" class="metricValue">—</div><div class="metricName">پروژه‌های فعال</div><button onclick="filterDashboard('projects')">فیلتر</button></div>
+   <div class="managementMetric"><div class="metricIcon">◷</div><div id="md-inspection" class="metricValue">—</div><div class="metricName">دکل‌های نیازمند بازدید</div><button onclick="filterDashboard('inspection')">فیلتر</button></div>
+   <div class="managementMetric"><div class="metricIcon">⚠</div><div id="md-risk" class="metricValue">—</div><div class="metricName">نقاط دارای ریسک بالا</div><button onclick="filterDashboard('risk')">فیلتر</button></div>
+   <div class="managementMetric"><div class="metricIcon">▤</div><div id="md-layers" class="metricValue">—</div><div class="metricName">لایه‌های فعال</div><button onclick="setAllLayers(true);setStatus('همه لایه‌ها روشن شدند')">همه لایه‌ها</button></div>
+  </div>
+  <div class="managementDashNote">برای شاخص‌هایی مانند پروژه‌های فعال، بازدید و ریسک، سامانه ابتدا فیلدهای توصیفی موجود در داده‌ها را بررسی می‌کند. اگر چنین فیلدی در داده‌های فعلی وجود نداشته باشد، مقدار «بدون داده» نمایش داده می‌شود و عدد ساختگی ایجاد نمی‌شود.</div>
+ </div>
+</div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script src="https://unpkg.com/togeojson@6.0.0/dist/togeojson.umd.js"></script>
@@ -1800,11 +1842,7 @@ function setAllLayers(on){
  });
  setStatus(on?'همه لایه‌ها روشن شدند':'همه لایه‌ها خاموش شدند');
 }
-function showDashboard(){
- const d=document.getElementById('layerDashboard');
- d.classList.add('dashboardFlash');
- setTimeout(()=>d.classList.remove('dashboardFlash'),900);
-}
+function showDashboard(){ if(window.openManagementDashboard) window.openManagementDashboard(); }
 function showReport(){
  const rows=Object.entries(config).map(([k,c])=>{const g=layerGroups[k];return `<tr><td>${escapeHtml(c.name)}</td><td>${g?g.getLayers().length:0}</td><td>${g&&map.hasLayer(g)?'روشن':'خاموش'}</td></tr>`}).join('');
  document.getElementById('tableTitle').innerText='گزارش وضعیت لایه‌ها';
@@ -1938,5 +1976,69 @@ window.closeAttributeTable=function(){
   window.openFloatingAttributeTable=function(){const p=document.getElementById('tablePanel');if(p){p.style.display='block';}};
   document.addEventListener('DOMContentLoaded',setupTable);
 })();
-</script></body>
+</script>
+<script id="wordRequirementsJS">
+(function(){
+ const aliases={
+  tower:['دکل','tower','tower_no','towerid','id','شماره دکل','شماره_دکل','کد دکل','کد_دکل'],
+  line:['خط','line','line_name','linename','خط مربوطه','نام خط','کد خط'],
+  circuit:['مدار','circuit','circuit_no','مدار'],
+  county:['شهرستان','county','county_name','نام شهرستان','شهرستان_نام'],
+  coord:['مختصات','coordinate','x','y','easting','northing'],
+  operation:['وضعیت بهره','بهره‌برداری','operation','operational','status','وضعیت'],
+  visit:['بازدید','visit','inspection','تاریخ بازدید','تاریخ_بازدید'],
+  repair:['تعمیر','repair','last_repair','آخرین تعمیرات','تاریخ تعمیر'],
+  risk:['ریسک','risk','risk_level','سطح ریسک'],
+  project:['پروژه','project','project_status','وضعیت پروژه']
+ };
+ function norm(v){return String(v??'').toLowerCase().replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[‌_]/g,' ').replace(/\s+/g,' ').trim()}
+ function propsText(p){return Object.entries(p||{}).map(([k,v])=>norm(k)+' '+norm(v)).join(' ')}
+ function getProp(p,keys){
+  const entries=Object.entries(p||{});
+  for(const key of keys){const nk=norm(key);const hit=entries.find(([k])=>norm(k)===nk || norm(k).includes(nk));if(hit)return hit[1]}
+  return '';
+ }
+ function extractNumber(q){const m=norm(q).match(/(?:شماره|no\.?|number)?\s*(\d{1,6})/);return m?m[1]:null}
+ function dateValue(v){if(!v)return null;const x=String(v).trim();const d=new Date(x);if(!isNaN(d))return d;const m=x.match(/^(\d{4})[-\/]([01]?\d)[-\/]([0-3]?\d)/);return m?new Date(+m[1],+m[2]-1,+m[3]):null}
+ function oldThanYears(v,years){const d=dateValue(v);if(!d)return false;const cutoff=new Date();cutoff.setFullYear(cutoff.getFullYear()-years);return d<cutoff}
+ function inferType(q){const n=norm(q);if(n.includes('دکل')||n.includes('tower'))return 'tower';if(n.includes('پست')||n.includes('substation'))return 'post';if(n.includes('نیروگاه'))return 'plant';if(n.includes('شهرستان'))return 'county';if(n.includes('خط')||n.includes('مدار'))return 'line';return null}
+ function layerFeatures(type){const g=layerGroups[type];if(!g)return [];return g.getLayers().filter(l=>l.feature).map(l=>({type,l,f:l.feature,props:l.feature.properties||{}}))}
+ function selectResult(x){try{if(x.l.getBounds)map.fitBounds(x.l.getBounds(),{maxZoom:15});else if(x.l.getLatLng)map.setView(x.l.getLatLng(),15);if(x.l.openPopup)x.l.openPopup();showFeature(x.type,x.f,x.l);setStatus('عارضه انتخاب شد: '+(config[x.type]?.name||x.type));}catch(e){console.error(e)}}
+ function renderResult(x){const p=x.props;const tower=getProp(p,aliases.tower);const line=getProp(p,aliases.line);const circuit=getProp(p,aliases.circuit);const county=getProp(p,aliases.county);const coord=getProp(p,aliases.coord);const operation=getProp(p,aliases.operation);const visit=getProp(p,aliases.visit);const repair=getProp(p,aliases.repair);return `<div class="smartResult"><div class="smartResultHead"><span>${escapeHtml(config[x.type]?.name||x.type)}</span><span>${escapeHtml(tower||'')}</span></div><div class="smartResultMeta">شماره دکل: ${escapeHtml(tower||'—')} | خط: ${escapeHtml(line||'—')} | مدار: ${escapeHtml(circuit||'—')} | شهرستان: ${escapeHtml(county||'—')}<br>مختصات: ${escapeHtml(coord||'—')} | وضعیت بهره‌برداری: ${escapeHtml(operation||'—')}<br>تاریخ بازدید: ${escapeHtml(visit||'—')} | آخرین تعمیرات: ${escapeHtml(repair||'—')}</div></div>`}
+ window.smartExample=q=>{document.getElementById('smartSearchInput').value=q;smartSearch()};
+ window.smartSearch=function(){
+  const q=document.getElementById('smartSearchInput').value.trim();const box=document.getElementById('smartSearchResult');box.innerHTML='';if(!q){box.innerHTML='<div class="smartEmpty">عبارت جستجو را وارد کنید.</div>';return}
+  const n=norm(q);let type=inferType(n)||'tower';let hits=layerFeatures(type);const num=extractNumber(n);if(num)hits=hits.filter(x=>propsText(x.props).includes(num));
+  const countyMatch=n.match(/شهرستان\s+([^،,]+?)(?:\s+که|\s+در\s+۲|\s+در\s+2|$)/);if(countyMatch){const c=norm(countyMatch[1]);hits=hits.filter(x=>norm(getProp(x.props,aliases.county)).includes(c))}
+  const lineMatch=n.match(/(?:خط|line)\s+(?:شماره\s+)?([^،,]+?)(?:\s+در\s+شهرستان|\s+شهرستان|\s+که|$)/);if(lineMatch){const lq=norm(lineMatch[1]);hits=hits.filter(x=>norm(getProp(x.props,aliases.line)).includes(lq)||propsText(x.props).includes(lq))}
+  if(n.includes('بازدید نشده')||n.includes('نیازمند بازدید')||n.includes('بازدید')){const y=n.match(/(\d+)\s*سال/);if(y)hits=hits.filter(x=>oldThanYears(getProp(x.props,aliases.visit),+y[1]));else hits=hits.filter(x=>!getProp(x.props,aliases.visit)||oldThanYears(getProp(x.props,aliases.visit),1))}
+  if(n.includes('ریسک'))hits=hits.filter(x=>{const v=norm(getProp(x.props,aliases.risk));return v.includes('بالا')||v.includes('high')||v==='3'})
+  hits=hits.slice(0,100);if(!hits.length){box.innerHTML='<div class="smartEmpty">موردی مطابق عبارت پیدا نشد. نام فیلدهای داده‌های شما ممکن است با عبارت جستجو متفاوت باشد.</div>';return}
+  hits.forEach(x=>{const d=document.createElement('div');d.innerHTML=renderResult(x);d.onclick=()=>selectResult(x);box.appendChild(d.firstElementChild)});setStatus(hits.length+' مورد در جستجوی هوشمند پیدا شد');
+ };
+ window.openManagementDashboard=function(){updateManagementDashboard();const d=document.getElementById('managementDashboard');d.classList.add('open');d.setAttribute('aria-hidden','false')};
+ window.closeManagementDashboard=function(){const d=document.getElementById('managementDashboard');d.classList.remove('open');d.setAttribute('aria-hidden','true')};
+ window.showDashboard=window.openManagementDashboard;
+ function valuesFor(type){return layerFeatures(type)}
+ function numeric(v){const n=parseFloat(String(v??'').replace(/,/g,''));return isFinite(n)?n:null}
+ function fieldValue(x,keys){return getProp(x.props,keys)}
+ function metricByField(type,keys,predicate){return valuesFor(type).filter(x=>predicate(fieldValue(x,keys),x)).length}
+ function activeProjects(){let arr=[];Object.keys(layerGroups).forEach(t=>arr.push(...layerFeatures(t)));return arr.filter(x=>{const v=norm(getProp(x.props,aliases.project));return v.includes('فعال')||v.includes('active')}).length}
+ function riskCount(){let arr=[];Object.keys(layerGroups).forEach(t=>arr.push(...layerFeatures(t)));return arr.filter(x=>{const v=norm(getProp(x.props,aliases.risk));return v.includes('بالا')||v.includes('high')||v==='3'}).length}
+ function inspectionCount(){return valuesFor('tower').filter(x=>{const v=getProp(x.props,aliases.visit);return !v||oldThanYears(v,2)}).length}
+ function lineLengthKm(){const arr=valuesFor('line');let sum=0,found=false;arr.forEach(x=>{const p=x.props;const keys=['length_km','lengthkm','length','طول','طول خط','طول_خط'];const v=numeric(getProp(p,keys));if(v!=null){sum+=v;found=true}});if(found)return sum.toLocaleString('fa-IR',{maximumFractionDigits:2});let total=0;arr.forEach(x=>{try{const b=x.l.getLatLngs?.();if(Array.isArray(b)&&b.length){const pts=Array.isArray(b[0])?b.flat(Infinity):b;for(let i=1;i<pts.length;i++)if(pts[i]?.lat)total+=map.distance(pts[i-1],pts[i])}}catch(e){}});return total?((total/1000).toLocaleString('fa-IR',{maximumFractionDigits:1})):'—'}
+ window.updateManagementDashboard=function(){
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set('md-posts',valuesFor('post').length.toLocaleString('fa-IR'));set('md-towers',valuesFor('tower').length.toLocaleString('fa-IR'));set('md-lines',lineLengthKm());set('md-plants',valuesFor('plant').length.toLocaleString('fa-IR'));set('md-projects',activeProjects()||'—');set('md-inspection',inspectionCount().toLocaleString('fa-IR'));set('md-risk',riskCount()||'—');set('md-layers',Object.values(layerGroups).filter(g=>g&&map.hasLayer(g)).length.toLocaleString('fa-IR'));
+ };
+ window.filterDashboard=function(kind){
+  if(['post','tower','line','plant'].includes(kind)){const g=layerGroups[kind];if(g){g.addTo(map);try{map.fitBounds(g.getBounds(),{padding:[30,30],maxZoom:12})}catch(e){}setStatus('فیلتر داشبورد: '+config[kind].name)}}
+  else {const q=kind==='inspection'?'دکل‌هایی که بیش از ۲ سال از بازدیدشان گذشته':kind==='risk'?'نقاط دارای ریسک بالا':kind==='projects'?'پروژه‌های فعال':'';if(q){document.getElementById('smartSearchInput').value=q;closeManagementDashboard();smartSearch()}}
+ };
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeManagementDashboard()});
+ const oldBuild=window.buildLayer;
+ setTimeout(()=>{try{updateManagementDashboard()}catch(e){}},1800);
+})();
+</script>
+</body>
 </html>
