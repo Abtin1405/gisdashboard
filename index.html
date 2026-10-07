@@ -1151,7 +1151,7 @@ button,input,select,textarea,
 </style>
 <style id="webgis-final-fix">
 *{box-sizing:border-box} body{overflow:hidden!important} #referenceLayerPanel{display:none!important}
-.top{height:82px!important;min-height:82px!important;z-index:3000!important}.titleNastaliq{font-size:28px!important}.logo{top:6px!important;right:18px!important;height:70px!important}.headerLogoImg{width:56px!important;height:56px!important}
+.top{height:82px!important;min-height:82px!important;z-index:3000!important}.titleNastaliq{font-size:28px!important;font-family:"B Titr","BTitr",Tahoma,sans-serif!important;font-weight:700!important}.logo{top:6px!important;right:18px!important;height:70px!important}.headerLogoImg{width:56px!important;height:56px!important}
 #sidebar{position:absolute!important;left:8px!important;right:auto!important;top:92px!important;bottom:64px!important;width:292px!important;z-index:2600!important;display:block!important;overflow:hidden!important;direction:rtl!important}
 .mainMenu{height:100%;overflow:auto;background:rgba(3,20,37,.96);border:1px solid #1b5d87;border-radius:0 12px 12px 0;box-shadow:0 12px 30px rgba(0,0,0,.45);padding:7px}.menuTitle{padding:8px 10px;color:#bfefff;font-size:17px;font-weight:900;border-bottom:1px solid #21445d;margin-bottom:5px}.menuSection{margin-bottom:5px}.menuHead{width:100%;border:1px solid #185b84;background:linear-gradient(90deg,#075985,#063b60);color:#fff;border-radius:8px;padding:10px 9px;display:grid;grid-template-columns:24px 1fr 18px;align-items:center;text-align:right;cursor:pointer;font-family:'B Nazanin','Vazirmatn',Tahoma,sans-serif;font-size:16px}.menuHead .arrow{transition:.2s}.menuHead:not(.open) .arrow{transform:rotate(180deg)}.menuBody{display:none;padding:4px 0}.menuBody.open{display:block}.layerRow{display:grid;grid-template-columns:20px 9px 1fr auto;align-items:center;gap:7px;color:#e8f7ff;padding:8px 7px;border-bottom:1px solid rgba(74,126,158,.22);font-family:'B Nazanin','Vazirmatn',Tahoma,sans-serif;font-size:15px;cursor:pointer}.layerRow input{width:16px;height:16px;accent-color:#10b7ff}.layerRow em{font-style:normal;color:#8dc4df;font-size:11px;direction:ltr}.swatch{width:9px;height:9px;border-radius:50%;display:block}.layerActions{display:flex;gap:5px;padding:5px}.layerActions button,.menuItem,.searchBox button{border:1px solid #245e80;background:#0b304b;color:#eaf8ff;border-radius:7px;padding:7px 8px;cursor:pointer;font-family:'B Nazanin','Vazirmatn',Tahoma,sans-serif}.layerActions button{flex:1}.menuItem{display:block;width:100%;text-align:right;margin:3px 0;font-size:14px}.menuItem:hover,.layerActions button:hover,.menuHead:hover{background:#0b5c86}.fileItem{position:relative;overflow:hidden}.fileItem input{position:absolute;inset:0;opacity:0;cursor:pointer}.searchBox{display:flex;gap:4px;padding:3px}.searchBox input{min-width:0;flex:1;background:#061b2c;border:1px solid #2c6686;color:#fff;border-radius:7px;padding:8px;font-family:inherit}.searchResults{max-height:150px;overflow:auto}.result{padding:7px;border-bottom:1px solid #21445d;color:#cdefff;cursor:pointer;font-size:12px}.result:hover{background:#123f5d}
 #layerDashboard{left:315px!important;right:10px!important;bottom:10px!important;width:auto!important;min-width:0!important;z-index:2400!important}.dashboardCards{grid-template-columns:repeat(6,1fr)!important}.dashboardFlash{outline:2px solid #23b9ff;box-shadow:0 0 25px rgba(35,185,255,.35)!important}
@@ -1185,7 +1185,12 @@ a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:20px!important;font-w
 #tablePanel .tableBody,#tablePanel .tableContent,#tablePanel .tableWrap{max-height:calc(52vh - 55px)!important;overflow:auto!important}
 @media(max-width:850px){#tablePanel{left:8px!important;top:85px!important;width:300px!important;height:46vh!important;max-height:46vh!important}.logoTitle,.logoText,.companyTitle,.company-name,.brandTitle{font-family:"B Titr","BTitr",Tahoma,sans-serif!important}}
  #layerDashboard{display:none!important}
-</style></head>
+</style><style id="final-user-request-fixes">
+.top .titleNastaliq,.titleNastaliq{font-family:"B Titr","BTitr",Tahoma,sans-serif!important;font-weight:700!important}
+.top > div[style*="kh.rahimi1402@gmail.com"], a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:22px!important;font-weight:900!important}
+#tablePanel{font-family:Tahoma,"Segoe UI",sans-serif!important}
+</style>
+</head>
 
 <body><button id="fullscreenBtn" type="button" onclick="toggleFullscreen()" title="تمام صفحه">⛶</button>
 
@@ -1301,7 +1306,7 @@ a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:20px!important;font-w
         <div class="searchBox"><input id="searchInput" placeholder="جستجو در اطلاعات لایه‌ها"><button onclick="searchAll()">🔍</button></div>
         <div id="searchResults" class="searchResults"></div>
         <button class="menuItem" onclick="toggleTable()">▤ جدول اطلاعات عارضه</button>
-        <button class="menuItem" onclick="showDashboard()">▦ داشبورد لایه‌ها</button>
+        <button class="menuItem" onclick="showDashboard()">▦ واحدGIS</button>
         <button class="menuItem" onclick="showReport()">▤ گزارش وضعیت لایه‌ها</button>
       </div>
     </div>
@@ -1309,6 +1314,19 @@ a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:20px!important;font-w
 </div>
 
 <div id="measureResult" class="floatingResult"></div>
+<div id="coordinateConvertPanel" class="coordinateConvertOverlay" style="display:none">
+  <div class="coordinateConvertCard" dir="rtl">
+    <div class="coordinateConvertHead"><b>تبدیل مختصات</b><button type="button" onclick="closeCoordinateConverter()" aria-label="بستن">×</button></div>
+    <div class="convertSection"><div class="convertTitle">مختصات جغرافیایی → UTM</div>
+      <div class="coordGrid"><label>عرض جغرافیایی (Latitude)<input id="convLat" type="number" step="any" placeholder="مثلاً 29.59"></label><label>طول جغرافیایی (Longitude)<input id="convLon" type="number" step="any" placeholder="مثلاً 52.58"></label></div>
+      <button type="button" class="convertBtn" onclick="convertLatLonToUTM()">تبدیل به UTM</button><div id="convUTMResult" class="convertResult">نتیجه در اینجا نمایش داده می‌شود.</div>
+    </div>
+    <div class="convertSection"><div class="convertTitle">UTM → مختصات جغرافیایی</div>
+      <div class="coordGrid"><label>Zone<input id="convZone" type="number" min="1" max="60" value="39"></label><label>نیم‌کره<select id="convHem"><option value="N">N - شمالی</option><option value="S">S - جنوبی</option></select></label><label>X / Easting<input id="convX" type="number" step="any" placeholder="مثلاً 650000"></label><label>Y / Northing<input id="convY" type="number" step="any" placeholder="مثلاً 3270000"></label></div>
+      <button type="button" class="convertBtn" onclick="convertUTMToLatLon()">تبدیل به طول و عرض جغرافیایی</button><div id="convGeoResult" class="convertResult">نتیجه در اینجا نمایش داده می‌شود.</div>
+    </div>
+  </div>
+</div>
 <div id="coordinateModal" class="modalOverlay hidden">
   <div class="modalCard">
     <div class="modalHead"><b>رفتن به مختصات</b><button onclick="closeCoordinateTool()">×</button></div>
@@ -1815,7 +1833,8 @@ function openCoordinateTool(){
 </script>
 <script>
 window.toggleFullscreen=function(){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}else{document.exitFullscreen&&document.exitFullscreen()}};
-window.openCoordinateConverter=function(){let p=document.getElementById("coordinateConvertPanel");if(p)p.style.display=p.style.display==="none"?"block":"none"};
+window.openCoordinateConverter=function(){const p=document.getElementById("coordinateConvertPanel");if(p){p.style.display=(p.style.display==="none"||!p.style.display)?"flex":"none";}};
+window.closeCoordinateConverter=function(){const p=document.getElementById("coordinateConvertPanel");if(p)p.style.display="none"};
 function dr(x){return x*Math.PI/180} function rd(x){return x*180/Math.PI}
 window.utmToLatLon=function(E,N,z,h){const a=6378137,e=.00669438,k=.9996;let x=E-500000,y=N;if(h==="S")y-=1e7;let ep=e/(1-e),M=y/k,mu=M/(a*(1-e/4-3*e*e/64-5*e**3/256)),e1=(1-Math.sqrt(1-e))/(1+Math.sqrt(1-e)),fp=mu+(3*e1/2-27*e1**3/32)*Math.sin(2*mu)+(21*e1*e1/16-55*e1**4/32)*Math.sin(4*mu)+(151*e1**3/96)*Math.sin(6*mu)+(1097*e1**4/512)*Math.sin(8*mu),C=ep*Math.cos(fp)**2,T=Math.tan(fp)**2,NN=a/Math.sqrt(1-e*Math.sin(fp)**2),R=a*(1-e)/Math.pow(1-e*Math.sin(fp)**2,1.5),D=x/(NN*k),lat=fp-(NN*Math.tan(fp)/R)*(D*D/2-(5+3*T+10*C-4*C*C-9*ep)*D**4/24+(61+90*T+298*C+45*T*T-252*ep-3*C*C)*D**6/720),lon=dr((z-1)*6-180+3)+(D-(1+2*T+C)*D**3/6+(5-2*C+28*T-3*C*C+8*ep+24*T*T)*D**5/120)/Math.cos(fp);return{lat:rd(lat),lon:rd(lon)}};
 window.convertUTMToLatLon=function(){let z=+convZone.value,x=+convX.value,y=+convY.value,h=convHem.value;if(!z||!x||!y)return convGeoResult.textContent="مقادیر UTM را کامل وارد کنید.";let p=utmToLatLon(x,y,z,h);convGeoResult.textContent="Latitude: "+p.lat.toFixed(7)+" | Longitude: "+p.lon.toFixed(7)};
@@ -1878,6 +1897,25 @@ window.convertLatLonToUTM=function(){let lat=+convLat.value,lon=+convLon.value;i
 @media(max-width:850px){
   #tablePanel{left:6px!important;top:82px!important;bottom:28px!important;width:250px!important;max-width:calc(100vw - 12px)!important}
 }
+<style id="coordinate-converter-final">
+.coordinateConvertOverlay{position:fixed;inset:0;z-index:12000;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:12px}
+.coordinateConvertCard{width:min(520px,94vw);max-height:88vh;overflow:auto;background:#071d30;color:#eef9ff;border:1px solid #2c7ea8;border-radius:14px;box-shadow:0 18px 55px rgba(0,0,0,.6);padding:14px;font-family:Tahoma,sans-serif}
+.coordinateConvertHead{display:flex;align-items:center;justify-content:space-between;font-size:18px;padding-bottom:9px;margin-bottom:10px;border-bottom:1px solid #21445d}
+.coordinateConvertHead button{width:30px;height:30px;border:1px solid #52738a;border-radius:6px;background:#142b3d;color:#fff;font-size:21px;cursor:pointer}
+.convertSection{background:rgba(10,43,65,.72);border:1px solid #214b66;border-radius:10px;padding:10px;margin-top:10px}
+.convertTitle{font-size:14px;font-weight:800;color:#aee7ff;margin-bottom:8px}
+.coordinateConvertCard .coordGrid{margin-top:0}
+.coordinateConvertCard input,.coordinateConvertCard select{box-sizing:border-box}
+.convertBtn{width:100%;margin-top:9px;padding:9px;border:0;border-radius:7px;background:#078be4;color:#fff;font-weight:700;cursor:pointer}
+.convertResult{margin-top:8px;padding:8px;min-height:20px;background:#061827;border:1px solid #214b66;border-radius:7px;text-align:center;direction:ltr;font-size:12px;word-break:break-word}
+/* جدول توصیفی شناور، مستقل از ابزارهای دیگر */
+#tablePanel{position:fixed!important;left:12px!important;right:auto!important;top:112px!important;bottom:auto!important;width:330px!important;height:52vh!important;max-height:52vh!important;z-index:11000!important}
+#tablePanel .tableScroll{height:calc(100% - 34px)!important;max-height:none!important;overflow:auto!important}
+#tablePanel .tableHead{font-family:Tahoma,sans-serif!important}
+#tablePanel table{font-family:Tahoma,"Segoe UI",sans-serif!important;font-size:11px!important}
+#tablePanel th,#tablePanel td{padding:6px 7px!important;font-size:11px!important;line-height:1.55!important}
+@media(max-width:850px){.coordinateConvertCard{width:96vw}.coordinateConvertCard .coordGrid{grid-template-columns:1fr}.coordinateConvertOverlay{align-items:flex-start;padding-top:78px}#tablePanel{left:8px!important;top:84px!important;width:300px!important;height:46vh!important;max-height:46vh!important}}
+</style>
 </style>
 <script>
 /* بستن جدول اطلاعات از طریق دکمه × */
