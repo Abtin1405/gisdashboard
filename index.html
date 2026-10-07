@@ -1312,26 +1312,10 @@ a[href^="mailto:kh.rahimi1402@gmail.com"]{font-size:18px!important;font-weight:8
   </div>
 </div>
 <div id="tablePanel" class="tablePanel">
-  <div class="tableHead"><b id="tableTitle">جدول مشخصات عارضه</b><div><button onclick="exportCurrentTable()">خروجی</button><button onclick="toggleTable()">×</button></div></div>
+  <div class="tableHead"><b id="tableTitle">جدول اطلاعات لایه</b><button class="tableCloseBtn" title="بستن جدول" aria-label="بستن جدول" onclick="toggleTable()">×</button></div>
   <div class="tableScroll"><table id="attributeTable"></table></div>
 </div>
 <div id="infoCard" style="display:none"></div>
-<div id="layerDashboard">
-  <div class="dashboardHead">
-    <div>
-      <div class="dashboardTitle">داشبورد لایه‌های اصلی</div>
-      <div class="dashboardSub">تعداد عوارض بارگذاری‌شده در نقشه</div>
-    </div>
-  </div>
-  <div class="dashboardCards">
-    <div class="dashboardCard"><div class="dashIcon">⚡</div><div id="dash-line" class="dashValue">—</div><div class="dashName">خطوط انتقال</div></div>
-    <div class="dashboardCard"><div class="dashIcon">🏢</div><div id="dash-post" class="dashValue">—</div><div class="dashName">پست‌ها</div></div>
-    <div class="dashboardCard"><div class="dashIcon">🏙️</div><div id="dash-county" class="dashValue">—</div><div class="dashName">شهرستان‌ها</div></div>
-    <div class="dashboardCard"><div class="dashIcon">🏭</div><div id="dash-plant" class="dashValue">—</div><div class="dashName">نیروگاه‌ها</div></div>
-    <div class="dashboardCard"><div class="dashIcon">🗼</div><div id="dash-tower" class="dashValue">—</div><div class="dashName">دکل‌ها</div></div>
-    <div class="dashboardCard"><div class="dashIcon">🔋</div><div id="dash-dg" class="dashValue">—</div><div class="dashName">تولیدات پراکنده</div></div>
-  </div>
-</div>
 
 <div id="coordBar">UTM Zone 39N   |   X: -   |   Y: -</div>
 <div id="status" class="status">در حال آماده‌سازی WebGIS...</div>
@@ -1826,5 +1810,70 @@ window.utmToLatLon=function(E,N,z,h){const a=6378137,e=.00669438,k=.9996;let x=E
 window.convertUTMToLatLon=function(){let z=+convZone.value,x=+convX.value,y=+convY.value,h=convHem.value;if(!z||!x||!y)return convGeoResult.textContent="مقادیر UTM را کامل وارد کنید.";let p=utmToLatLon(x,y,z,h);convGeoResult.textContent="Latitude: "+p.lat.toFixed(7)+" | Longitude: "+p.lon.toFixed(7)};
 window.latLonToUTM=function(lat,lon){const a=6378137,e=.00669438,k=.9996,z=Math.floor((lon+180)/6)+1,o=(z-1)*6-177,lr=dr(lat),lo=dr(lon),or=dr(o),ep=e/(1-e),N=a/Math.sqrt(1-e*Math.sin(lr)**2),T=Math.tan(lr)**2,C=ep*Math.cos(lr)**2,A=Math.cos(lr)*(lo-or),M=a*((1-e/4-3*e**2/64-5*e**3/256)*lr-(3*e/8+3*e**2/32+45*e**3/1024)*Math.sin(2*lr)+(15*e**2/256+45*e**3/1024)*Math.sin(4*lr)-(35*e**3/3072)*Math.sin(6*lr));let Y=k*(M+N*Math.tan(lr)*(A*A/2+(5-T+9*C+4*C*C)*A**4/24+(61-58*T+T*T+600*C-330*ep)*A**6/720));if(lat<0)Y+=1e7;return{zone:z,hemisphere:lat>=0?"N":"S",easting:k*N*(A+(1-T+C)*A**3/6+(5-18*T+T*T+72*C-58*ep)*A**5/120)+5e5,northing:Y}};
 window.convertLatLonToUTM=function(){let lat=+convLat.value,lon=+convLon.value;if(!Number.isFinite(lat)||!Number.isFinite(lon))return convUTMResult.textContent="مختصات را وارد کنید.";let p=latLonToUTM(lat,lon);convUTMResult.textContent="Zone "+p.zone+p.hemisphere+" | X: "+p.easting.toFixed(2)+" | Y: "+p.northing.toFixed(2)};
-</script></body>
+</script><style id="table-dashboard-final">
+/* داشبورد لایه‌های اصلی به‌طور کامل حذف شده است */
+#layerDashboard{display:none!important}
+/* جدول اطلاعات: پنل باریک در سمت چپ */
+#tablePanel{
+  position:absolute!important;
+  left:8px!important;
+  right:auto!important;
+  top:105px!important;
+  bottom:32px!important;
+  width:285px!important;
+  max-width:285px!important;
+  max-height:none!important;
+  z-index:4000!important;
+  border-radius:8px!important;
+  overflow:hidden!important;
+}
+#tablePanel .tableHead{
+  height:34px!important;
+  min-height:34px!important;
+  padding:4px 8px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+}
+#tablePanel .tableHead b{
+  font-size:11px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  margin-right:auto!important;
+}
+#tablePanel .tableCloseBtn{
+  width:25px!important;
+  height:25px!important;
+  min-width:25px!important;
+  padding:0!important;
+  margin:0!important;
+  border:1px solid #58708a!important;
+  border-radius:5px!important;
+  background:#172a40!important;
+  color:#fff!important;
+  font-size:17px!important;
+  line-height:22px!important;
+  cursor:pointer!important;
+}
+#tablePanel .tableCloseBtn:hover{background:#8b2530!important}
+#tablePanel .tableScroll{
+  height:calc(100% - 34px)!important;
+  max-height:none!important;
+  overflow:auto!important;
+}
+#tablePanel table{font-size:10px!important}
+#tablePanel th,#tablePanel td{padding:4px 5px!important;font-size:9px!important}
+@media(max-width:850px){
+  #tablePanel{left:6px!important;top:82px!important;bottom:28px!important;width:250px!important;max-width:calc(100vw - 12px)!important}
+}
+</style>
+<script>
+/* بستن جدول اطلاعات از طریق دکمه × */
+window.closeAttributeTable=function(){
+  const p=document.getElementById('tablePanel');
+  if(p) p.style.display='none';
+};
+</script>
+</body>
 </html>
