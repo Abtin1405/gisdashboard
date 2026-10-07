@@ -1174,6 +1174,17 @@ html,body{width:100%;height:100%;overflow:hidden}
 a[href^="mailto:kh.rahimi1402@gmail.com"]{font-size:18px!important;font-weight:800!important}
 .logoTitle,.logoText,.companyTitle,.company-name{font-family:"B Titr","BTitr",Tahoma,sans-serif!important;font-weight:700!important}
 @media(max-width:850px){#fullscreenBtn{top:76px;right:8px}#layerDashboard{left:8px!important;right:8px!important;bottom:28px!important;height:52px!important}.dashboardCards{grid-template-columns:repeat(3,1fr)!important}#tablePanel{bottom:88px!important;max-height:32vh!important}}
+</style><style id="final-table-fixes">
+/* سربرگ و ایمیل */
+.logoTitle,.logoText,.companyTitle,.company-name,.brandTitle{font-family:"B Titr","BTitr",Tahoma,sans-serif!important;font-weight:700!important}
+a[href*="kh.rahimi1402@gmail.com"],.email,.gmail{font-size:20px!important;font-weight:900!important}
+/* جدول توصیفی شناور و مستقل */
+#tablePanel{position:fixed!important;left:12px!important;right:auto!important;top:110px!important;bottom:auto!important;width:330px!important;max-width:calc(100vw - 24px)!important;height:52vh!important;max-height:52vh!important;overflow:hidden!important;z-index:10000!important;margin:0!important;transform:none!important;box-shadow:0 8px 30px rgba(0,0,0,.45)!important}
+#tablePanel .tableHeader{position:relative!important;padding-right:42px!important}
+#tablePanel .tableCloseBtn{position:absolute!important;right:10px!important;top:8px!important;width:28px!important;height:28px!important;border:0!important;border-radius:7px!important;cursor:pointer!important;font-size:20px!important;line-height:26px!important;z-index:2!important}
+#tablePanel .tableBody,#tablePanel .tableContent,#tablePanel .tableWrap{max-height:calc(52vh - 55px)!important;overflow:auto!important}
+@media(max-width:850px){#tablePanel{left:8px!important;top:85px!important;width:300px!important;height:46vh!important;max-height:46vh!important}.logoTitle,.logoText,.companyTitle,.company-name,.brandTitle{font-family:"B Titr","BTitr",Tahoma,sans-serif!important}}
+ #layerDashboard{display:none!important}
 </style></head>
 
 <body><button id="fullscreenBtn" type="button" onclick="toggleFullscreen()" title="تمام صفحه">⛶</button>
@@ -1875,5 +1886,19 @@ window.closeAttributeTable=function(){
   if(p) p.style.display='none';
 };
 </script>
-</body>
+<script id="final-table-fixes-js">
+(function(){
+  function setupTable(){
+    const panel=document.getElementById('tablePanel'); if(!panel) return;
+    let btn=panel.querySelector('.tableCloseBtn');
+    if(!btn){btn=document.createElement('button');btn.className='tableCloseBtn';btn.type='button';btn.setAttribute('aria-label','بستن جدول');btn.textContent='×';
+      const head=panel.querySelector('.tableHeader')||panel.firstElementChild||panel; head.appendChild(btn);
+    }
+    btn.onclick=function(e){e.stopPropagation();panel.style.display='none';};
+    panel.style.display='none';
+  }
+  window.openFloatingAttributeTable=function(){const p=document.getElementById('tablePanel');if(p){p.style.display='block';}};
+  document.addEventListener('DOMContentLoaded',setupTable);
+})();
+</script></body>
 </html>
