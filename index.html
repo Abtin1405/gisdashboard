@@ -1256,13 +1256,16 @@ a[href*="kh.rahimi1402@gmail.com"],.email,.gmail {font-size:clamp(17px,1.5vw,23p
 <div id="mapToolbar">
   <div class="mapSearch">
     <input id="mapQuickSearch" placeholder="جستجو در نقشه..." onkeydown="if(event.key==='Enter'){document.getElementById('searchInput').value=this.value;searchAll()}">
-    <button class="mapToolBtn" style="border:0;border-radius:0;background:transparent" onclick="document.getElementById('searchInput').value=document.getElementById('mapQuickSearch').value;searchAll()">🔍</button>
+    <button class="mapToolBtn" style="border:0;border-radius:0;background:transparent" onclick="runMapQuickSearch()" title="جستجو">🔍</button>
   </div>
+  <div id="mapQuickSearchResults" class="mapQuickSearchResults" aria-live="polite"></div>
+  <div class="mapOpacityControl" title="تنظیم شفافیت تصویر ماهواره‌ای"><label for="basemapOpacity">شفافیت تصویر <span id="basemapOpacityValue">100٪</span></label><input id="basemapOpacity" type="range" min="5" max="100" value="100" oninput="setBasemapOpacity(this.value)"></div>
   <button class="mapToolBtn" onclick="setBasemap('esri')" title="تصویر ماهواره‌ای">🌐</button>
   <button class="mapToolBtn" onclick="toggleSidebar()" title="منوی GIS">☰</button>
   <button class="mapToolBtn" onclick="measureLine()" title="اندازه‌گیری طول">📏</button>
   <button class="mapToolBtn" onclick="measurePolygon()" title="اندازه‌گیری مساحت">⬡</button>
   <button class="mapToolBtn" onclick="locateUser()" title="موقعیت من" aria-label="موقعیت من"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="vertical-align:middle;fill:#7dd3fc"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></button>
+  <button class="mapToolBtn mapLogoutBtn" onclick="logout()" title="خروج از سامانه">خروج ⎋</button>
 </div>
 
 <div id="rightTools">
@@ -1486,7 +1489,7 @@ function openAttributeTable(title='جدول مشخصات عارضه'){
   t.innerHTML='<tbody>'+keys.map(k=>`<tr><th style="width:42%;background:#14263d;color:#9edff8;position:static">${escapeHtml(k)}</th><td>${escapeHtml(typeof p[k]==='object'?JSON.stringify(p[k]):p[k])}</td></tr>`).join('')+'</tbody>';
  }
  document.getElementById('tableTitle').innerText=title;
- document.getElementById('tablePanel').style.display='block';
+ const panel=document.getElementById('tablePanel'); panel.style.setProperty('display','block','important'); panel.style.setProperty('visibility','visible','important'); panel.style.setProperty('left','8px','important'); panel.style.setProperty('right','auto','important');
 }
 
 function buildLayer(type){
@@ -1499,7 +1502,7 @@ function buildLayer(type){
    style:()=>featureStyle(c.color),
    pointToLayer:(f,ll)=>L.circleMarker(ll,pointStyle(c.color)),
    onEachFeature:(f,l)=>{
-    l.on('click',()=>showFeature(type,f,l));
+    l.on('click',()=>{showFeature(type,f,l);});
    }
   }).addTo(map);
   layerGroups[type]=group;
@@ -1519,8 +1522,15 @@ function setLayerVisible(type,on){
 }
 
 function setBasemap(v){
- Object.values(base).forEach(x=>map.removeLayer(x));
- base[v].addTo(map);
+ if(!base[v]){setStatus('نقشه پایه انتخاب‌شده موجود نیست');return;}
+ Object.values(base).forEach(x=>{if(map.hasLayer(x))map.removeLayer(x);});
+ base[v].setOpacity((Number(document.getElementById('basemapOpacity')?.value||100))/100).addTo(map);
+ window.currentBasemap=v;
+}
+function setBasemapOpacity(value){
+ const n=Math.max(5,Math.min(100,Number(value)||100));
+ const label=document.getElementById('basemapOpacityValue');if(label)label.textContent=n+'٪';
+ const current=window.currentBasemap||'esri'; if(base[current]&&typeof base[current].setOpacity==='function')base[current].setOpacity(n/100);
 }
 
 function setStatus(s){const el=document.getElementById('status');if(el)el.innerText=s}
@@ -1530,7 +1540,7 @@ function toggleSidebar(){
 }
 function toggleTable(){
  const x=document.getElementById('tablePanel');
- if(!x)return; x.style.display=x.style.display==='none'?'block':'none';
+ if(!x)return; const hidden=getComputedStyle(x).display==='none'; x.style.display=hidden?'block':'none';
 }
 function showTab(tab,el){
  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
@@ -1770,33 +1780,35 @@ function downloadJSON(obj,name){
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();
  URL.revokeObjectURL(a.href);
 }
+function runMapQuickSearch(){
+ const q=(document.getElementById('mapQuickSearch')?.value||'').trim();
+ const side=document.getElementById('searchInput'); if(side) side.value=q;
+ searchAll();
+}
 function searchAll(){
- const q=document.getElementById('searchInput').value.trim().toLowerCase();
- const box=document.getElementById('searchResults');
- box.innerHTML='';
- if(!q)return;
+ const sideInput=document.getElementById('searchInput');
+ const mapInput=document.getElementById('mapQuickSearch');
+ const q=((mapInput && document.activeElement===mapInput)?mapInput.value:(sideInput?.value||mapInput?.value||'')).trim().toLocaleLowerCase();
+ const boxes=[document.getElementById('searchResults'),document.getElementById('mapQuickSearchResults')].filter(Boolean);
+ boxes.forEach(b=>b.innerHTML='');
+ if(!q){boxes.forEach(b=>b.innerHTML='<div class="mapSearchHint">عبارت جستجو را وارد کنید.</div>');return;}
  let hits=[];
  Object.entries(layerGroups).forEach(([type,g])=>{
   if(!g)return;
-  g.eachLayer(l=>{
-   if(!l.feature)return;
-   const p=l.feature.properties||{};
-   if(JSON.stringify(p).toLowerCase().includes(q))hits.push({type,l,f:l.feature});
+  g.eachLayer(l=>{ if(!l.feature)return; const p=l.feature.properties||{}; if(JSON.stringify(p).toLocaleLowerCase().includes(q))hits.push({type,l,f:l.feature}); });
+ });
+ if(!hits.length){boxes.forEach(b=>b.innerHTML='<div class="mapSearchHint">موردی پیدا نشد. مطمئن شوید لایه‌ها بارگذاری شده‌اند.</div>');return;}
+ hits.slice(0,30).forEach((x,i)=>{
+  const label=(config[x.type]?.name||x.type)+' — '+Object.values(x.f.properties||{}).slice(0,2).join(' | ');
+  boxes.forEach(box=>{
+   const div=document.createElement('div'); div.className='result mapSearchResultItem'; div.textContent=label;
+   div.onclick=()=>{ try{if(x.l.getBounds && x.l.getBounds().isValid())map.fitBounds(x.l.getBounds(),{maxZoom:15});else if(x.l.getLatLng)map.setView(x.l.getLatLng(),15); if(x.l.openPopup)x.l.openPopup(); showFeature(x.type,x.f,x.l); }catch(e){console.error(e);} };
+   box.appendChild(div);
   });
  });
- if(!hits.length){box.innerHTML='<div class="small">موردی پیدا نشد.</div>';return}
- hits.slice(0,30).forEach(x=>{
-  const div=document.createElement('div');
-  div.className='result';
-  div.innerText=(config[x.type]?.name||x.type)+' — '+Object.values(x.f.properties||{}).slice(0,2).join(' | ');
-  div.onclick=()=>{
-   if(x.l.getBounds)map.fitBounds(x.l.getBounds(),{maxZoom:15});
-   else if(x.l.getLatLng)map.setView(x.l.getLatLng(),15);
-   x.l.openPopup();showFeature(x.type,x.f,x.l);
-  };
-  box.appendChild(div);
- });
+ if(sideInput)sideInput.value=q;
 }
+
 function zoomFull(){
  const groups=Object.values(layerGroups).filter(Boolean);
  if(!groups.length){map.setView([29.6,52.5],7);return}
@@ -1836,7 +1848,9 @@ function doLogin(e){
 
 function logout(){
  sessionStorage.removeItem('webgisLoggedIn');
- location.reload();
+ const overlay=document.getElementById('loginOverlay');
+ if(overlay){overlay.style.display='flex';overlay.style.zIndex='20000';}
+ setStatus('از سامانه خارج شدید');
 }
 
 if(sessionStorage.getItem('webgisLoggedIn')==='1'){
@@ -1867,7 +1881,7 @@ function showReport(){
  const rows=Object.entries(config).map(([k,c])=>{const g=layerGroups[k];return `<tr><td>${escapeHtml(c.name)}</td><td>${g?g.getLayers().length:0}</td><td>${g&&map.hasLayer(g)?'روشن':'خاموش'}</td></tr>`}).join('');
  document.getElementById('tableTitle').innerText='گزارش وضعیت لایه‌ها';
  document.getElementById('attributeTable').innerHTML='<thead><tr><th>لایه</th><th>تعداد</th><th>وضعیت</th></tr></thead><tbody>'+rows+'</tbody>';
- document.getElementById('tablePanel').style.display='block';
+ const panel=document.getElementById('tablePanel'); panel.style.setProperty('display','block','important'); panel.style.setProperty('visibility','visible','important'); panel.style.setProperty('left','8px','important'); panel.style.setProperty('right','auto','important');
 }
 
 function toggleRefMenu(btn){
@@ -1978,9 +1992,11 @@ window.goToCoordinate=function(){
 window.convertUTMToLatLon=function(){
   const out=document.getElementById('convGeoResult');
   try{
-    const z=Number(normalizeDigits(document.getElementById('convZone').value));
-    const x=Number(normalizeDigits(document.getElementById('convX').value));
-    const y=Number(normalizeDigits(document.getElementById('convY').value));
+    const zRaw=normalizeDigits(document.getElementById('convZone').value).trim();
+    const xRaw=normalizeDigits(document.getElementById('convX').value).trim();
+    const yRaw=normalizeDigits(document.getElementById('convY').value).trim();
+    if(!zRaw||!xRaw||!yRaw) throw new Error('EMPTY');
+    const z=Number(zRaw), x=Number(xRaw), y=Number(yRaw);
     const h=document.getElementById('convHem').value;
     const p=utmToLatLon(x,y,z,h);
     out.innerHTML=`Latitude: <b>${p.lat.toFixed(7)}</b> &nbsp; | &nbsp; Longitude: <b>${p.lon.toFixed(7)}</b>`;
@@ -1990,8 +2006,10 @@ window.convertUTMToLatLon=function(){
 window.convertLatLonToUTM=function(){
   const out=document.getElementById('convUTMResult');
   try{
-    const lat=Number(normalizeDigits(document.getElementById('convLat').value));
-    const lon=Number(normalizeDigits(document.getElementById('convLon').value));
+    const latRaw=normalizeDigits(document.getElementById('convLat').value).trim();
+    const lonRaw=normalizeDigits(document.getElementById('convLon').value).trim();
+    if(latRaw===''||lonRaw==='') throw new Error('EMPTY');
+    const lat=Number(latRaw), lon=Number(lonRaw);
     const p=latLonToUTM(lat,lon);
     out.innerHTML=`Zone <b>${p.zone}${p.hemisphere}</b> &nbsp; | &nbsp; X / Easting: <b>${p.easting.toFixed(2)}</b> &nbsp; | &nbsp; Y / Northing: <b>${p.northing.toFixed(2)}</b>`;
   }catch(e){out.textContent='Latitude و Longitude را صحیح وارد کنید (Latitude: -80 تا 84).';}
@@ -2404,3 +2422,29 @@ window.closeAttributeTable=function(){
 
 </body>
 </html>
+
+<style id="requested-fixes-oct13">
+#mapToolbar{flex-wrap:wrap!important;align-items:center!important;max-width:calc(100vw - 24px)!important}
+#mapToolbar .mapSearch{position:relative!important}
+.mapQuickSearchResults{display:none;position:absolute;top:calc(100% + 4px);right:0;width:min(360px,80vw);max-height:250px;overflow:auto;background:rgba(4,23,39,.97);border:1px solid #2c789f;border-radius:8px;box-shadow:0 10px 28px #0009;z-index:9000;padding:4px}
+.mapQuickSearchResults:not(:empty){display:block}
+.mapQuickSearchResults .result{padding:8px;white-space:normal;line-height:1.6}
+.mapSearchHint{padding:8px;color:#c2e5f7;font-size:12px}
+.mapOpacityControl{display:flex;align-items:center;gap:7px;padding:4px 8px;background:rgba(4,23,39,.92);color:#e7f8ff;border:1px solid #286586;border-radius:7px;font-size:11px;white-space:nowrap}
+.mapOpacityControl input{width:90px;accent-color:#38bdf8}
+.mapLogoutBtn{background:#7f1d1d!important;border-color:#ef4444!important;color:#fff!important;font-weight:800!important}
+#tablePanel{position:fixed!important;left:8px!important;right:auto!important;top:105px!important;width:300px!important;max-width:calc(100vw - 16px)!important;max-height:65vh!important;z-index:12000!important}
+#tablePanel[style*="display: block"]{display:block!important}
+#coordinateConvertPanel{z-index:15000!important}
+@media(max-width:700px){.mapOpacityControl{order:10}.mapQuickSearchResults{width:min(300px,84vw)}#tablePanel{top:90px!important;width:280px!important;max-height:55vh!important}}
+@media print{#mapQuickSearchResults,.mapOpacityControl,.mapLogoutBtn{display:none!important}}
+</style>
+<script id="requested-fixes-init">
+(function(){
+ window.currentBasemap='esri';
+ const slider=document.getElementById('basemapOpacity');if(slider)setBasemapOpacity(slider.value);
+ const q=document.getElementById('mapQuickSearch');if(q)q.addEventListener('input',()=>{const box=document.getElementById('mapQuickSearchResults');if(box&&q.value.trim()==='')box.innerHTML='';});
+ // expose the primary map functions for inline UI controls and integrations
+ window.searchAll=searchAll;window.runMapQuickSearch=runMapQuickSearch;window.setBasemap=setBasemap;window.setBasemapOpacity=setBasemapOpacity;window.openAttributeTable=openAttributeTable;window.showFeature=showFeature;window.logout=logout;
+})();
+</script>
