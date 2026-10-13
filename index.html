@@ -2288,5 +2288,119 @@ window.closeAttributeTable=function(){
  window.addEventListener('resize',()=>{if(table&&table.style.display==='block')placeTableNearFeature()});
 })();
 </script>
+
+<style id="webgis-stability-patch">
+/* کنترل شفافیت نقشه پایه و دکمه خروج */
+#basemapOpacityControl{
+  position:fixed;z-index:1400;left:12px;top:112px;width:225px;
+  padding:9px 11px;background:rgba(5,22,37,.94);color:#eaf8ff;
+  border:1px solid #26749a;border-radius:10px;box-shadow:0 8px 25px #0008;
+  font:12px Tahoma,Arial,sans-serif;direction:rtl
+}
+#basemapOpacityControl .opacityLine{display:flex;align-items:center;gap:8px}
+#basemapOpacityControl input[type=range]{width:100%;accent-color:#20b8f4}
+#basemapOpacityControl .opacityValue{min-width:38px;text-align:left;direction:ltr;color:#9de4ff}
+#basemapOpacityControl .opacityTitle{font-weight:bold;color:#aee9ff;margin-bottom:6px}
+.logoutBtn{background:#7f1d1d!important;border-color:#ef4444!important;color:#fff!important}
+.logoutBtn:hover{background:#991b1b!important}
+@media(max-width:850px){
+ #basemapOpacityControl{left:7px;top:auto;bottom:44px;width:190px;padding:7px 9px}
+}
+</style>
+<script id="webgis-stability-patch-js">
+(function(){
+  // توابع/داده‌های مورد استفاده ماژول‌های الحاقی را به‌صورت قابل دسترس قرار بده.
+  try { window.map = map; } catch(e) {}
+  try { window.config = config; } catch(e) {}
+  try { window.layerGroups = layerGroups; } catch(e) {}
+  try { window.base = base; } catch(e) {}
+  try { window.imported = imported; } catch(e) {}
+
+  // شفافیت فقط روی نقشه پایه اعمال می‌شود؛ لایه‌های عملیاتی دست‌نخورده می‌مانند.
+  window.setBasemapOpacity = function(value){
+    var opacity = Math.max(0.05, Math.min(1, Number(value) / 100));
+    if (window.base) {
+      Object.keys(window.base).forEach(function(key){
+        var layer = window.base[key];
+        if (layer && typeof layer.setOpacity === 'function') layer.setOpacity(opacity);
+      });
+    }
+    var out = document.getElementById('basemapOpacityValue');
+    if (out) out.textContent = Math.round(opacity * 100) + '%';
+  };
+
+  // جایگزینی ایمن تابع نقشه پایه: نبودن گزینه یا خطای شبکه، کل سامانه را از کار نیندازد.
+  var originalSetBasemap = window.setBasemap;
+  window.setBasemap = function(name){
+    try{
+      if (!window.base || !window.base[name]) {
+        if (typeof window.setStatus === 'function') window.setStatus('نقشه پایه انتخاب‌شده معتبر نیست.');
+        return;
+      }
+      Object.keys(window.base).forEach(function(key){
+        var layer = window.base[key];
+        if (layer && map.hasLayer(layer)) map.removeLayer(layer);
+      });
+      window.base[name].addTo(map);
+      var slider = document.getElementById('basemapOpacitySlider');
+      if (slider) window.setBasemapOpacity(slider.value);
+      if (typeof window.setStatus === 'function') {
+        var labels = {esri:'ESRI Satellite',osm:'OpenStreetMap',googleSat:'Google Satellite',google:'Google Map',dark:'Dark GIS'};
+        window.setStatus('نقشه پایه: ' + (labels[name] || name));
+      }
+    }catch(err){
+      console.error('Basemap error:', err);
+      if (typeof window.setStatus === 'function') window.setStatus('خطا در تغییر نقشه پایه؛ اتصال اینترنت را بررسی کنید.');
+    }
+  };
+
+  // خروج واقعی از نشست فعلی و بازگشت به صفحه ورود
+  window.logout = function(){
+    try { sessionStorage.removeItem('webgisLoggedIn'); } catch(e) {}
+    var overlay = document.getElementById('loginOverlay');
+    if (overlay) {
+      overlay.style.display = 'flex';
+      var pass = document.getElementById('loginPass');
+      if (pass) pass.value = '';
+      var error = document.getElementById('loginError');
+      if (error) error.textContent = 'از سامانه خارج شدید.';
+      setTimeout(function(){ try { map.invalidateSize(); } catch(e){} }, 120);
+    } else {
+      location.reload();
+    }
+  };
+
+  function installOpacityControl(){
+    if (document.getElementById('basemapOpacityControl')) return;
+    var panel = document.createElement('div');
+    panel.id = 'basemapOpacityControl';
+    panel.innerHTML =
+      '<div class="opacityTitle">شفافیت تصویر ماهواره‌ای / نقشه پایه</div>' +
+      '<div class="opacityLine"><input id="basemapOpacitySlider" type="range" min="5" max="100" step="5" value="100" aria-label="شفافیت نقشه پایه">' +
+      '<span id="basemapOpacityValue" class="opacityValue">100%</span></div>' +
+      '<div style="font-size:10px;color:#9db7ca;margin-top:4px">برای دیدن نقشه پایه زیرین، شفافیت را کاهش دهید.</div>';
+    document.body.appendChild(panel);
+    var slider = document.getElementById('basemapOpacitySlider');
+    slider.addEventListener('input', function(){ window.setBasemapOpacity(this.value); });
+    window.setBasemapOpacity(slider.value);
+  }
+
+  // پیام خطا و شمارش لایه‌ها در صورت نبود فایل‌های داده، به‌جای شکست خاموش.
+  document.addEventListener('DOMContentLoaded', function(){
+    installOpacityControl();
+    setTimeout(function(){
+      try { window.map = map; window.config = config; window.layerGroups = layerGroups; window.base = base; } catch(e){}
+      Object.keys(config || {}).forEach(function(type){
+        var count = document.getElementById('count-' + type);
+        var group = layerGroups[type];
+        if (count && (!group || !map.hasLayer(group)) && count.textContent === '—') {
+          count.title = 'فایل داده بارگذاری نشد؛ وجود فایل و مسیر آن را بررسی کنید.';
+        }
+      });
+    }, 2000);
+  });
+})();
+</script>
+
 </body>
 </html>
