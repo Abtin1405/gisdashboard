@@ -2420,6 +2420,90 @@ window.closeAttributeTable=function(){
 })();
 </script>
 
+
+<style id="webgis-user-corrections-v3">
+/* جدول توصیفی نزدیک عارضه انتخاب‌شده، روی نقشه و بدون پوشاندن منوی چپ */
+#tablePanel{position:fixed!important;left:8px;right:auto!important;top:120px;width:310px!important;max-width:calc(100vw - 16px)!important;max-height:58vh!important;height:auto!important;z-index:18000!important;display:none;overflow:hidden!important}
+#tablePanel .tableScroll{max-height:calc(58vh - 48px)!important;overflow:auto!important}
+/* نتیجه جستجو روی نوار بالای نقشه، در سمت چپ */
+#mapQuickSearchResults{display:none;position:fixed!important;left:315px!important;right:auto!important;top:140px!important;width:min(390px,calc(100vw - 330px))!important;max-height:45vh!important;overflow:auto!important;z-index:20000!important;background:rgba(3,22,39,.98)!important;border:1px solid #2787b8!important;border-radius:9px!important;box-shadow:0 12px 32px #000a!important;padding:5px!important}
+#mapQuickSearchResults:not(:empty){display:block!important}
+#mapQuickSearchResults .result{cursor:pointer;padding:9px 10px;border-bottom:1px solid #24465a;color:#f0faff;white-space:normal;line-height:1.6}
+#mapQuickSearchResults .result:hover{background:#12486a}
+/* مبدل مختصات به صورت کشویی روی نقشه، بدون پوشاندن کل صفحه */
+#coordinateConvertPanel{position:fixed!important;inset:auto!important;top:145px!important;left:315px!important;right:auto!important;bottom:auto!important;width:min(540px,calc(100vw - 330px))!important;max-height:calc(100vh - 165px)!important;overflow:auto!important;z-index:21000!important;display:none;background:transparent!important;padding:0!important;align-items:flex-start!important;justify-content:flex-start!important}
+#coordinateConvertPanel .coordinateConvertCard{width:100%!important;max-height:calc(100vh - 175px)!important;overflow:auto!important}
+@media(max-width:850px){#mapQuickSearchResults{left:8px!important;top:135px!important;width:min(360px,calc(100vw - 16px))!important}#coordinateConvertPanel{left:8px!important;top:135px!important;width:calc(100vw - 16px)!important}#tablePanel{max-width:calc(100vw - 16px)!important}}
+</style>
+<script id="webgis-user-corrections-v3-js">
+(function(){
+  const byId=id=>document.getElementById(id);
+  // باز کردن جدول در نزدیکی عارضه انتخاب‌شده و خارج از ناحیه منوی چپ
+  function positionTableNearLayer(layer){
+    const panel=byId('tablePanel'); if(!panel||!layer||!window.map)return;
+    let ll=null;
+    try{if(layer.getBounds&&layer.getBounds().isValid())ll=layer.getBounds().getCenter();else if(layer.getLatLng)ll=layer.getLatLng();}catch(e){}
+    if(!ll)return;
+    requestAnimationFrame(()=>{
+      const mapEl=window.map.getContainer(), rect=mapEl.getBoundingClientRect();
+      const pt=window.map.latLngToContainerPoint(ll);
+      const w=panel.offsetWidth||310, h=panel.offsetHeight||280;
+      let x=rect.left+pt.x+18, y=rect.top+pt.y+12;
+      // اگر سمت راست عارضه جا ندارد، پنل در سمت چپ آن قرار می‌گیرد.
+      if(x+w>window.innerWidth-8)x=rect.left+pt.x-w-18;
+      // از منوی ثابت سمت چپ فاصله بگیر.
+      const sidebar=byId('sidebar');
+      if(sidebar&&getComputedStyle(sidebar).display!=='none'){
+        const sr=sidebar.getBoundingClientRect();
+        if(x<sr.right+8 && x+w>sr.left && y<sr.bottom && y+h>sr.top){
+          const rightX=sr.right+10;
+          if(rightX+w<window.innerWidth-8)x=rightX;
+          else x=Math.max(8,Math.min(rect.left+pt.x-w-18,window.innerWidth-w-8));
+        }
+      }
+      x=Math.max(8,Math.min(x,window.innerWidth-w-8));
+      y=Math.max(85,Math.min(y,window.innerHeight-h-8));
+      panel.style.setProperty('left',x+'px','important');panel.style.setProperty('top',y+'px','important');panel.style.setProperty('right','auto','important');panel.style.setProperty('bottom','auto','important');
+    });
+  }
+  const priorOpenAttributeTable=window.openAttributeTable;
+  if(typeof priorOpenAttributeTable==='function'){
+    window.openAttributeTable=function(title){
+      const ret=priorOpenAttributeTable(title);
+      const selected=window.lastSelectedLayer || (typeof lastSelectedLayer!=='undefined'?lastSelectedLayer:null);
+      const panel=byId('tablePanel');
+      if(panel){panel.style.setProperty('display','block','important');panel.style.setProperty('visibility','visible','important');}
+      positionTableNearLayer(selected);
+      return ret;
+    };
+  }
+  const priorShow=window.showFeature;
+  if(typeof priorShow==='function'){
+    window.showFeature=function(type,feature,layer){
+      const ret=priorShow(type,feature,layer);
+      const panel=byId('tablePanel');
+      if(panel){panel.style.setProperty('display','block','important');panel.style.setProperty('visibility','visible','important');}
+      positionTableNearLayer(layer);
+      return ret;
+    };
+  }
+  // برای اطمینان، هر بار که روی یک عارضه Leaflet کلیک شود، جدول همان عارضه باز می‌شود.
+  if(window.map){window.map.eachLayer(function(group){if(group&&group.eachLayer){group.eachLayer(function(layer){if(layer&&layer.feature&&!layer.__attrClickFix){layer.__attrClickFix=true;layer.on('click',function(){try{window.showFeature(layer.feature.geometry?.type||'',layer.feature,layer);}catch(e){positionTableNearLayer(layer);}});}});}});}
+  // باز و بسته‌شدن مبدل مختصات به شکل کشویی
+  window.openCoordinateConverter=function(){const p=byId('coordinateConvertPanel');if(!p)return;const isOpen=getComputedStyle(p).display!=='none';p.style.setProperty('display',isOpen?'none':'flex','important');};
+  window.closeCoordinateConverter=function(){const p=byId('coordinateConvertPanel');if(p)p.style.setProperty('display','none','important');};
+  // جستجوی نوار بالای نقشه: نتایج در پنل شناور زیر نوار سمت چپ نمایش داده شوند.
+  const q=byId('mapQuickSearch'), results=byId('mapQuickSearchResults');
+  if(q&&results){
+    q.addEventListener('input',function(){if(!q.value.trim())results.innerHTML='';});
+    q.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();window.runMapQuickSearch();}});
+    const btn=q.parentElement&&q.parentElement.querySelector('button');
+    if(btn)btn.onclick=function(){window.runMapQuickSearch();};
+  }
+  window.addEventListener('resize',()=>{const panel=byId('tablePanel');if(panel&&getComputedStyle(panel).display!=='none'&&window.lastSelectedLayer)positionTableNearLayer(window.lastSelectedLayer);});
+})();
+</script>
+
 </body>
 </html>
 
